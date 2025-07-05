@@ -13,9 +13,15 @@
 
 <body>
     <h3>{{ section }}</h3>
+    <div class="gender-filters">
+        <button class="gender-btn active" data-gender="all">Все</button>
+        <button class="gender-btn" data-gender="Мальчик">Мальчик</button>
+        <button class="gender-btn" data-gender="Девочка">Девочка</button>
+        <button class="gender-btn" data-gender="Детское">Детское</button>
+    </div>
     <div class="products-list">
         {% for product in products %}
-        <div class="product-card">
+        <div class="product-card" data-gender="{{ product.gender }}">
             <a href="{{ url_for('kids_product', section=section, art=product.art) }}">
                 <img src="{{ product.image }}" alt="{{ product.name }}">
                 <div class="product-name">{{ product.name }} {{ product.art }}</div>
@@ -29,6 +35,24 @@
         {% endfor %}
     </div>
     <a href="/kids">← Назад к категориям</a>
+    <script>
+        const filterBtns = document.querySelectorAll('.gender-btn');
+        const cards = document.querySelectorAll('.product-card');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const gender = btn.getAttribute('data-gender');
+                cards.forEach(card => {
+                    if (gender === 'all' || card.getAttribute('data-gender') === gender) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

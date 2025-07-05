@@ -56,7 +56,7 @@ def get_gender_map():
     ws = wb.active
     gender_map = {}
     for row in ws.iter_rows(min_row=2):
-        art = str(row[0].value).replace('.0', '').strip() if row[0].value else None
+        art = str(row[0].value).replace('.0', '').replace('.K', '').strip().upper() if row[0].value else None
         gender_cell = row[9].value if len(row) > 9 else None
         if art and gender_cell:
             if 'дiвч' in str(gender_cell).lower():
@@ -79,7 +79,7 @@ def kids_category(category):
     products = kids_products_by_section.get(section_key, [])
     # Добавляем поле gender для каждого товара
     for p in products:
-        art_key = p['art'].replace('.K', '').strip()
+        art_key = p['art'].replace('.K', '').strip().upper()
         p['gender'] = gender_map.get(art_key)
     return render_template('kids_category.html', category=category, products=products)
 
@@ -186,6 +186,10 @@ kids_products_by_section = build_kids_products()
 def kids_section(section):
     section_key = section.upper().strip()
     products = kids_products_by_section.get(section_key, [])
+    # Добавляем поле gender для каждого товара
+    for p in products:
+        art_key = p['art'].replace('.K', '').strip().upper()
+        p['gender'] = gender_map.get(art_key)
     print(f"[DEBUG] section_key: {section_key}, products: {products}")
     return render_template('kids_products.html', section=section, products=products)
 
