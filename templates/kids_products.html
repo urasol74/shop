@@ -9,15 +9,68 @@
     <meta charset="UTF-8">
     <title>{{ section }} — Benetton Kids</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .gender-filters-wrapper {
+            width: 200px;
+            max-width: 90vw;
+            margin: 0 auto 18px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .gender-filters {
+            display: flex;
+            gap: 0;
+            width: 100%;
+        }
+
+        .gender-btn {
+            flex: 1 1 0;
+            padding: 8px 0;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            border-radius: 0;
+            border-right: 1.5px solid #e0e0e0;
+        }
+
+        .gender-btn:last-child {
+            border-right: none;
+        }
+
+        .gender-btn.active {
+            background: #e53935;
+            color: #fff;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 500px) {
+            .gender-filters-wrapper {
+                width: 98vw;
+                min-width: 0;
+                max-width: 100vw;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <h3>{{ section }}</h3>
-    <div class="gender-filters">
-        <button class="gender-btn active" data-gender="all">Все</button>
-        <button class="gender-btn" data-gender="Мальчик">Мальчик</button>
-        <button class="gender-btn" data-gender="Девочка">Девочка</button>
-        <button class="gender-btn" data-gender="Детское">Детское</button>
+    <div class="gender-filters-wrapper">
+        <div class="gender-filters">
+            <button class="gender-btn active" data-gender="all">Все</button>
+            <button class="gender-btn" data-gender="Мальчик">Мальчик</button>
+            <button class="gender-btn" data-gender="Девочка">Девочка</button>
+            <button class="gender-btn" data-gender="Детское">Детское</button>
+        </div>
     </div>
     <div class="products-list">
         {% for product in products %}
