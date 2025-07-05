@@ -11,7 +11,7 @@
     <h2>Категории для детей</h2>
     <div class="sections-2">
         {% for category in categories %}
-        <a class="section-2" href="{{ url_for('kids_category', category=category) }}">{{ category }}</a>
+        <a class="section-2" href="{{ url_for('kids_section', section=category) }}">{{ category }}</a>
         {% endfor %}
     </div>
 </body>

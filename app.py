@@ -50,9 +50,9 @@ def kids():
     categories = get_kids_categories()
     return render_template('kids.html', categories=categories)
 
-@app.route('/kids/<category>')
-def kids_category(category):
-     return render_template('kids_category.html', category=category)
+# @app.route('/kids/<category>')
+# def kids_category(category):
+#     return render_template('kids_category.html', category=category)
 
 def get_kids_categories():
     wb = openpyxl.load_workbook(dst)
