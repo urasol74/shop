@@ -50,9 +50,38 @@ def kids():
     categories = get_kids_categories()
     return render_template('kids.html', categories=categories)
 
-# @app.route('/kids/<category>')
-# def kids_category(category):
-#     return render_template('kids_category.html', category=category)
+def get_gender_map():
+    base_path = os.path.join('data', 'base.xlsx')
+    wb = openpyxl.load_workbook(base_path)
+    ws = wb.active
+    gender_map = {}
+    for row in ws.iter_rows(min_row=2):
+        art = str(row[0].value).replace('.0', '').strip() if row[0].value else None
+        gender_cell = row[9].value if len(row) > 9 else None
+        if art and gender_cell:
+            if 'дiвч' in str(gender_cell).lower():
+                gender = 'Девочка'
+            elif 'дит' in str(gender_cell).lower():
+                gender = 'Детское'
+            elif 'хлопч' in str(gender_cell).lower():
+                gender = 'Мальчик'
+            else:
+                gender = None
+            gender_map[art] = gender
+    return gender_map
+
+gender_map = get_gender_map()
+
+@app.route('/kids_category/<category>')
+def kids_category(category):
+    # Получаем товары для категории (пример: как в kids_section)
+    section_key = category.upper().strip()
+    products = kids_products_by_section.get(section_key, [])
+    # Добавляем поле gender для каждого товара
+    for p in products:
+        art_key = p['art'].replace('.K', '').strip()
+        p['gender'] = gender_map.get(art_key)
+    return render_template('kids_category.html', category=category, products=products)
 
 def get_kids_categories():
     wb = openpyxl.load_workbook(dst)
@@ -78,8 +107,9 @@ def build_kids_products():
     wb = openpyxl.load_workbook(dst)
     ws = wb.active
     products_by_section = {}
-    for row in ws.iter_rows(min_row=2, values_only=True):
-        cell = row[0]
+    all_rows = list(ws.iter_rows(min_row=2))
+    for row in all_rows:
+        cell = row[0].value
         if not cell:
             continue
         cell = str(cell)
@@ -91,9 +121,60 @@ def build_kids_products():
                 section = after_k.strip()
             section_key = section.upper().strip()
             art = cell.split(".K", 1)[0].strip() + ".K"
-            product = f"{section} {art}"
-            products_by_section.setdefault(section_key, set()).add(product)
-    products_by_section = {k: sorted(list(v)) for k, v in products_by_section.items()}
+            art_no_k = art.replace('.K', '')
+            # --- Уникальность по артикулу ---
+            if section_key not in products_by_section:
+                products_by_section[section_key] = []
+                seen_arts = set()
+            else:
+                seen_arts = {p['art'] for p in products_by_section[section_key]}
+            if art in seen_arts:
+                continue
+            name = section
+            old_price = row[5].value if len(row) > 5 else None
+            new_price = row[7].value if len(row) > 7 else None
+            sale = row[9].value if len(row) > 9 else None
+            # --- Форматирование sale ---
+            sale_str = None
+            try:
+                if sale is not None:
+                    sale_num = float(sale)
+                    sale_rounded = int(round(sale_num / 10.0) * 10)
+                    sale_str = f"-{sale_rounded}%"
+            except Exception:
+                sale_str = None
+            image = f"/static/pic/{art_no_k}.jpg"
+            # --- Собираем все строки с этим артикулом для meta-block ---
+            color_size_map = {}
+            for r in all_rows:
+                c = r[0].value
+                if not c:
+                    continue
+                c = str(c)
+                if art in c:
+                    # Парсим только из первой ячейки строки
+                    color = None
+                    size = None
+                    if 'Цвет:' in c:
+                        color = c.split('Цвет:')[-1].split(',')[0].strip()
+                    if 'Размер:' in c:
+                        size = c.split('Размер:')[-1].split(',')[0].strip()
+                    if color:
+                        if color not in color_size_map:
+                            color_size_map[color] = []
+                        if size and size not in color_size_map[color]:
+                            color_size_map[color].append(size)
+            color_size_list = [{"color": k, "sizes": v} for k, v in color_size_map.items()]
+            product = {
+                "name": name,
+                "art": art,
+                "old_price": old_price,
+                "new_price": new_price,
+                "sale": sale_str,
+                "image": image,
+                "color_size_map": color_size_list
+            }
+            products_by_section[section_key].append(product)
     with open("kids_products.json", "w", encoding="utf-8") as f:
         json.dump(products_by_section, f, ensure_ascii=False, indent=2)
     return products_by_section
@@ -110,7 +191,10 @@ def kids_section(section):
 
 @app.route('/kids/<section>/<art>')
 def kids_product(section, art):
-    return render_template('kids_product.html', section=section, art=art)
+    section_key = section.upper().strip()
+    products = kids_products_by_section.get(section_key, [])
+    product = next((p for p in products if p['art'] == art), None)
+    return render_template('kids_product.html', section=section, product=product)
 
 # Заглушки для men и woman
 # def get_men_categories():

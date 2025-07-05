@@ -15,8 +15,17 @@
     <h3>{{ section }}</h3>
     <div class="products-list">
         {% for product in products %}
-        <a class="product-link" href="{{ url_for('kids_product', section=section, art=product.split(' ')[-1]) }}">{{
-            product }}</a>
+        <div class="product-card">
+            <a href="{{ url_for('kids_product', section=section, art=product.art) }}">
+                <img src="{{ product.image }}" alt="{{ product.name }}">
+                <div class="product-name">{{ product.name }} {{ product.art }}</div>
+                <div class="product-prices">
+                    <span class="old-price">{{ product.old_price }} грн.</span>
+                    <span class="new-price">{{ product.new_price }} грн.</span>
+                    {% if product.sale %}<span class="sale">{{ product.sale }}</span>{% endif %}
+                </div>
+            </a>
+        </div>
         {% endfor %}
     </div>
     <a href="/kids">← Назад к категориям</a>

@@ -9,12 +9,108 @@
     <meta charset="UTF-8">
     <title>{{ category }} — Benetton Kids</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .gender-filters {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .gender-btn {
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: 1.5px solid #e0e0e0;
+            background: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .gender-btn.active {
+            background: #e53935;
+            color: #fff;
+            border-color: #e53935;
+        }
+
+        .products-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .product-card {
+            width: 200px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .product-card img {
+            width: 180px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            background: #f0f0f0;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
     <h3>{{ category }}</h3>
-    <p>Здесь будут товары для раздела "{{ category }}".</p>
+    <div class="gender-filters">
+        <button class="gender-btn active" data-gender="all">Все</button>
+        <button class="gender-btn" data-gender="Мальчик">Мальчик</button>
+        <button class="gender-btn" data-gender="Девочка">Девочка</button>
+        <button class="gender-btn" data-gender="Детское">Детское</button>
+    </div>
+    <div class="products-list">
+        {% for product in products %}
+        <div class="product-card" data-gender="{{ product.gender }}">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+            <div class="product-name">{{ product.name }} {{ product.art }}</div>
+            <div class="product-prices">
+                <span class="old-price">{{ product.old_price }} грн.</span>
+                <span class="new-price">{{ product.new_price }} грн.</span>
+                {% if product.sale %}<span class="sale">{{ product.sale }}</span>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     <a href="/kids">← Назад к категориям</a>
+    <script>
+        const filterBtns = document.querySelectorAll('.gender-btn');
+        const cards = document.querySelectorAll('.product-card');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const gender = btn.getAttribute('data-gender');
+                cards.forEach(card => {
+                    if (gender === 'all' || card.getAttribute('data-gender') === gender) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
