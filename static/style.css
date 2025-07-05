@@ -1,0 +1,105 @@
+/*
+  Benetton Mini App
+  Общие стили для главной и разделов
+*/
+
+/* Стили для всей страницы: фон, цвет текста, отступы */
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+/* Сетка для меню разделов (4 блока) */
+.sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 18px;
+    margin-top: 20px;
+    height: 70vw;
+    max-height: 520px;
+}
+
+/* Стили для отдельного блока раздела (карточки) */
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 24px;
+    padding: 18px 10px 10px 10px;
+    background: #f9f9f9;
+    min-height: 180px;
+    min-width: 120px;
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.10), 0 1.5px 6px 0 rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: #000;
+    transition: box-shadow 0.2s, background 0.2s;
+}
+
+/* Эффект наведения на карточку раздела */
+.section:hover {
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.18), 0 3px 12px 0 rgba(0, 0, 0, 0.12);
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+/*
+  Картинка меню: меню цвет
+  Отвечает за размер и оформление иконок разделов
+*/
+.section img {
+    width: 144px;
+    height: 144px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+    object-fit: contain;
+    background: #fff;
+}
+
+/* Текст под иконкой раздела */
+.section div {
+    font-size: 1.15em;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Стили для кнопок (если появятся) */
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 10px;
+}
+
+/* Универсальная сетка подкатегорий для страниц women, men, kids, underwear (без картинки, но визуально как .section) */
+.sections-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.section-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.10), 0 1.5px 6px 0 rgba(0, 0, 0, 0.08);
+    font-size: 1.1em;
+    font-weight: 500;
+    padding: 12px 0;
+    color: #000;
+    text-align: center;
+    min-height: unset;
+}
+
+.section-2 div {
+    width: 100%;
+}

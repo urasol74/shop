@@ -1,0 +1,55 @@
+<!--
+  Benetton Mini App
+  Главная страница. Разделы: Женщина, Мужчина, Дети, Белье.
+  При клике на раздел — переход на отдельную страницу.
+-->
+<!DOCTYPE html>
+<html>
+
+<!-- Блок служебных тегов и подключений -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini App Test</title>
+    <!-- Подключение Telegram WebApp API -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Подключение пользовательского скрипта -->
+    <script src="script.js" defer></script>
+    <!-- Подключение стилей -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <!-- Заголовок магазина -->
+    <h3>Benetton Одесса Дерибасовская</h3>
+    <!--<p id="user"></p>-->
+    <!-- Меню разделов магазина: Женщина, Мужчина, Дети, Белье -->
+    <div class="sections">
+        <!-- Раздел Женщина -->
+        <a class="section" href="women.html">
+            <img src="{{ url_for('static', filename='image/women.png') }}" alt="Женщина">
+            <div>Женщина</div>
+        </a>
+        <!-- Раздел Мужчина -->
+        <a class="section" href="men.html">
+            <img src="{{ url_for('static', filename='image/men.png') }}" alt="Мужчина">
+            <div>Мужчина</div>
+        </a>
+        <!-- Раздел Дети -->
+        <a class="section" href="{{ url_for('kids') }}">
+            <img src="{{ url_for('static', filename='image/kids.png') }}" alt="Дети">
+            <div>Дети</div>
+        </a>
+        <!-- Раздел Белье -->
+        <a class="section" href="underwear.html">
+            <img src="{{ url_for('static', filename='image/underwear.png') }}" alt="Белье">
+            <div>Белье</div>
+        </a>
+    </div>
+    <!-- Конец меню разделов -->
+</body>
+
+<!-- Конец документа -->
+
+</html>

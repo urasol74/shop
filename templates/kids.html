@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Детские категории</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h2>Категории для детей</h2>
+    <div class="sections-2">
+        {% for category in categories %}
+        <a class="section-2" href="{{ url_for('kids_category', category=category) }}">{{ category }}</a>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
