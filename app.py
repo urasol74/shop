@@ -52,8 +52,7 @@ def kids():
 
 @app.route('/kids/<category>')
 def kids_category(category):
-    # Здесь будет логика вывода товаров для выбранного раздела
-    return render_template('kids_category.html', category=category)
+     return render_template('kids_category.html', category=category)
 
 def get_kids_categories():
     wb = openpyxl.load_workbook(dst)
@@ -74,6 +73,44 @@ def get_kids_categories():
             if section:
                 categories.add(section)
     return sorted(categories)
+
+def build_kids_products():
+    wb = openpyxl.load_workbook(dst)
+    ws = wb.active
+    products_by_section = {}
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        cell = row[0]
+        if not cell:
+            continue
+        cell = str(cell)
+        if ".K" in cell:
+            after_k = cell.split(".K", 1)[1].strip()
+            if "," in after_k:
+                section = after_k.split(",", 1)[0].strip()
+            else:
+                section = after_k.strip()
+            section_key = section.upper().strip()
+            art = cell.split(".K", 1)[0].strip() + ".K"
+            product = f"{section} {art}"
+            products_by_section.setdefault(section_key, set()).add(product)
+    products_by_section = {k: sorted(list(v)) for k, v in products_by_section.items()}
+    with open("kids_products.json", "w", encoding="utf-8") as f:
+        json.dump(products_by_section, f, ensure_ascii=False, indent=2)
+    return products_by_section
+
+# При запуске сервера
+kids_products_by_section = build_kids_products()
+
+@app.route('/kids/<section>')
+def kids_section(section):
+    section_key = section.upper().strip()
+    products = kids_products_by_section.get(section_key, [])
+    print(f"[DEBUG] section_key: {section_key}, products: {products}")
+    return render_template('kids_products.html', section=section, products=products)
+
+@app.route('/kids/<section>/<art>')
+def kids_product(section, art):
+    return render_template('kids_product.html', section=section, art=art)
 
 # Заглушки для men и woman
 # def get_men_categories():

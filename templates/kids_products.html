@@ -1,0 +1,25 @@
+<!--
+  Benetton Mini App
+  Список товаров раздела для детей
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ section }} — Benetton Kids</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h3>{{ section }}</h3>
+    <div class="products-list">
+        {% for product in products %}
+        <a class="product-link" href="{{ url_for('kids_product', section=section, art=product.split(' ')[-1]) }}">{{
+            product }}</a>
+        {% endfor %}
+    </div>
+    <a href="/kids">← Назад к категориям</a>
+</body>
+
+</html>

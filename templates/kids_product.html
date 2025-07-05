@@ -1,0 +1,21 @@
+<!--
+  Benetton Mini App
+  Страница отдельного товара для детей
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ art }} — {{ section }} — Benetton Kids</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h3>{{ section }}</h3>
+    <h4>{{ art }}</h4>
+    <p>Здесь будет подробная информация о товаре <b>{{ art }}</b> из раздела <b>{{ section }}</b>.</p>
+    <a href="{{ url_for('kids_section', section=section) }}">← Назад к товарам раздела</a>
+</body>
+
+</html>
