@@ -1,13 +1,13 @@
 <!--
   Benetton Mini App
-  Страница отдельного товара для детей
+  Страница отдельного товара для мужчин
 -->
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <title>{{ product.name }} — Benetton Kids</title>
+    <title>{{ product.name }} — Benetton Men</title>
     <link rel="stylesheet" href="/static/style.css">
     <style>
         .product-page {
@@ -128,6 +128,7 @@
         @media (max-width: 500px) {
             .product-image {
                 height: 180px;
+                max-width: 98vw;
             }
 
             .product-block,
@@ -169,7 +170,7 @@
             <div>Цвет: {{ cs.color }} &nbsp; Размер: {{ cs.sizes|join(', ') }}</div>
             {% endfor %}
         </div>
-        <a href="/kids/{{ section }}">← Назад</a>
+        <a href="/men/{{ section }}">← Назад к разделу</a>
     </div>
 </body>
 

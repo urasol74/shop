@@ -27,12 +27,12 @@
     <!-- Меню разделов магазина: Женщина, Мужчина, Дети, Белье -->
     <div class="sections">
         <!-- Раздел Женщина -->
-        <a class="section" href="women.html">
+        <a class="section" href="{{ url_for('women') }}">
             <img src="{{ url_for('static', filename='image/women.png') }}" alt="Женщина">
             <div>Женщина</div>
         </a>
         <!-- Раздел Мужчина -->
-        <a class="section" href="men.html">
+        <a class="section" href="{{ url_for('men') }}">
             <img src="{{ url_for('static', filename='image/men.png') }}" alt="Мужчина">
             <div>Мужчина</div>
         </a>
@@ -42,7 +42,7 @@
             <div>Дети</div>
         </a>
         <!-- Раздел Белье -->
-        <a class="section" href="underwear.html">
+        <a class="section" href="{{ url_for('underwear') }}">
             <img src="{{ url_for('static', filename='image/underwear.png') }}" alt="Белье">
             <div>Белье</div>
         </a>

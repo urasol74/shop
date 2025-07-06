@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Детские категории</title>
+    <title>Мужские категории</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         .categories-container {
@@ -50,23 +50,10 @@
             white-space: nowrap;
         }
 
-        .section-2:active {
+        .section-2:active,
+        .section-2:hover {
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
             background: #e0e0e0;
-        }
-
-        @media (max-width: 700px) {
-            .categories-container {
-                max-width: 98vw;
-                padding: 10px 2vw 18px 2vw;
-            }
-
-            .section-2 {
-                min-width: 90px;
-                max-width: 140px;
-                font-size: 0.98em;
-                padding: 8px 0;
-            }
         }
 
         .back-btn {
@@ -92,9 +79,16 @@
         }
 
         @media (max-width: 700px) {
-            .back-btn {
+            .categories-container {
+                max-width: 98vw;
+                padding: 10px 2vw 18px 2vw;
+            }
+
+            .section-2 {
+                min-width: 90px;
+                max-width: 140px;
                 font-size: 0.98em;
-                padding: 4px 6px 4px 0;
+                padding: 8px 0;
             }
         }
     </style>
@@ -103,10 +97,10 @@
 <body>
     <div class="categories-container">
         <a href="/" class="back-btn">← Назад</a>
-        <h2>Категории для детей</h2>
+        <h2>Категории для мужчин</h2>
         <div class="sections-2">
             {% for category in categories %}
-            <a class="section-2" href="{{ url_for('kids_section', section=category) }}">{{ category }}</a>
+            <a class="section-2" href="{{ url_for('men_section', section=category) }}">{{ category }}</a>
             {% endfor %}
         </div>
     </div>

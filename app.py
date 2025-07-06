@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 import openpyxl
 import os
 import json
@@ -190,8 +190,15 @@ def kids_section(section):
     for p in products:
         art_key = p['art'].replace('.K', '').strip().upper()
         p['gender'] = gender_map.get(art_key)
-    print(f"[DEBUG] section_key: {section_key}, products: {products}")
-    return render_template('kids_products.html', section=section, products=products)
+    # Определяем, какие гендеры реально есть в этой категории
+    available_genders = set()
+    for p in products:
+        if p.get('gender'):
+            available_genders.add(p['gender'])
+    # Сохраняем порядок: Все всегда, затем Мальчик, Девочка, Детское если есть
+    gender_order = ['Мальчик', 'Девочка', 'Детское']
+    genders = [g for g in gender_order if g in available_genders]
+    return render_template('kids_products.html', section=section, products=products, genders=genders)
 
 @app.route('/kids/<section>/<art>')
 def kids_product(section, art):
@@ -201,10 +208,311 @@ def kids_product(section, art):
     return render_template('kids_product.html', section=section, product=product)
 
 # Заглушки для men и woman
-# def get_men_categories():
+# def get_men_categories():http://178.212.198.23/
 #     return []
 # def get_woman_categories():
 #     return []
+
+@app.route('/.well-known/acme-challenge/<path:filename>')
+def letsencrypt_challenge(filename):
+    acme_dir = os.path.join(app.root_path, '.well-known', 'acme-challenge')
+    return send_from_directory(acme_dir, filename)
+
+def load_woman_categories():
+    der_path = os.path.join('data', 'der.xlsx')
+    base_path = os.path.join('data', 'base.xlsx')
+    wb_der = openpyxl.load_workbook(der_path)
+    ws_der = wb_der.active
+    wb_base = openpyxl.load_workbook(base_path)
+    ws_base = wb_base.active
+    # Собираем все артикула с жiн из base.xlsx, но не UNDERCOLOR (теперь G)
+    woman_arts = set()
+    for row in ws_base.iter_rows(min_row=2):
+        art = str(row[0].value).strip().upper() if row[0].value else None
+        col_g = row[6].value if len(row) > 6 else None
+        gender_cell = row[9].value if len(row) > 9 else None
+        if art and gender_cell and 'жiн' in str(gender_cell).lower():
+            if col_g and str(col_g).strip().upper() == 'UNDERCOLOR':
+                continue
+            woman_arts.add(art)
+    # Собираем категории из der.xlsx
+    categories = set()
+    for row in ws_der.iter_rows(min_row=2):
+        values = [str(cell.value) if cell.value is not None else "" for cell in row[:3]]
+        combined = " ".join(values).strip()
+        if not combined:
+            continue
+        parts = combined.split()
+        if len(parts) < 2:
+            continue
+        art = parts[0].strip().upper()
+        category = parts[1].strip().rstrip(',')
+        if art in woman_arts:
+            categories.add(category)
+    categories = sorted(categories)
+    with open('woman_sections.json', 'w', encoding='utf-8') as f:
+        json.dump(categories, f, ensure_ascii=False, indent=2)
+    return categories
+
+woman_categories = load_woman_categories()
+
+@app.route('/women')
+def women():
+    return render_template('women.html', categories=woman_categories)
+
+@app.route('/men')
+def men():
+    return render_template('men.html', categories=men_categories)
+
+@app.route('/underwear')
+def underwear():
+    return render_template('underwear.html')
+
+def build_woman_products():
+    der_path = os.path.join('data', 'der.xlsx')
+    base_path = os.path.join('data', 'base.xlsx')
+    wb_der = openpyxl.load_workbook(der_path)
+    ws_der = wb_der.active
+    wb_base = openpyxl.load_workbook(base_path)
+    ws_base = wb_base.active
+    # Собираем все артикула с жiн из base.xlsx, но не UNDERCOLOR (G)
+    woman_arts = set()
+    for row in ws_base.iter_rows(min_row=2):
+        art = str(row[0].value).strip().upper() if row[0].value else None
+        col_g = row[6].value if len(row) > 6 else None
+        gender_cell = row[9].value if len(row) > 9 else None
+        if art and gender_cell and 'жiн' in str(gender_cell).lower():
+            if col_g and str(col_g).strip().upper() == 'UNDERCOLOR':
+                continue
+            woman_arts.add(art)
+    # Собираем товары по категориям
+    products_by_section = {}
+    all_rows = list(ws_der.iter_rows(min_row=2))
+    for row in all_rows:
+        values = [str(cell.value) if cell.value is not None else "" for cell in row[:3]]
+        combined = " ".join(values).strip()
+        if not combined:
+            continue
+        parts = combined.split()
+        if len(parts) < 2:
+            continue
+        art = parts[0].strip().upper()
+        category = parts[1].strip().rstrip(',')
+        if art not in woman_arts:
+            continue
+        section_key = category.upper().strip()
+        # --- Уникальность по артикулу ---
+        if section_key not in products_by_section:
+            products_by_section[section_key] = []
+            seen_arts = set()
+        else:
+            seen_arts = {p['art'] for p in products_by_section[section_key]}
+        if art in seen_arts:
+            continue
+        name = category
+        old_price = row[5].value if len(row) > 5 else None
+        new_price = row[7].value if len(row) > 7 else None
+        sale = row[9].value if len(row) > 9 else None
+        # --- Форматирование sale ---
+        sale_str = None
+        try:
+            if sale is not None:
+                sale_num = float(sale)
+                sale_rounded = int(round(sale_num / 10.0) * 10)
+                sale_str = f"-{sale_rounded}%"
+        except Exception:
+            sale_str = None
+        image = f"/static/pic/{art}.jpg"
+        # --- Собираем все строки с этим артикулом для meta-block ---
+        color_size_map = {}
+        for r in all_rows:
+            c = r[0].value
+            if not c:
+                continue
+            c = str(c)
+            if art in c:
+                color = None
+                size = None
+                if 'Цвет:' in c:
+                    color = c.split('Цвет:')[-1].split(',')[0].strip()
+                if 'Размер:' in c:
+                    size = c.split('Размер:')[-1].split(',')[0].strip()
+                if color:
+                    if color not in color_size_map:
+                        color_size_map[color] = []
+                    if size and size not in color_size_map[color]:
+                        color_size_map[color].append(size)
+        color_size_list = [{"color": k, "sizes": v} for k, v in color_size_map.items()]
+        product = {
+            "name": name,
+            "art": art,
+            "old_price": old_price,
+            "new_price": new_price,
+            "sale": sale_str,
+            "image": image,
+            "color_size_map": color_size_list
+        }
+        products_by_section[section_key].append(product)
+    with open("woman_products.json", "w", encoding="utf-8") as f:
+        json.dump(products_by_section, f, ensure_ascii=False, indent=2)
+    return products_by_section
+
+woman_products_by_section = build_woman_products()
+
+@app.route('/women/<section>')
+def women_section(section):
+    section_key = section.upper().strip()
+    products = woman_products_by_section.get(section_key, [])
+    return render_template('women_products.html', section=section, products=products)
+
+@app.route('/women/<section>/<art>')
+def women_product(section, art):
+    section_key = section.upper().strip()
+    products = woman_products_by_section.get(section_key, [])
+    product = next((p for p in products if p['art'] == art), None)
+    return render_template('kids_product.html', section=section, product=product)
+
+def load_men_categories():
+    der_path = os.path.join('data', 'der.xlsx')
+    base_path = os.path.join('data', 'base.xlsx')
+    wb_der = openpyxl.load_workbook(der_path)
+    ws_der = wb_der.active
+    wb_base = openpyxl.load_workbook(base_path)
+    ws_base = wb_base.active
+    # Собираем все артикула с чол из base.xlsx, но не UNDERCOLOR (G)
+    men_arts = set()
+    for row in ws_base.iter_rows(min_row=2):
+        art = str(row[0].value).strip().upper() if row[0].value else None
+        col_g = row[6].value if len(row) > 6 else None
+        gender_cell = row[9].value if len(row) > 9 else None
+        if art and gender_cell and 'чол' in str(gender_cell).lower():
+            if col_g and str(col_g).strip().upper() == 'UNDERCOLOR':
+                continue
+            men_arts.add(art)
+    # Собираем категории из der.xlsx
+    categories = set()
+    for row in ws_der.iter_rows(min_row=2):
+        values = [str(cell.value) if cell.value is not None else "" for cell in row[:3]]
+        combined = " ".join(values).strip()
+        if not combined:
+            continue
+        parts = combined.split()
+        if len(parts) < 2:
+            continue
+        art = parts[0].strip().upper()
+        category = parts[1].strip().rstrip(',')
+        if art in men_arts:
+            categories.add(category)
+    categories = sorted(categories)
+    with open('men_sections.json', 'w', encoding='utf-8') as f:
+        json.dump(categories, f, ensure_ascii=False, indent=2)
+    return categories
+
+men_categories = load_men_categories()
+
+def build_men_products():
+    der_path = os.path.join('data', 'der.xlsx')
+    base_path = os.path.join('data', 'base.xlsx')
+    wb_der = openpyxl.load_workbook(der_path)
+    ws_der = wb_der.active
+    wb_base = openpyxl.load_workbook(base_path)
+    ws_base = wb_base.active
+    # Собираем все артикула с чол из base.xlsx, но не UNDERCOLOR (G)
+    men_arts = set()
+    for row in ws_base.iter_rows(min_row=2):
+        art = str(row[0].value).strip().upper() if row[0].value else None
+        col_g = row[6].value if len(row) > 6 else None
+        gender_cell = row[9].value if len(row) > 9 else None
+        if art and gender_cell and 'чол' in str(gender_cell).lower():
+            if col_g and str(col_g).strip().upper() == 'UNDERCOLOR':
+                continue
+            men_arts.add(art)
+    # Собираем товары по категориям
+    products_by_section = {}
+    all_rows = list(ws_der.iter_rows(min_row=2))
+    for row in all_rows:
+        values = [str(cell.value) if cell.value is not None else "" for cell in row[:3]]
+        combined = " ".join(values).strip()
+        if not combined:
+            continue
+        parts = combined.split()
+        if len(parts) < 2:
+            continue
+        art = parts[0].strip().upper()
+        category = parts[1].strip().rstrip(',')
+        if art not in men_arts:
+            continue
+        section_key = category.upper().strip()
+        # --- Уникальность по артикулу ---
+        if section_key not in products_by_section:
+            products_by_section[section_key] = []
+            seen_arts = set()
+        else:
+            seen_arts = {p['art'] for p in products_by_section[section_key]}
+        if art in seen_arts:
+            continue
+        name = category
+        old_price = row[5].value if len(row) > 5 else None
+        new_price = row[7].value if len(row) > 7 else None
+        sale = row[9].value if len(row) > 9 else None
+        # --- Форматирование sale ---
+        sale_str = None
+        try:
+            if sale is not None:
+                sale_num = float(sale)
+                sale_rounded = int(round(sale_num / 10.0) * 10)
+                sale_str = f"-{sale_rounded}%"
+        except Exception:
+            sale_str = None
+        image = f"/static/pic/{art}.jpg"
+        # --- Собираем все строки с этим артикулом для meta-block ---
+        color_size_map = {}
+        for r in all_rows:
+            c = r[0].value
+            if not c:
+                continue
+            c = str(c)
+            if art in c:
+                color = None
+                size = None
+                if 'Цвет:' in c:
+                    color = c.split('Цвет:')[-1].split(',')[0].strip()
+                if 'Размер:' in c:
+                    size = c.split('Размер:')[-1].split(',')[0].strip()
+                if color:
+                    if color not in color_size_map:
+                        color_size_map[color] = []
+                    if size and size not in color_size_map[color]:
+                        color_size_map[color].append(size)
+        color_size_list = [{"color": k, "sizes": v} for k, v in color_size_map.items()]
+        product = {
+            "name": name,
+            "art": art,
+            "old_price": old_price,
+            "new_price": new_price,
+            "sale": sale_str,
+            "image": image,
+            "color_size_map": color_size_list
+        }
+        products_by_section[section_key].append(product)
+    with open("men_products.json", "w", encoding="utf-8") as f:
+        json.dump(products_by_section, f, ensure_ascii=False, indent=2)
+    return products_by_section
+
+men_products_by_section = build_men_products()
+
+@app.route('/men/<section>')
+def men_section(section):
+    section_key = section.upper().strip()
+    products = men_products_by_section.get(section_key, [])
+    return render_template('men_products.html', section=section, products=products)
+
+@app.route('/men/<section>/<art>')
+def men_product(section, art):
+    section_key = section.upper().strip()
+    products = men_products_by_section.get(section_key, [])
+    product = next((p for p in products if p['art'] == art), None)
+    return render_template('men_product.html', section=section, product=product)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Детские категории</title>
+    <title>Женские категории</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         .categories-container {
@@ -50,7 +50,8 @@
             white-space: nowrap;
         }
 
-        .section-2:active {
+        .section-2:active,
+        .section-2:hover {
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
             background: #e0e0e0;
         }
@@ -90,23 +91,16 @@
             color: #222;
             text-decoration: underline;
         }
-
-        @media (max-width: 700px) {
-            .back-btn {
-                font-size: 0.98em;
-                padding: 4px 6px 4px 0;
-            }
-        }
     </style>
 </head>
 
 <body>
     <div class="categories-container">
         <a href="/" class="back-btn">← Назад</a>
-        <h2>Категории для детей</h2>
+        <h2>Категории для женщин</h2>
         <div class="sections-2">
             {% for category in categories %}
-            <a class="section-2" href="{{ url_for('kids_section', section=category) }}">{{ category }}</a>
+            <a class="section-2" href="{{ url_for('women_section', section=category) }}">{{ category }}</a>
             {% endfor %}
         </div>
     </div>
