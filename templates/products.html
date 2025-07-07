@@ -1,13 +1,13 @@
 <!--
   Benetton Mini App
-  Список товаров раздела для детей
+  Универсальный список товаров раздела
 -->
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
-    <title>{{ section }} — Benetton Kids</title>
+    <title>{{ section_verbose }} — Benetton</title>
     <link rel="stylesheet" href="/static/style.css">
     <style>
         .gender-filters-wrapper {
@@ -84,8 +84,9 @@
 </head>
 
 <body>
-    <a href="/kids" class="back-btn">← Назад</a>
-    <h3>{{ section }}</h3>
+    <a href="{{ back_url }}" class="back-btn">← Назад</a>
+    <h3>{{ section_verbose }}</h3>
+    {% if genders %}
     <div class="gender-filters-wrapper">
         <div class="gender-filters">
             <button class="gender-btn active" data-gender="all">Все</button>
@@ -94,14 +95,15 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
     <div class="products-list">
         {% for product in products %}
-        <div class="product-card" data-gender="{{ product.gender }}">
-            <a href="{{ url_for('kids_product', section=section, art=product.art) }}">
+        <div class="product-card" {% if genders %}data-gender="{{ product.gender }}" {% endif %}>
+            <a href="{{ url_for('product_page', section=section, category=category, art=product.art) }}">
                 <img src="{{ product.image }}" alt="{{ product.name }}">
                 <div class="product-name">{{ product.name }} {{ product.art }}</div>
                 <div class="product-prices">
-                    <span class="old-price">{{ product.old_price }} грн.</span>
+                    {% if product.old_price %}<span class="old-price">{{ product.old_price }} грн.</span>{% endif %}
                     <span class="new-price">{{ product.new_price }} грн.</span>
                     {% if product.sale %}<span class="sale">{{ product.sale }}</span>{% endif %}
                 </div>
@@ -109,7 +111,8 @@
         </div>
         {% endfor %}
     </div>
-    <a href="/kids" class="back-bottom">← Назад к категориям</a>
+    <a href="{{ back_url }}" class="back-bottom">← Назад к категориям</a>
+    {% if genders %}
     <script>
         const filterBtns = document.querySelectorAll('.gender-btn');
         const cards = document.querySelectorAll('.product-card');
@@ -128,6 +131,7 @@
             });
         });
     </script>
+    {% endif %}
     <style>
         .back-btn {
             display: inline-block;
