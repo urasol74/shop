@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, abort
 import openpyxl
 import os
 import json
@@ -370,7 +370,7 @@ def women_product(section, art):
     section_key = section.upper().strip()
     products = woman_products_by_section.get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('kids_product.html', section=section, product=product)
+    return render_template('product.html', product=product, section_verbose='Women', back_url=f'/women/{section}')
 
 def load_men_categories():
     der_path = os.path.join('data', 'der.xlsx')
@@ -512,7 +512,7 @@ def men_product(section, art):
     section_key = section.upper().strip()
     products = men_products_by_section.get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('men_product.html', section=section, product=product)
+    return render_template('product.html', product=product, section_verbose='Men', back_url=f'/men/{section}')
 
 def build_underwear_sections_and_products():
     der_path = os.path.join('data', 'der.xlsx')
@@ -664,28 +664,81 @@ def underwear_woman_product(section, art):
     section_key = section.upper().strip()
     products = underwear_data['woman']['products'].get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('underwear-woman-product.html', section=section, product=product)
+    return render_template('product.html', product=product, section_verbose='Underwear Woman', back_url=f'/underwear-woman/{section}')
 
 @app.route('/underwear-men/<section>/<art>')
 def underwear_men_product(section, art):
     section_key = section.upper().strip()
     products = underwear_data['men']['products'].get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('underwear-men-product.html', section=section, product=product)
+    return render_template('product.html', product=product, section_verbose='Underwear Men', back_url=f'/underwear-men/{section}')
 
 @app.route('/underwear-boy/<section>/<art>')
 def underwear_boy_product(section, art):
     section_key = section.upper().strip()
     products = underwear_data['boy']['products'].get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('underwear-boy-product.html', section=section, product=product)
+    return render_template('product.html', product=product, section_verbose='Underwear Boy', back_url=f'/underwear-boy/{section}')
 
 @app.route('/underwear-girl/<section>/<art>')
 def underwear_girl_product(section, art):
     section_key = section.upper().strip()
     products = underwear_data['girl']['products'].get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('underwear-girl-product.html', section=section, product=product)
+    return render_template('product.html', product=product, section_verbose='Underwear Girl', back_url=f'/underwear-girl/{section}')
+
+# Универсальный роут для страницы товара
+@app.route('/<section>/<category>/<art>')
+def product_page(section, category, art):
+    # Определяем источник данных и verbose-название раздела
+    section_map = {
+        'women': {
+            'products': build_woman_products(),
+            'verbose': 'Women',
+            'back_url': f'/women/{category}'
+        },
+        'men': {
+            'products': build_men_products(),
+            'verbose': 'Men',
+            'back_url': f'/men/{category}'
+        },
+        'kids': {
+            'products': kids_products_by_section,
+            'verbose': 'Kids',
+            'back_url': f'/kids/{category}'
+        },
+        'underwear-woman': {
+            'products': underwear_woman_products,
+            'verbose': 'Underwear Woman',
+            'back_url': f'/underwear-woman/{category}'
+        },
+        'underwear-men': {
+            'products': underwear_men_products,
+            'verbose': 'Underwear Men',
+            'back_url': f'/underwear-men/{category}'
+        },
+        'underwear-boy': {
+            'products': underwear_boy_products,
+            'verbose': 'Underwear Boy',
+            'back_url': f'/underwear-boy/{category}'
+        },
+        'underwear-girl': {
+            'products': underwear_girl_products,
+            'verbose': 'Underwear Girl',
+            'back_url': f'/underwear-girl/{category}'
+        },
+    }
+    if section not in section_map:
+        abort(404)
+    products_by_section = section_map[section]['products']
+    section_verbose = section_map[section]['verbose']
+    back_url = section_map[section]['back_url']
+    # Ищем товар по артикулу
+    products = products_by_section.get(category.upper().strip(), [])
+    product = next((p for p in products if p['art'] == art), None)
+    if not product:
+        abort(404)
+    return render_template('product.html', product=product, section_verbose=section_verbose, back_url=back_url)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
