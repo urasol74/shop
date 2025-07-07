@@ -1,0 +1,702 @@
+{
+  "ПІЖАМА": [
+    {
+      "name": "ПІЖАМА 35VB3P03P",
+      "art": "35VB3P03P",
+      "old_price": 2.429,
+      "new_price": 1.699,
+      "sale": "-30%",
+      "image": "/static/pic/35VB3P03P.jpg",
+      "color_size_map": [
+        {
+          "color": "1H5",
+          "sizes": [
+            "L"
+          ]
+        },
+        {
+          "color": "506",
+          "sizes": [
+            "L"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ПІЖАМА 4T3U3P00R",
+      "art": "4T3U3P00R",
+      "old_price": 3.649,
+      "new_price": 2.549,
+      "sale": "-30%",
+      "image": "/static/pic/4T3U3P00R.jpg",
+      "color_size_map": [
+        {
+          "color": "63R",
+          "sizes": [
+            "L",
+            "M"
+          ]
+        }
+      ]
+    }
+  ],
+  "ШОРТИ": [
+    {
+      "name": "ШОРТИ 36MX3900N",
+      "art": "36MX3900N",
+      "old_price": 1.219,
+      "new_price": 849,
+      "sale": "-30%",
+      "image": "/static/pic/36MX3900N.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "506",
+          "sizes": [
+            "M",
+            "S"
+          ]
+        }
+      ]
+    }
+  ],
+  "ФУТБОЛКА": [
+    {
+      "name": "ФУТБОЛКА 36MX3M07A",
+      "art": "36MX3M07A",
+      "old_price": 1.579,
+      "new_price": 1.109,
+      "sale": "-30%",
+      "image": "/static/pic/36MX3M07A.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "506",
+          "sizes": [
+            "M",
+            "S"
+          ]
+        }
+      ]
+    }
+  ],
+  "БЮСТГАЛТЕР": [
+    {
+      "name": "БЮСТГАЛТЕР 3B8Z5R05E",
+      "art": "3B8Z5R05E",
+      "old_price": 2.329,
+      "new_price": 1.629,
+      "sale": "-30%",
+      "image": "/static/pic/3B8Z5R05E.jpg",
+      "color_size_map": [
+        {
+          "color": "902",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "БЮСТГАЛТЕР 3OP81R00E",
+      "art": "3OP81R00E",
+      "old_price": 1.679,
+      "new_price": 1.179,
+      "sale": "-30%",
+      "image": "/static/pic/3OP81R00E.jpg",
+      "color_size_map": [
+        {
+          "color": "1H5",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "2B4",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "506",
+          "sizes": [
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "БЮСТГАЛТЕР 3OP81R01G",
+      "art": "3OP81R01G",
+      "old_price": 1.449,
+      "new_price": 1.009,
+      "sale": "-30%",
+      "image": "/static/pic/3OP81R01G.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "M"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "БЮСТГАЛТЕР 3OVL1R01Z",
+      "art": "3OVL1R01Z",
+      "old_price": 1.689,
+      "new_price": 1.179,
+      "sale": "-30%",
+      "image": "/static/pic/3OVL1R01Z.jpg",
+      "color_size_map": [
+        {
+          "color": "0U2",
+          "sizes": [
+            "1B",
+            "2B",
+            "3A",
+            "3B"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "1B",
+            "2B",
+            "3A",
+            "3B",
+            "4B"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "БЮСТГАЛТЕР 3P5H5R052",
+      "art": "3P5H5R052",
+      "old_price": 2.109,
+      "new_price": 1.479,
+      "sale": "-30%",
+      "image": "/static/pic/3P5H5R052.jpg",
+      "color_size_map": [
+        {
+          "color": "700",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "БЮСТГАЛТЕР 3ZQM1R1D4",
+      "art": "3ZQM1R1D4",
+      "old_price": 739,
+      "new_price": 519,
+      "sale": "-30%",
+      "image": "/static/pic/3ZQM1R1D4.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "501",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "729",
+          "sizes": [
+            "OS"
+          ]
+        }
+      ]
+    }
+  ],
+  "ПЛАВКИ": [
+    {
+      "name": "ПЛАВКИ 3B8Z5S04J",
+      "art": "3B8Z5S04J",
+      "old_price": 1.789,
+      "new_price": 1.249,
+      "sale": "-30%",
+      "image": "/static/pic/3B8Z5S04J.jpg",
+      "color_size_map": [
+        {
+          "color": "902",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ПЛАВКИ 3P5H5S02X",
+      "art": "3P5H5S02X",
+      "old_price": 939,
+      "new_price": 659,
+      "sale": "-30%",
+      "image": "/static/pic/3P5H5S02X.jpg",
+      "color_size_map": [
+        {
+          "color": "700",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ПЛАВКИ 3P5H5S1BR",
+      "art": "3P5H5S1BR",
+      "old_price": 939,
+      "new_price": 659,
+      "sale": "-30%",
+      "image": "/static/pic/3P5H5S1BR.jpg",
+      "color_size_map": [
+        {
+          "color": "700",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    }
+  ],
+  "ТРУСИ": [
+    {
+      "name": "ТРУСИ 3OP81S01L",
+      "art": "3OP81S01L",
+      "old_price": 719,
+      "new_price": 499,
+      "sale": "-30%",
+      "image": "/static/pic/3OP81S01L.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "L"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТРУСИ 3OP81S01M",
+      "art": "3OP81S01M",
+      "old_price": 739,
+      "new_price": 519,
+      "sale": "-30%",
+      "image": "/static/pic/3OP81S01M.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "M"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТРУСИ 3OP81S02D",
+      "art": "3OP81S02D",
+      "old_price": 719,
+      "new_price": 499,
+      "sale": "-30%",
+      "image": "/static/pic/3OP81S02D.jpg",
+      "color_size_map": [
+        {
+          "color": "1H5",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "2B4",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "506",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТРУСИ 3OP81S14L",
+      "art": "3OP81S14L",
+      "old_price": 739,
+      "new_price": 519,
+      "sale": "-30%",
+      "image": "/static/pic/3OP81S14L.jpg",
+      "color_size_map": [
+        {
+          "color": "2B4",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "506",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "700",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТРУСИ 3OP81S1X9",
+      "art": "3OP81S1X9",
+      "old_price": 559,
+      "new_price": 389,
+      "sale": "-30%",
+      "image": "/static/pic/3OP81S1X9.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТРУСИ 3OVL1S01F",
+      "art": "3OVL1S01F",
+      "old_price": 739,
+      "new_price": 519,
+      "sale": "-30%",
+      "image": "/static/pic/3OVL1S01F.jpg",
+      "color_size_map": [
+        {
+          "color": "0U2",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "M",
+            "S",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТРУСИ 3ZQM1S1C7",
+      "art": "3ZQM1S1C7",
+      "old_price": 559,
+      "new_price": 389,
+      "sale": "-30%",
+      "image": "/static/pic/3ZQM1S1C7.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "501",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "729",
+          "sizes": [
+            "OS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТРУСИ 3ZQM1S1C8",
+      "art": "3ZQM1S1C8",
+      "old_price": 559,
+      "new_price": 389,
+      "sale": "-30%",
+      "image": "/static/pic/3ZQM1S1C8.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "501",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "729",
+          "sizes": [
+            "OS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТРУСИ 3ZQM1Z271",
+      "art": "3ZQM1Z271",
+      "old_price": 559,
+      "new_price": 389,
+      "sale": "-30%",
+      "image": "/static/pic/3ZQM1Z271.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "101",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "501",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "729",
+          "sizes": [
+            "OS"
+          ]
+        }
+      ]
+    }
+  ],
+  "ТОП": [
+    {
+      "name": "ТОП 3OVL1H009",
+      "art": "3OVL1H009",
+      "old_price": 1.219,
+      "new_price": 849,
+      "sale": "-30%",
+      "image": "/static/pic/3OVL1H009.jpg",
+      "color_size_map": [
+        {
+          "color": "0U2",
+          "sizes": [
+            "L",
+            "M",
+            "XS"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ТОП 3ZQM1H291",
+      "art": "3ZQM1H291",
+      "old_price": 919,
+      "new_price": 639,
+      "sale": "-30%",
+      "image": "/static/pic/3ZQM1H291.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "501",
+          "sizes": [
+            "OS"
+          ]
+        },
+        {
+          "color": "729",
+          "sizes": [
+            "OS"
+          ]
+        }
+      ]
+    }
+  ],
+  "КУПАЛЬНИК": [
+    {
+      "name": "КУПАЛЬНИК 3P5H5I01J",
+      "art": "3P5H5I01J",
+      "old_price": 2.929,
+      "new_price": 2.049,
+      "sale": "-30%",
+      "image": "/static/pic/3P5H5I01J.jpg",
+      "color_size_map": [
+        {
+          "color": "700",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    }
+  ],
+  "СУКНЯ": [
+    {
+      "name": "СУКНЯ 3Q225V00X",
+      "art": "3Q225V00X",
+      "old_price": 2.919,
+      "new_price": 2.039,
+      "sale": "-30%",
+      "image": "/static/pic/3Q225V00X.jpg",
+      "color_size_map": [
+        {
+          "color": "02E",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "M",
+            "XS"
+          ]
+        }
+      ]
+    }
+  ],
+  "СУМКА": [
+    {
+      "name": "СУМКА 6SWS1Y01V",
+      "art": "6SWS1Y01V",
+      "old_price": 2.329,
+      "new_price": 1.629,
+      "sale": "-30%",
+      "image": "/static/pic/6SWS1Y01V.jpg",
+      "color_size_map": [
+        {
+          "color": "903",
+          "sizes": [
+            "ST"
+          ]
+        }
+      ]
+    }
+  ],
+  "КАПЦІ": [
+    {
+      "name": "КАПЦІ 8SGC1D01A",
+      "art": "8SGC1D01A",
+      "old_price": 1.489,
+      "new_price": 1.039,
+      "sale": "-30%",
+      "image": "/static/pic/8SGC1D01A.jpg",
+      "color_size_map": [
+        {
+          "color": "901",
+          "sizes": [
+            "37",
+            "38",
+            "39",
+            "40"
+          ]
+        },
+        {
+          "color": "912",
+          "sizes": [
+            "37",
+            "38",
+            "39",
+            "40"
+          ]
+        }
+      ]
+    }
+  ]
+}

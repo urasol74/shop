@@ -514,5 +514,178 @@ def men_product(section, art):
     product = next((p for p in products if p['art'] == art), None)
     return render_template('men_product.html', section=section, product=product)
 
+def build_underwear_sections_and_products():
+    der_path = os.path.join('data', 'der.xlsx')
+    base_path = os.path.join('data', 'base.xlsx')
+    wb_der = openpyxl.load_workbook(der_path)
+    ws_der = wb_der.active
+    wb_base = openpyxl.load_workbook(base_path)
+    ws_base = wb_base.active
+    # Собираем артикула UNDERCOLOR по группам gender
+    gender_map = {
+        'woman': {'j': 'жiн', 'sections': set(), 'products': {}},
+        'men': {'j': 'чол', 'sections': set(), 'products': {}},
+        'girl': {'j': 'дiвч', 'sections': set(), 'products': {}},
+        'boy': {'j': 'хлопч', 'sections': set(), 'products': {}}
+    }
+    # Сначала строим map art -> (gender, is_undercolor)
+    art_gender = {}
+    for row in ws_base.iter_rows(min_row=2):
+        art = str(row[0].value).strip().upper() if row[0].value else None
+        col_g = row[6].value if len(row) > 6 else None
+        gender_cell = row[9].value if len(row) > 9 else None
+        if art and col_g and str(col_g).strip().upper() == 'UNDERCOLOR' and gender_cell:
+            for key, val in gender_map.items():
+                if val['j'] in str(gender_cell).lower():
+                    art_gender[art] = key
+    # Теперь собираем категории и товары по der.xlsx
+    all_rows = list(ws_der.iter_rows(min_row=2))
+    for row in all_rows:
+        values = [str(cell.value) if cell.value is not None else "" for cell in row[:3]]
+        combined = " ".join(values).strip()
+        if not combined:
+            continue
+        parts = combined.split()
+        if len(parts) < 2:
+            continue
+        art = parts[0].strip().upper()
+        category = parts[1].strip().rstrip(',')
+        group = art_gender.get(art)
+        if not group:
+            continue
+        section_key = category.upper().strip()
+        gender_map[group]['sections'].add(category)
+        # --- Уникальность по артикулу ---
+        if section_key not in gender_map[group]['products']:
+            gender_map[group]['products'][section_key] = []
+            seen_arts = set()
+        else:
+            seen_arts = {p['art'] for p in gender_map[group]['products'][section_key]}
+        if art in seen_arts:
+            continue
+        name = f"{category} {art}"
+        old_price = row[5].value if len(row) > 5 else None
+        new_price = row[7].value if len(row) > 7 else None
+        sale = row[9].value if len(row) > 9 else None
+        sale_str = None
+        try:
+            if sale is not None:
+                sale_num = float(sale)
+                sale_rounded = int(round(sale_num / 10.0) * 10)
+                sale_str = f"-{sale_rounded}%"
+        except Exception:
+            sale_str = None
+        image = f"/static/pic/{art}.jpg"
+        color_size_map = {}
+        for r in all_rows:
+            c = r[0].value
+            if not c:
+                continue
+            c = str(c)
+            if art in c:
+                color = None
+                size = None
+                if 'Цвет:' in c:
+                    color = c.split('Цвет:')[-1].split(',')[0].strip()
+                if 'Размер:' in c:
+                    size = c.split('Размер:')[-1].split(',')[0].strip()
+                if color:
+                    if color not in color_size_map:
+                        color_size_map[color] = []
+                    if size and size not in color_size_map[color]:
+                        color_size_map[color].append(size)
+        color_size_list = [{"color": k, "sizes": v} for k, v in color_size_map.items()]
+        product = {
+            "name": name,
+            "art": art,
+            "old_price": old_price,
+            "new_price": new_price,
+            "sale": sale_str,
+            "image": image,
+            "color_size_map": color_size_list
+        }
+        gender_map[group]['products'][section_key].append(product)
+    # Сохраняем json для каждой группы
+    for key in gender_map:
+        with open(f'underwear_{key}_sections.json', 'w', encoding='utf-8') as f:
+            json.dump(sorted(gender_map[key]['sections']), f, ensure_ascii=False, indent=2)
+        with open(f'underwear_{key}_products.json', 'w', encoding='utf-8') as f:
+            json.dump(gender_map[key]['products'], f, ensure_ascii=False, indent=2)
+    return gender_map
+
+underwear_data = build_underwear_sections_and_products()
+
+@app.route('/underwear-woman')
+def underwear_woman():
+    categories = sorted(underwear_data['woman']['sections'])
+    return render_template('underwear-woman.html', categories=categories)
+
+@app.route('/underwear-men')
+def underwear_men():
+    categories = sorted(underwear_data['men']['sections'])
+    return render_template('underwear-men.html', categories=categories)
+
+@app.route('/underwear-boy')
+def underwear_boy():
+    categories = sorted(underwear_data['boy']['sections'])
+    return render_template('underwear-boy.html', categories=categories)
+
+@app.route('/underwear-girl')
+def underwear_girl():
+    categories = sorted(underwear_data['girl']['sections'])
+    return render_template('underwear-girl.html', categories=categories)
+
+@app.route('/underwear-woman/<section>')
+def underwear_woman_products(section):
+    section_key = section.upper().strip()
+    products = underwear_data['woman']['products'].get(section_key, [])
+    return render_template('underwear-woman-products.html', section=section, products=products)
+
+@app.route('/underwear-men/<section>')
+def underwear_men_products(section):
+    section_key = section.upper().strip()
+    products = underwear_data['men']['products'].get(section_key, [])
+    return render_template('underwear-men-products.html', section=section, products=products)
+
+@app.route('/underwear-boy/<section>')
+def underwear_boy_products(section):
+    section_key = section.upper().strip()
+    products = underwear_data['boy']['products'].get(section_key, [])
+    return render_template('underwear-boy-products.html', section=section, products=products)
+
+@app.route('/underwear-girl/<section>')
+def underwear_girl_products(section):
+    section_key = section.upper().strip()
+    products = underwear_data['girl']['products'].get(section_key, [])
+    return render_template('underwear-girl-products.html', section=section, products=products)
+
+@app.route('/underwear-woman/<section>/<art>')
+def underwear_woman_product(section, art):
+    section_key = section.upper().strip()
+    products = underwear_data['woman']['products'].get(section_key, [])
+    product = next((p for p in products if p['art'] == art), None)
+    return render_template('underwear-woman-product.html', section=section, product=product)
+
+@app.route('/underwear-men/<section>/<art>')
+def underwear_men_product(section, art):
+    section_key = section.upper().strip()
+    products = underwear_data['men']['products'].get(section_key, [])
+    product = next((p for p in products if p['art'] == art), None)
+    return render_template('underwear-men-product.html', section=section, product=product)
+
+@app.route('/underwear-boy/<section>/<art>')
+def underwear_boy_product(section, art):
+    section_key = section.upper().strip()
+    products = underwear_data['boy']['products'].get(section_key, [])
+    product = next((p for p in products if p['art'] == art), None)
+    return render_template('underwear-boy-product.html', section=section, product=product)
+
+@app.route('/underwear-girl/<section>/<art>')
+def underwear_girl_product(section, art):
+    section_key = section.upper().strip()
+    products = underwear_data['girl']['products'].get(section_key, [])
+    product = next((p for p in products if p['art'] == art), None)
+    return render_template('underwear-girl-product.html', section=section, product=product)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -3,7 +3,7 @@
     {
       "name": "БРЮКИ",
       "art": "4MCP57BC8",
-      "old_price": 3209,
+      "old_price": 3.209,
       "new_price": 319,
       "sale": "-90%",
       "image": "/static/pic/4MCP57BC8.jpg",
@@ -32,8 +32,8 @@
     {
       "name": "БРЮКИ",
       "art": "342ZUF01B",
-      "old_price": 2989,
-      "new_price": 2089,
+      "old_price": 2.989,
+      "new_price": 2.089,
       "sale": "-30%",
       "image": "/static/pic/342ZUF01B.jpg",
       "color_size_map": [
@@ -53,8 +53,8 @@
     {
       "name": "БРЮКИ",
       "art": "40QFUF05J",
-      "old_price": 3819,
-      "new_price": 2669,
+      "old_price": 3.819,
+      "new_price": 2.669,
       "sale": "-30%",
       "image": "/static/pic/40QFUF05J.jpg",
       "color_size_map": [
@@ -72,8 +72,8 @@
     {
       "name": "БРЮКИ",
       "art": "462SUF04K",
-      "old_price": 3819,
-      "new_price": 2669,
+      "old_price": 3.819,
+      "new_price": 2.669,
       "sale": "-30%",
       "image": "/static/pic/462SUF04K.jpg",
       "color_size_map": [
@@ -104,8 +104,8 @@
     {
       "name": "БРЮКИ",
       "art": "49BTUE01M",
-      "old_price": 4179,
-      "new_price": 2929,
+      "old_price": 4.179,
+      "new_price": 2.929,
       "sale": "-30%",
       "image": "/static/pic/49BTUE01M.jpg",
       "color_size_map": [
@@ -125,8 +125,8 @@
     {
       "name": "БРЮКИ",
       "art": "4AGH55HW8",
-      "old_price": 4179,
-      "new_price": 3339,
+      "old_price": 4.179,
+      "new_price": 3.339,
       "sale": "-20%",
       "image": "/static/pic/4AGH55HW8.jpg",
       "color_size_map": [
@@ -199,8 +199,8 @@
     {
       "name": "БРЮКИ",
       "art": "4AGHUF00M",
-      "old_price": 4259,
-      "new_price": 3409,
+      "old_price": 4.259,
+      "new_price": 3.409,
       "sale": "-20%",
       "image": "/static/pic/4AGHUF00M.jpg",
       "color_size_map": [
@@ -249,8 +249,8 @@
     {
       "name": "БРЮКИ",
       "art": "4AGHUF05A",
-      "old_price": 4789,
-      "new_price": 3829,
+      "old_price": 4.789,
+      "new_price": 3.829,
       "sale": "-20%",
       "image": "/static/pic/4AGHUF05A.jpg",
       "color_size_map": [
@@ -269,8 +269,8 @@
     {
       "name": "БРЮКИ",
       "art": "4DHJUF05K",
-      "old_price": 3889,
-      "new_price": 2719,
+      "old_price": 3.889,
+      "new_price": 2.719,
       "sale": "-30%",
       "image": "/static/pic/4DHJUF05K.jpg",
       "color_size_map": [
@@ -289,8 +289,8 @@
     {
       "name": "БРЮКИ",
       "art": "4DKH55I18",
-      "old_price": 3649,
-      "new_price": 2549,
+      "old_price": 3.649,
+      "new_price": 2.549,
       "sale": "-30%",
       "image": "/static/pic/4DKH55I18.jpg",
       "color_size_map": [
@@ -306,8 +306,8 @@
     {
       "name": "БРЮКИ",
       "art": "4EA5UF94K",
-      "old_price": 4179,
-      "new_price": 2929,
+      "old_price": 4.179,
+      "new_price": 2.929,
       "sale": "-30%",
       "image": "/static/pic/4EA5UF94K.jpg",
       "color_size_map": [
@@ -334,8 +334,8 @@
     {
       "name": "БРЮКИ",
       "art": "4IPC57B88",
-      "old_price": 3589,
-      "new_price": 2509,
+      "old_price": 3.589,
+      "new_price": 2.509,
       "sale": "-30%",
       "image": "/static/pic/4IPC57B88.jpg",
       "color_size_map": [
@@ -362,8 +362,8 @@
     {
       "name": "БРЮКИ",
       "art": "4KVBUF05F",
-      "old_price": 4109,
-      "new_price": 2879,
+      "old_price": 4.109,
+      "new_price": 2.879,
       "sale": "-30%",
       "image": "/static/pic/4KVBUF05F.jpg",
       "color_size_map": [
@@ -382,8 +382,8 @@
     {
       "name": "БРЮКИ",
       "art": "4P9PUE01S",
-      "old_price": 4699,
-      "new_price": 3289,
+      "old_price": 4.699,
+      "new_price": 3.289,
       "sale": "-30%",
       "image": "/static/pic/4P9PUE01S.jpg",
       "color_size_map": [
@@ -403,8 +403,8 @@
     {
       "name": "БРЮКИ",
       "art": "4Q60UF05G",
-      "old_price": 4109,
-      "new_price": 2879,
+      "old_price": 4.109,
+      "new_price": 2.879,
       "sale": "-30%",
       "image": "/static/pic/4Q60UF05G.jpg",
       "color_size_map": [
@@ -423,8 +423,8 @@
     {
       "name": "БРЮКИ",
       "art": "4RZVUE01W",
-      "old_price": 4259,
-      "new_price": 2979,
+      "old_price": 4.259,
+      "new_price": 2.979,
       "sale": "-30%",
       "image": "/static/pic/4RZVUE01W.jpg",
       "color_size_map": [
@@ -441,8 +441,8 @@
     {
       "name": "БРЮКИ",
       "art": "4VKEU7CU8",
-      "old_price": 4179,
-      "new_price": 2929,
+      "old_price": 4.179,
+      "new_price": 2.929,
       "sale": "-30%",
       "image": "/static/pic/4VKEU7CU8.jpg",
       "color_size_map": [
@@ -461,8 +461,8 @@
     {
       "name": "БРЮКИ",
       "art": "4VKEUE01D",
-      "old_price": 4179,
-      "new_price": 2929,
+      "old_price": 4.179,
+      "new_price": 2.929,
       "sale": "-30%",
       "image": "/static/pic/4VKEUE01D.jpg",
       "color_size_map": [
@@ -484,8 +484,8 @@
     {
       "name": "БРЮКИ",
       "art": "4W3LUF05I",
-      "old_price": 3189,
-      "new_price": 2229,
+      "old_price": 3.189,
+      "new_price": 2.229,
       "sale": "-30%",
       "image": "/static/pic/4W3LUF05I.jpg",
       "color_size_map": [
@@ -516,8 +516,8 @@
     {
       "name": "БРЮКИ",
       "art": "4W9KUE01U",
-      "old_price": 4699,
-      "new_price": 3289,
+      "old_price": 4.699,
+      "new_price": 3.289,
       "sale": "-30%",
       "image": "/static/pic/4W9KUE01U.jpg",
       "color_size_map": [
@@ -539,8 +539,8 @@
     {
       "name": "СВЕТР",
       "art": "1094K109T",
-      "old_price": 3689,
-      "new_price": 2579,
+      "old_price": 3.689,
+      "new_price": 2.579,
       "sale": "-30%",
       "image": "/static/pic/1094K109T.jpg",
       "color_size_map": [
@@ -558,8 +558,8 @@
     {
       "name": "СВЕТР",
       "art": "3FWYU10A3",
-      "old_price": 2929,
-      "new_price": 2049,
+      "old_price": 2.929,
+      "new_price": 2.049,
       "sale": "-30%",
       "image": "/static/pic/3FWYU10A3.jpg",
       "color_size_map": [
@@ -584,8 +584,8 @@
     {
       "name": "СВЕТР",
       "art": "3NWZU109W",
-      "old_price": 3749,
-      "new_price": 2619,
+      "old_price": 3.749,
+      "new_price": 2.619,
       "sale": "-30%",
       "image": "/static/pic/3NWZU109W.jpg",
       "color_size_map": [
@@ -604,8 +604,8 @@
     {
       "name": "ПОЛО-СОРОЧКА",
       "art": "1094K301J",
-      "old_price": 4379,
-      "new_price": 3069,
+      "old_price": 4.379,
+      "new_price": 3.069,
       "sale": "-30%",
       "image": "/static/pic/1094K301J.jpg",
       "color_size_map": [
@@ -630,8 +630,8 @@
     {
       "name": "ПОЛО-СОРОЧКА",
       "art": "115GK301G",
-      "old_price": 4269,
-      "new_price": 2989,
+      "old_price": 4.269,
+      "new_price": 2.989,
       "sale": "-30%",
       "image": "/static/pic/115GK301G.jpg",
       "color_size_map": [
@@ -646,8 +646,8 @@
     {
       "name": "ПОЛО-СОРОЧКА",
       "art": "115RK301I",
-      "old_price": 3649,
-      "new_price": 2549,
+      "old_price": 3.649,
+      "new_price": 2.549,
       "sale": "-30%",
       "image": "/static/pic/115RK301I.jpg",
       "color_size_map": [
@@ -671,8 +671,8 @@
     {
       "name": "ПОЛО-СОРОЧКА",
       "art": "1198U301H",
-      "old_price": 4099,
-      "new_price": 2869,
+      "old_price": 4.099,
+      "new_price": 2.869,
       "sale": "-30%",
       "image": "/static/pic/1198U301H.jpg",
       "color_size_map": [
@@ -690,8 +690,8 @@
     {
       "name": "ПОЛО-СОРОЧКА",
       "art": "3089U302D",
-      "old_price": 3189,
-      "new_price": 2229,
+      "old_price": 3.189,
+      "new_price": 2.229,
       "sale": "-30%",
       "image": "/static/pic/3089U302D.jpg",
       "color_size_map": [
@@ -737,8 +737,8 @@
     {
       "name": "КУРТКА",
       "art": "20QFUW01X",
-      "old_price": 7579,
-      "new_price": 3789,
+      "old_price": 7.579,
+      "new_price": 3.789,
       "sale": "-50%",
       "image": "/static/pic/20QFUW01X.jpg",
       "color_size_map": [
@@ -758,8 +758,8 @@
     {
       "name": "КУРТКА",
       "art": "342ZU500P",
-      "old_price": 4179,
-      "new_price": 2929,
+      "old_price": 4.179,
+      "new_price": 2.929,
       "sale": "-30%",
       "image": "/static/pic/342ZU500P.jpg",
       "color_size_map": [
@@ -780,8 +780,8 @@
     {
       "name": "ЖИЛЕТКА",
       "art": "2TWDUJ00P",
-      "old_price": 3589,
-      "new_price": 1789,
+      "old_price": 3.589,
+      "new_price": 1.789,
       "sale": "-50%",
       "image": "/static/pic/2TWDUJ00P.jpg",
       "color_size_map": [
@@ -799,8 +799,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "30CXU10A0",
-      "old_price": 1759,
-      "new_price": 1229,
+      "old_price": 1.759,
+      "new_price": 1.229,
       "sale": "-30%",
       "image": "/static/pic/30CXU10A0.jpg",
       "color_size_map": [
@@ -818,8 +818,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "325RU10AL",
-      "old_price": 2499,
-      "new_price": 1749,
+      "old_price": 2.499,
+      "new_price": 1.749,
       "sale": "-30%",
       "image": "/static/pic/325RU10AL.jpg",
       "color_size_map": [
@@ -847,8 +847,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "33CMU101R",
-      "old_price": 2149,
-      "new_price": 1499,
+      "old_price": 2.149,
+      "new_price": 1.499,
       "sale": "-30%",
       "image": "/static/pic/33CMU101R.jpg",
       "color_size_map": [
@@ -881,8 +881,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "34BNU10AP",
-      "old_price": 1759,
-      "new_price": 1229,
+      "old_price": 1.759,
+      "new_price": 1.229,
       "sale": "-30%",
       "image": "/static/pic/34BNU10AP.jpg",
       "color_size_map": [
@@ -906,8 +906,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "36JGU105U",
-      "old_price": 1939,
-      "new_price": 1359,
+      "old_price": 1.939,
+      "new_price": 1.359,
       "sale": "-30%",
       "image": "/static/pic/36JGU105U.jpg",
       "color_size_map": [
@@ -943,8 +943,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3BL0U10A2",
-      "old_price": 1729,
-      "new_price": 1209,
+      "old_price": 1.729,
+      "new_price": 1.209,
       "sale": "-30%",
       "image": "/static/pic/3BL0U10A2.jpg",
       "color_size_map": [
@@ -959,8 +959,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3BL0U10AF",
-      "old_price": 1909,
-      "new_price": 1339,
+      "old_price": 1.909,
+      "new_price": 1.339,
       "sale": "-30%",
       "image": "/static/pic/3BL0U10AF.jpg",
       "color_size_map": [
@@ -1008,8 +1008,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3BL0U10AG",
-      "old_price": 1909,
-      "new_price": 1339,
+      "old_price": 1.909,
+      "new_price": 1.339,
       "sale": "-30%",
       "image": "/static/pic/3BL0U10AG.jpg",
       "color_size_map": [
@@ -1017,7 +1017,6 @@
           "color": "100",
           "sizes": [
             "EL",
-            "L",
             "M",
             "S"
           ]
@@ -1073,8 +1072,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3F98U109Y",
-      "old_price": 1789,
-      "new_price": 1249,
+      "old_price": 1.789,
+      "new_price": 1.249,
       "sale": "-30%",
       "image": "/static/pic/3F98U109Y.jpg",
       "color_size_map": [
@@ -1095,8 +1094,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3I1XU1096",
-      "old_price": 1529,
-      "new_price": 1069,
+      "old_price": 1.529,
+      "new_price": 1.069,
       "sale": "-30%",
       "image": "/static/pic/3I1XU1096.jpg",
       "color_size_map": [
@@ -1111,7 +1110,6 @@
           "color": "918",
           "sizes": [
             "EL",
-            "L",
             "XL"
           ]
         }
@@ -1120,8 +1118,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3I1XU10A4",
-      "old_price": 1529,
-      "new_price": 1069,
+      "old_price": 1.529,
+      "new_price": 1.069,
       "sale": "-30%",
       "image": "/static/pic/3I1XU10A4.jpg",
       "color_size_map": [
@@ -1142,7 +1140,7 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3JE1J19A5",
-      "old_price": 1219,
+      "old_price": 1.219,
       "new_price": 849,
       "sale": "-30%",
       "image": "/static/pic/3JE1J19A5.jpg",
@@ -1169,8 +1167,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3JE1J19A9",
-      "old_price": 1549,
-      "new_price": 1079,
+      "old_price": 1.549,
+      "new_price": 1.079,
       "sale": "-30%",
       "image": "/static/pic/3JE1J19A9.jpg",
       "color_size_map": [
@@ -1192,8 +1190,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3M4WU1088",
-      "old_price": 2009,
-      "new_price": 1409,
+      "old_price": 2.009,
+      "new_price": 1.409,
       "sale": "-30%",
       "image": "/static/pic/3M4WU1088.jpg",
       "color_size_map": [
@@ -1236,24 +1234,8 @@
     },
     {
       "name": "ФУТБОЛКА",
-      "art": "3MI5J1AF7",
-      "old_price": 1369,
-      "new_price": 959,
-      "sale": "-30%",
-      "image": "/static/pic/3MI5J1AF7.jpg",
-      "color_size_map": [
-        {
-          "color": "016",
-          "sizes": [
-            "EL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
       "art": "3P7XU1058",
-      "old_price": 1199,
+      "old_price": 1.199,
       "new_price": 839,
       "sale": "-30%",
       "image": "/static/pic/3P7XU1058.jpg",
@@ -1262,7 +1244,6 @@
           "color": "100",
           "sizes": [
             "EL",
-            "L",
             "M",
             "S",
             "XL"
@@ -1283,8 +1264,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3RL3U10AS",
-      "old_price": 1909,
-      "new_price": 1339,
+      "old_price": 1.909,
+      "new_price": 1.339,
       "sale": "-30%",
       "image": "/static/pic/3RL3U10AS.jpg",
       "color_size_map": [
@@ -1309,8 +1290,8 @@
     {
       "name": "ФУТБОЛКА",
       "art": "3ZITU1098",
-      "old_price": 1759,
-      "new_price": 1229,
+      "old_price": 1.759,
+      "new_price": 1.229,
       "sale": "-30%",
       "image": "/static/pic/3ZITU1098.jpg",
       "color_size_map": [
@@ -1343,8 +1324,8 @@
     {
       "name": "ШОРТИ",
       "art": "342ZU900X",
-      "old_price": 2389,
-      "new_price": 1669,
+      "old_price": 2.389,
+      "new_price": 1.669,
       "sale": "-30%",
       "image": "/static/pic/342ZU900X.jpg",
       "color_size_map": [
@@ -1372,8 +1353,8 @@
     {
       "name": "ШОРТИ",
       "art": "40P6U9016",
-      "old_price": 3889,
-      "new_price": 2719,
+      "old_price": 3.889,
+      "new_price": 2.719,
       "sale": "-30%",
       "image": "/static/pic/40P6U9016.jpg",
       "color_size_map": [
@@ -1391,8 +1372,8 @@
     {
       "name": "ШОРТИ",
       "art": "4AGH59548",
-      "old_price": 3519,
-      "new_price": 2819,
+      "old_price": 3.519,
+      "new_price": 2.819,
       "sale": "-20%",
       "image": "/static/pic/4AGH59548.jpg",
       "color_size_map": [
@@ -1418,8 +1399,8 @@
     {
       "name": "ШОРТИ",
       "art": "4AGHU900Z",
-      "old_price": 3589,
-      "new_price": 2869,
+      "old_price": 3.589,
+      "new_price": 2.869,
       "sale": "-20%",
       "image": "/static/pic/4AGHU900Z.jpg",
       "color_size_map": [
@@ -1468,8 +1449,8 @@
     {
       "name": "ШОРТИ",
       "art": "4AW7U9018",
-      "old_price": 3189,
-      "new_price": 2229,
+      "old_price": 3.189,
+      "new_price": 2.229,
       "sale": "-30%",
       "image": "/static/pic/4AW7U9018.jpg",
       "color_size_map": [
@@ -1490,8 +1471,8 @@
     {
       "name": "ШОРТИ",
       "art": "4HKQU9012",
-      "old_price": 3749,
-      "new_price": 2619,
+      "old_price": 3.749,
+      "new_price": 2.619,
       "sale": "-30%",
       "image": "/static/pic/4HKQU9012.jpg",
       "color_size_map": [
@@ -1509,8 +1490,8 @@
     {
       "name": "ШОРТИ",
       "art": "4W3LU9014",
-      "old_price": 2539,
-      "new_price": 1779,
+      "old_price": 2.539,
+      "new_price": 1.779,
       "sale": "-30%",
       "image": "/static/pic/4W3LU9014.jpg",
       "color_size_map": [
@@ -1541,8 +1522,8 @@
     {
       "name": "ШОРТИ",
       "art": "4XGBU9015",
-      "old_price": 3239,
-      "new_price": 2269,
+      "old_price": 3.239,
+      "new_price": 2.269,
       "sale": "-30%",
       "image": "/static/pic/4XGBU9015.jpg",
       "color_size_map": [
@@ -1564,8 +1545,8 @@
     {
       "name": "СОРОЧКА",
       "art": "5BKU5QJG8",
-      "old_price": 4339,
-      "new_price": 3469,
+      "old_price": 4.339,
+      "new_price": 3.469,
       "sale": "-20%",
       "image": "/static/pic/5BKU5QJG8.jpg",
       "color_size_map": [
@@ -1607,8 +1588,8 @@
     {
       "name": "СОРОЧКА",
       "art": "5BKU5QJH8",
-      "old_price": 3959,
-      "new_price": 3169,
+      "old_price": 3.959,
+      "new_price": 3.169,
       "sale": "-20%",
       "image": "/static/pic/5BKU5QJH8.jpg",
       "color_size_map": [
@@ -1657,8 +1638,8 @@
     {
       "name": "СОРОЧКА",
       "art": "5BKUUQ04Q",
-      "old_price": 4339,
-      "new_price": 2169,
+      "old_price": 4.339,
+      "new_price": 2.169,
       "sale": "-50%",
       "image": "/static/pic/5BKUUQ04Q.jpg",
       "color_size_map": [
@@ -1687,8 +1668,8 @@
     {
       "name": "СОРОЧКА",
       "art": "5DHJUQ05K",
-      "old_price": 3239,
-      "new_price": 1619,
+      "old_price": 3.239,
+      "new_price": 1.619,
       "sale": "-50%",
       "image": "/static/pic/5DHJUQ05K.jpg",
       "color_size_map": [
@@ -1707,8 +1688,8 @@
     {
       "name": "СОРОЧКА",
       "art": "5HPWUQ05B",
-      "old_price": 3819,
-      "new_price": 1909,
+      "old_price": 3.819,
+      "new_price": 1.909,
       "sale": "-50%",
       "image": "/static/pic/5HPWUQ05B.jpg",
       "color_size_map": [
@@ -1735,8 +1716,8 @@
     {
       "name": "СОРОЧКА",
       "art": "5PJYUQ05I",
-      "old_price": 4699,
-      "new_price": 2349,
+      "old_price": 4.699,
+      "new_price": 2.349,
       "sale": "-50%",
       "image": "/static/pic/5PJYUQ05I.jpg",
       "color_size_map": [
@@ -1751,15 +1732,14 @@
     {
       "name": "СОРОЧКА",
       "art": "5UBMUQ05P",
-      "old_price": 2329,
-      "new_price": 1159,
+      "old_price": 2.329,
+      "new_price": 1.159,
       "sale": "-50%",
       "image": "/static/pic/5UBMUQ05P.jpg",
       "color_size_map": [
         {
           "color": "68P",
           "sizes": [
-            "M",
             "S"
           ]
         }
@@ -1768,15 +1748,14 @@
     {
       "name": "СОРОЧКА",
       "art": "5XGBUQ05L",
-      "old_price": 3119,
-      "new_price": 1559,
+      "old_price": 3.119,
+      "new_price": 1.559,
       "sale": "-50%",
       "image": "/static/pic/5XGBUQ05L.jpg",
       "color_size_map": [
         {
           "color": "901",
           "sizes": [
-            "L",
             "M"
           ]
         }
@@ -1787,8 +1766,8 @@
     {
       "name": "СУМКА",
       "art": "618UUY03F",
-      "old_price": 4179,
-      "new_price": 2929,
+      "old_price": 4.179,
+      "new_price": 2.929,
       "sale": "-30%",
       "image": "/static/pic/618UUY03F.jpg",
       "color_size_map": [
@@ -1803,8 +1782,8 @@
     {
       "name": "СУМКА",
       "art": "6RFQUY03K",
-      "old_price": 3819,
-      "new_price": 2669,
+      "old_price": 3.819,
+      "new_price": 2.669,
       "sale": "-30%",
       "image": "/static/pic/6RFQUY03K.jpg",
       "color_size_map": [
@@ -1821,8 +1800,8 @@
     {
       "name": "КАПЕЛЮХ",
       "art": "6NFPUA01C",
-      "old_price": 1649,
-      "new_price": 1149,
+      "old_price": 1.649,
+      "new_price": 1.149,
       "sale": "-30%",
       "image": "/static/pic/6NFPUA01C.jpg",
       "color_size_map": [
@@ -1845,8 +1824,8 @@
     {
       "name": "КЕПКА",
       "art": "6QNGUA01D",
-      "old_price": 1449,
-      "new_price": 1009,
+      "old_price": 1.449,
+      "new_price": 1.009,
       "sale": "-30%",
       "image": "/static/pic/6QNGUA01D.jpg",
       "color_size_map": [
@@ -1867,7 +1846,7 @@
     {
       "name": "КЕПКА",
       "art": "6WEPUA00Z",
-      "old_price": 1369,
+      "old_price": 1.369,
       "new_price": 959,
       "sale": "-30%",
       "image": "/static/pic/6WEPUA00Z.jpg",
@@ -1891,8 +1870,8 @@
     {
       "name": "РЮКЗАК",
       "art": "6RFQUY03L",
-      "old_price": 2539,
-      "new_price": 1779,
+      "old_price": 2.539,
+      "new_price": 1.779,
       "sale": "-30%",
       "image": "/static/pic/6RFQUY03L.jpg",
       "color_size_map": [
@@ -1909,8 +1888,8 @@
     {
       "name": "ВЗУТТЯ",
       "art": "8J9EUD02T",
-      "old_price": 4449,
-      "new_price": 3109,
+      "old_price": 4.449,
+      "new_price": 3.109,
       "sale": "-30%",
       "image": "/static/pic/8J9EUD02T.jpg",
       "color_size_map": [
