@@ -1,0 +1,28 @@
+<!-- shop/templates/search.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты поиска</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="main-block">
+        <h3>Результаты поиска</h3>
+        <div class="search-summary">Запрос: <b>{{ query }}</b> — найдено: {{ count }}</div>
+        <ul class="search-results-list">
+            {% for r in results %}
+            <li>
+                <a href="/{{ r.section }}/{{ r.category }}/{{ r.art }}">
+                    {{ r.art }} {{ r.name }}, Размер: {{ r.size }}, Цвет: {{ r.color }}, {{ r.qty }} шт.
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="/" class="search-back">← На главную</a>
+    </div>
+</body>
+
+</html>

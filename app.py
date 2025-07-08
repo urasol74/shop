@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, abort
+from flask import Flask, render_template, send_from_directory, abort, request
 import openpyxl
 import os
 import json
@@ -738,6 +738,36 @@ def product_page(section, category, art):
     if not product:
         abort(404)
     return render_template('product.html', product=product, section_verbose=section_verbose, back_url=back_url)
+
+@app.route('/search')
+def search():
+    query = request.args.get('q', '').strip().lower()
+    if not query:
+        return render_template('search.html', query=query, results=[], count=0)
+    xlsx_path = os.path.join('data', 'der.xlsx')
+    wb = openpyxl.load_workbook(xlsx_path)
+    ws = wb.active
+    results = []
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        art = str(row[0]).strip().upper() if row[0] else ""
+        name = str(row[1]).strip() if len(row) > 1 and row[1] else ""
+        color = str(row[2]).strip() if len(row) > 2 and row[2] else ""
+        size = str(row[3]).strip() if len(row) > 3 and row[3] else ""
+        qty = str(row[4]).strip() if len(row) > 4 and row[4] else ""
+        search_str = " ".join([art, name, color, size, qty]).lower()
+        if query in search_str:
+            section = "men"  # Для примера, можно доработать под вашу логику
+            category = name
+            results.append({
+                "art": art,
+                "name": name,
+                "color": color,
+                "size": size,
+                "qty": qty,
+                "category": category,
+                "section": section
+            })
+    return render_template('search.html', query=query, results=results, count=len(results))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
