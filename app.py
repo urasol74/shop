@@ -48,7 +48,13 @@ def index():
 @app.route('/kids')
 def kids():
     categories = get_kids_categories()
-    return render_template('kids.html', categories=categories)
+    return render_template(
+        'sections.html',
+        section_verbose='Дети',
+        categories=categories,
+        section_url='kids_section',
+        back_url='/'
+    )
 
 def get_gender_map():
     base_path = os.path.join('data', 'base.xlsx')
@@ -257,11 +263,23 @@ woman_categories = load_woman_categories()
 
 @app.route('/women')
 def women():
-    return render_template('women.html', categories=woman_categories)
+    return render_template(
+        'sections.html',
+        section_verbose='Женщина',
+        categories=woman_categories,
+        section_url='women_section',
+        back_url='/'
+    )
 
 @app.route('/men')
 def men():
-    return render_template('men.html', categories=men_categories)
+    return render_template(
+        'sections.html',
+        section_verbose='Мужчина',
+        categories=men_categories,
+        section_url='men_section',
+        back_url='/'
+    )
 
 @app.route('/underwear')
 def underwear():
@@ -616,23 +634,43 @@ underwear_data = build_underwear_sections_and_products()
 
 @app.route('/underwear-woman')
 def underwear_woman():
-    categories = sorted(underwear_data['woman']['sections'])
-    return render_template('underwear-woman.html', categories=categories)
+    return render_template(
+        'sections.html',
+        section_verbose='Бельё — Женщина',
+        categories=sorted(underwear_data['woman']['sections']),
+        section_url='underwear_woman_products',
+        back_url='/underwear'
+    )
 
 @app.route('/underwear-men')
 def underwear_men():
-    categories = sorted(underwear_data['men']['sections'])
-    return render_template('underwear-men.html', categories=categories)
+    return render_template(
+        'sections.html',
+        section_verbose='Бельё — Мужчина',
+        categories=sorted(underwear_data['men']['sections']),
+        section_url='underwear_men_products',
+        back_url='/underwear'
+    )
 
 @app.route('/underwear-boy')
 def underwear_boy():
-    categories = sorted(underwear_data['boy']['sections'])
-    return render_template('underwear-boy.html', categories=categories)
+    return render_template(
+        'sections.html',
+        section_verbose='Бельё — Мальчик',
+        categories=sorted(underwear_data['boy']['sections']),
+        section_url='underwear_boy_products',
+        back_url='/underwear'
+    )
 
 @app.route('/underwear-girl')
 def underwear_girl():
-    categories = sorted(underwear_data['girl']['sections'])
-    return render_template('underwear-girl.html', categories=categories)
+    return render_template(
+        'sections.html',
+        section_verbose='Бельё — Девочка',
+        categories=sorted(underwear_data['girl']['sections']),
+        section_url='underwear_girl_products',
+        back_url='/underwear'
+    )
 
 @app.route('/underwear-woman/<section>')
 def underwear_woman_products(section):

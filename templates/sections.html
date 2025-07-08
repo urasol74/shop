@@ -1,0 +1,25 @@
+<!-- shop/templates/sections.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ section_verbose }} — Benetton</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="main-block">
+        <a href="{{ back_url }}" class="back-btn">← Назад</a>
+        <h3>{{ section_verbose }}</h3>
+        <div class="sections-2">
+            {% for category in categories %}
+            <a class="section-2" href="{{ url_for(section_url, section=category) }}">
+                <div>{{ category }}</div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

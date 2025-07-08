@@ -8,21 +8,15 @@
 </head>
 
 <body>
-    <a href="/" class="back-btn">← Назад</a>
-    <h3>Бельё Benetton</h3>
-    <div class="sections" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; max-width: 600px;">
-        <a class="section" href="{{ url_for('underwear_woman') }}">
-            <div>Женское</div>
-        </a>
-        <a class="section" href="{{ url_for('underwear_men') }}">
-            <div>Мужское</div>
-        </a>
-        <a class="section" href="{{ url_for('underwear_boy') }}">
-            <div>Мальчик</div>
-        </a>
-        <a class="section" href="{{ url_for('underwear_girl') }}">
-            <div>Девочка</div>
-        </a>
+    <div class="main-block">
+        <h3>Бельё</h3>
+        <div class="sections">
+            <!-- Здесь ваши ссылки на группы белья: женщина, мужчина, девочка, мальчик -->
+            <!-- Пример:
+            <a class="section" href="{{ url_for('underwear_woman') }}">Женщина</a>
+            ...
+            -->
+        </div>
     </div>
     <style>
         .back-btn {

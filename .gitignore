@@ -17,3 +17,19 @@ __pycache__/
 # Файлы ОС
 .DS_Store
 Thumbs.db 
+
+# файлы json дубли памяти
+kids_products.json
+kids_sections.json
+men_products.json
+men_sections.json
+underwear_boy_products.json
+underwear_boy_sections.json
+underwear_girl_products.json
+underwear_girl_sections.json
+underwear_men_products.json
+underwear_men_sections.json
+underwear_woman_products.json
+underwear_woman_sections.json
+woman_products.json
+woman_sections.json

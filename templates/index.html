@@ -21,40 +21,42 @@
 </head>
 
 <body>
-    <!-- Заголовок магазина -->
-    <h3>Benetton Одесса Дерибасовская</h3>
-    <!-- Блок поиска -->
-    <form action="/search" method="get" class="search-form">
-        <input type="text" name="q" class="search-input" placeholder="Поиск по артикулу, названию, цвету, размеру...">
-        <button type="submit" class="search-btn">Найти</button>
-    </form>
-    <!--<p id="user"></p>-->
-    <!-- Меню разделов магазина: Женщина, Мужчина, Дети, Белье -->
-    <div class="sections">
-        <!-- Раздел Женщина -->
-        <a class="section" href="{{ url_for('women') }}">
-            <img src="{{ url_for('static', filename='image/women.png') }}" alt="Женщина">
-            <div>Женщина</div>
-        </a>
-        <!-- Раздел Мужчина -->
-        <a class="section" href="{{ url_for('men') }}">
-            <img src="{{ url_for('static', filename='image/men.png') }}" alt="Мужчина">
-            <div>Мужчина</div>
-        </a>
-        <!-- Раздел Дети -->
-        <a class="section" href="{{ url_for('kids') }}">
-            <img src="{{ url_for('static', filename='image/kids.png') }}" alt="Дети">
-            <div>Дети</div>
-        </a>
-        <!-- Раздел Белье -->
-        <a class="section" href="{{ url_for('underwear') }}">
-            <img src="{{ url_for('static', filename='image/underwear.png') }}" alt="Белье">
-            <div>Белье</div>
-        </a>
+    <div class="main-block">
+        <!-- Заголовок магазина -->
+        <h3>Benetton Одесса Дерибасовская</h3>
+        <!-- Блок поиска -->
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="q" class="search-input"
+                placeholder="Поиск по артикулу, названию, цвету, размеру...">
+            <button type="submit" class="search-btn">Найти</button>
+        </form>
+        <!--<p id="user"></p>-->
+        <!-- Меню разделов магазина: Женщина, Мужчина, Дети, Белье -->
+        <div class="sections">
+            <!-- Раздел Женщина -->
+            <a class="section" href="{{ url_for('women') }}">
+                <img src="{{ url_for('static', filename='image/women.png') }}" alt="Женщина">
+                <div>Женщина</div>
+            </a>
+            <!-- Раздел Мужчина -->
+            <a class="section" href="{{ url_for('men') }}">
+                <img src="{{ url_for('static', filename='image/men.png') }}" alt="Мужчина">
+                <div>Мужчина</div>
+            </a>
+            <!-- Раздел Дети -->
+            <a class="section" href="{{ url_for('kids') }}">
+                <img src="{{ url_for('static', filename='image/kids.png') }}" alt="Дети">
+                <div>Дети</div>
+            </a>
+            <!-- Раздел Белье -->
+            <a class="section" href="{{ url_for('underwear') }}">
+                <img src="{{ url_for('static', filename='image/underwear.png') }}" alt="Белье">
+                <div>Белье</div>
+            </a>
+        </div>
+        <!-- Конец меню разделов -->
     </div>
-    <!-- Конец меню разделов -->
 </body>
-
 <!-- Конец документа -->
 
 </html>
