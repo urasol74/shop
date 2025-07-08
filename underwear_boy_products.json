@@ -3,9 +3,9 @@
     {
       "name": "ПІЖАМА 30960P08R",
       "art": "30960P08R",
-      "old_price": 1.579,
-      "new_price": 1.109,
-      "sale": "-30%",
+      "old_price": 1579,
+      "new_price": 1579,
+      "sale": null,
       "image": "/static/pic/30960P08R.jpg",
       "color_size_map": [
         {
@@ -38,8 +38,8 @@
       "name": "ПЛАВКИ 3IGW0S02O",
       "art": "3IGW0S02O",
       "old_price": 889,
-      "new_price": 619,
-      "sale": "-30%",
+      "new_price": 889,
+      "sale": null,
       "image": "/static/pic/3IGW0S02O.jpg",
       "color_size_map": [
         {
@@ -66,8 +66,8 @@
       "name": "ПЛАВКИ 3IGW0X01H",
       "art": "3IGW0X01H",
       "old_price": 889,
-      "new_price": 619,
-      "sale": "-30%",
+      "new_price": 889,
+      "sale": null,
       "image": "/static/pic/3IGW0X01H.jpg",
       "color_size_map": [
         {
@@ -93,13 +93,13 @@
     {
       "name": "ПЛАВКИ 5JD00X00T",
       "art": "5JD00X00T",
-      "old_price": 1.649,
-      "new_price": 1.149,
-      "sale": "-30%",
+      "old_price": 1649,
+      "new_price": 1649,
+      "sale": null,
       "image": "/static/pic/5JD00X00T.jpg",
       "color_size_map": [
         {
-          "color": "903",
+          "color": "902",
           "sizes": [
             "EL",
             "KL",
@@ -111,8 +111,9 @@
           ]
         },
         {
-          "color": "902",
+          "color": "903",
           "sizes": [
+            "EL",
             "KL",
             "L",
             "M",
@@ -126,9 +127,9 @@
     {
       "name": "ПЛАВКИ 5S480X00U",
       "art": "5S480X00U",
-      "old_price": 1.679,
-      "new_price": 1.179,
-      "sale": "-30%",
+      "old_price": 1679,
+      "new_price": 1679,
+      "sale": null,
       "image": "/static/pic/5S480X00U.jpg",
       "color_size_map": [
         {
@@ -160,11 +161,27 @@
   ],
   "ТРУСИ": [
     {
+      "name": "ТРУСИ 3MC10X343",
+      "art": "3MC10X343",
+      "old_price": 859,
+      "new_price": 859,
+      "sale": null,
+      "image": "/static/pic/3MC10X343.jpg",
+      "color_size_map": [
+        {
+          "color": "501",
+          "sizes": [
+            "M"
+          ]
+        }
+      ]
+    },
+    {
       "name": "ТРУСИ 3OP80S484",
       "art": "3OP80S484",
       "old_price": 859,
-      "new_price": 599,
-      "sale": "-30%",
+      "new_price": 859,
+      "sale": null,
       "image": "/static/pic/3OP80S484.jpg",
       "color_size_map": [
         {
@@ -204,10 +221,20 @@
       "name": "ТРУСИ 3OP80X230",
       "art": "3OP80X230",
       "old_price": 859,
-      "new_price": 599,
-      "sale": "-30%",
+      "new_price": 859,
+      "sale": null,
       "image": "/static/pic/3OP80X230.jpg",
       "color_size_map": [
+        {
+          "color": "0M4",
+          "sizes": [
+            "EL",
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
         {
           "color": "1H5",
           "sizes": [
@@ -229,17 +256,10 @@
           ]
         },
         {
-          "color": "0M4",
-          "sizes": [
-            "M",
-            "S",
-            "XL"
-          ]
-        },
-        {
           "color": "901",
           "sizes": [
-            "M"
+            "M",
+            "S"
           ]
         }
       ]
@@ -250,8 +270,8 @@
       "name": "ШКАРПЕТКИ 6AO507044",
       "art": "6AO507044",
       "old_price": 769,
-      "new_price": 539,
-      "sale": "-30%",
+      "new_price": 769,
+      "sale": null,
       "image": "/static/pic/6AO507044.jpg",
       "color_size_map": [
         {
@@ -278,8 +298,8 @@
       "name": "ШКАРПЕТКИ 6GRD07024",
       "art": "6GRD07024",
       "old_price": 769,
-      "new_price": 539,
-      "sale": "-30%",
+      "new_price": 769,
+      "sale": null,
       "image": "/static/pic/6GRD07024.jpg",
       "color_size_map": [
         {

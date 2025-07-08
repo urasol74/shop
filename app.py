@@ -794,8 +794,47 @@ def search():
         qty = str(row[4]).strip() if len(row) > 4 and row[4] else ""
         search_str = " ".join([art, name, color, size, qty]).lower()
         if query in search_str:
-            section = "men"  # Для примера, можно доработать под вашу логику
+            # Определяем section и category по артикулу и категориям
+            section = None
             category = name
+            art_key = art
+            # Проверяем по kids
+            if art.endswith('.K'):
+                section = 'kids'
+            # Проверяем по women
+            elif any(art == p['art'] for plist in woman_products_by_section.values() for p in plist):
+                section = 'women'
+            # Проверяем по men
+            elif any(art == p['art'] for plist in men_products_by_section.values() for p in plist):
+                section = 'men'
+            # Проверяем по underwear
+            elif any(art == p['art'] for plist in underwear_data['woman']['products'].values() for p in plist):
+                section = 'underwear-woman'
+            elif any(art == p['art'] for plist in underwear_data['men']['products'].values() for p in plist):
+                section = 'underwear-men'
+            elif any(art == p['art'] for plist in underwear_data['boy']['products'].values() for p in plist):
+                section = 'underwear-boy'
+            elif any(art == p['art'] for plist in underwear_data['girl']['products'].values() for p in plist):
+                section = 'underwear-girl'
+            else:
+                section = 'men'  # по умолчанию
+            # Для category ищем по секциям, если возможно
+            if section in ['men', 'women']:
+                for cat, plist in (men_products_by_section if section == 'men' else woman_products_by_section).items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            elif section == 'kids':
+                for cat, plist in kids_products_by_section.items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            elif section.startswith('underwear'):
+                group = section.split('-')[-1]
+                for cat, plist in underwear_data[group]['products'].items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
             results.append({
                 "art": art,
                 "name": name,

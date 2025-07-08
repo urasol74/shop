@@ -3,9 +3,9 @@
     {
       "name": "ПІЖАМА 30960P08O",
       "art": "30960P08O",
-      "old_price": 1.549,
-      "new_price": 1.079,
-      "sale": "-30%",
+      "old_price": 1549,
+      "new_price": 1549,
+      "sale": null,
       "image": "/static/pic/30960P08O.jpg",
       "color_size_map": [
         {
@@ -27,6 +27,7 @@
             "KL",
             "L",
             "M",
+            "S",
             "XL",
             "XS"
           ]
@@ -36,9 +37,9 @@
     {
       "name": "ПІЖАМА 33ON0P08A",
       "art": "33ON0P08A",
-      "old_price": 1.249,
-      "new_price": 869,
-      "sale": "-30%",
+      "old_price": 1249,
+      "new_price": 1249,
+      "sale": null,
       "image": "/static/pic/33ON0P08A.jpg",
       "color_size_map": [
         {
@@ -46,6 +47,7 @@
           "sizes": [
             "EL",
             "KL",
+            "M",
             "S"
           ]
         },
@@ -67,9 +69,9 @@
     {
       "name": "СУКНЯ 30960V00F",
       "art": "30960V00F",
-      "old_price": 1.199,
-      "new_price": 839,
-      "sale": "-30%",
+      "old_price": 1199,
+      "new_price": 1199,
+      "sale": null,
       "image": "/static/pic/30960V00F.jpg",
       "color_size_map": [
         {
@@ -97,9 +99,9 @@
     {
       "name": "комплект 33R00R007",
       "art": "33R00R007",
-      "old_price": 1.049,
-      "new_price": 729,
-      "sale": "-30%",
+      "old_price": 1049,
+      "new_price": 1049,
+      "sale": null,
       "image": "/static/pic/33R00R007.jpg",
       "color_size_map": [
         {
@@ -123,9 +125,9 @@
     {
       "name": "комплект 3ZQM0R1LT",
       "art": "3ZQM0R1LT",
-      "old_price": 1.039,
-      "new_price": 729,
-      "sale": "-30%",
+      "old_price": 1039,
+      "new_price": 1039,
+      "sale": null,
       "image": "/static/pic/3ZQM0R1LT.jpg",
       "color_size_map": [
         {
@@ -160,8 +162,8 @@
       "name": "ТРУСИ 33R00S02H",
       "art": "33R00S02H",
       "old_price": 659,
-      "new_price": 459,
-      "sale": "-30%",
+      "new_price": 659,
+      "sale": null,
       "image": "/static/pic/33R00S02H.jpg",
       "color_size_map": [
         {
@@ -185,8 +187,8 @@
       "name": "ТРУСИ 3MC10S1BF",
       "art": "3MC10S1BF",
       "old_price": 659,
-      "new_price": 459,
-      "sale": "-30%",
+      "new_price": 659,
+      "sale": null,
       "image": "/static/pic/3MC10S1BF.jpg",
       "color_size_map": [
         {
@@ -202,8 +204,8 @@
       "name": "ТРУСИ 3ZQM0S1W2",
       "art": "3ZQM0S1W2",
       "old_price": 659,
-      "new_price": 459,
-      "sale": "-30%",
+      "new_price": 659,
+      "sale": null,
       "image": "/static/pic/3ZQM0S1W2.jpg",
       "color_size_map": [
         {
@@ -240,9 +242,9 @@
     {
       "name": "БІКІНІ 3IGW0K02T",
       "art": "3IGW0K02T",
-      "old_price": 1.649,
-      "new_price": 1.149,
-      "sale": "-30%",
+      "old_price": 1649,
+      "new_price": 1649,
+      "sale": null,
       "image": "/static/pic/3IGW0K02T.jpg",
       "color_size_map": [
         {
@@ -261,9 +263,9 @@
     {
       "name": "БІКІНІ 3L030K02P",
       "art": "3L030K02P",
-      "old_price": 1.399,
-      "new_price": 979,
-      "sale": "-30%",
+      "old_price": 1399,
+      "new_price": 1399,
+      "sale": null,
       "image": "/static/pic/3L030K02P.jpg",
       "color_size_map": [
         {
@@ -292,9 +294,9 @@
     {
       "name": "БІКІНІ 3MNR0K02Q",
       "art": "3MNR0K02Q",
-      "old_price": 1.939,
-      "new_price": 1.359,
-      "sale": "-30%",
+      "old_price": 1939,
+      "new_price": 1939,
+      "sale": null,
       "image": "/static/pic/3MNR0K02Q.jpg",
       "color_size_map": [
         {
@@ -313,9 +315,9 @@
     {
       "name": "БІКІНІ 3MVQ0K02S",
       "art": "3MVQ0K02S",
-      "old_price": 1.649,
-      "new_price": 1.149,
-      "sale": "-30%",
+      "old_price": 1649,
+      "new_price": 1649,
+      "sale": null,
       "image": "/static/pic/3MVQ0K02S.jpg",
       "color_size_map": [
         {
@@ -347,9 +349,9 @@
     {
       "name": "НАБІР 3MC10R1IN",
       "art": "3MC10R1IN",
-      "old_price": 1.319,
-      "new_price": 919,
-      "sale": "-30%",
+      "old_price": 1319,
+      "new_price": 1319,
+      "sale": null,
       "image": "/static/pic/3MC10R1IN.jpg",
       "color_size_map": [
         {
@@ -370,9 +372,9 @@
     {
       "name": "РУШНИК 60Z30800P",
       "art": "60Z30800P",
-      "old_price": 1.829,
-      "new_price": 1.279,
-      "sale": "-30%",
+      "old_price": 1829,
+      "new_price": 1829,
+      "sale": null,
       "image": "/static/pic/60Z30800P.jpg",
       "color_size_map": [
         {
@@ -392,9 +394,9 @@
     {
       "name": "РУШНИК 6H0Q0800Q",
       "art": "6H0Q0800Q",
-      "old_price": 1.939,
-      "new_price": 1.359,
-      "sale": "-30%",
+      "old_price": 1939,
+      "new_price": 1939,
+      "sale": null,
       "image": "/static/pic/6H0Q0800Q.jpg",
       "color_size_map": [
         {
@@ -429,8 +431,8 @@
       "name": "ШКАРПЕТКИ 6AO50702A",
       "art": "6AO50702A",
       "old_price": 789,
-      "new_price": 549,
-      "sale": "-30%",
+      "new_price": 789,
+      "sale": null,
       "image": "/static/pic/6AO50702A.jpg",
       "color_size_map": [
         {
@@ -456,9 +458,9 @@
     {
       "name": "КАПЦІ 89W40D01G",
       "art": "89W40D01G",
-      "old_price": 1.299,
-      "new_price": 909,
-      "sale": "-30%",
+      "old_price": 1299,
+      "new_price": 1299,
+      "sale": null,
       "image": "/static/pic/89W40D01G.jpg",
       "color_size_map": [
         {

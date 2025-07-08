@@ -3,9 +3,9 @@
     {
       "name": "ФУТБОЛКА 3BVG2M271",
       "art": "3BVG2M271",
-      "old_price": 1.149,
-      "new_price": 799,
-      "sale": "-30%",
+      "old_price": 1149,
+      "new_price": 1149,
+      "sale": null,
       "image": "/static/pic/3BVG2M271.jpg",
       "color_size_map": [
         {
@@ -43,8 +43,8 @@
       "name": "ТРУСИ 3OP82S18N",
       "art": "3OP82S18N",
       "old_price": 789,
-      "new_price": 549,
-      "sale": "-30%",
+      "new_price": 789,
+      "sale": null,
       "image": "/static/pic/3OP82S18N.jpg",
       "color_size_map": [
         {
@@ -80,8 +80,8 @@
       "name": "ТРУСИ 3OP82X00O",
       "art": "3OP82X00O",
       "old_price": 859,
-      "new_price": 599,
-      "sale": "-30%",
+      "new_price": 859,
+      "sale": null,
       "image": "/static/pic/3OP82X00O.jpg",
       "color_size_map": [
         {
@@ -117,8 +117,8 @@
       "name": "ТРУСИ 3OP82X077",
       "art": "3OP82X077",
       "old_price": 789,
-      "new_price": 549,
-      "sale": "-30%",
+      "new_price": 789,
+      "sale": null,
       "image": "/static/pic/3OP82X077.jpg",
       "color_size_map": [
         {
@@ -155,9 +155,9 @@
     {
       "name": "ПЛАВКИ 5S486X00W",
       "art": "5S486X00W",
-      "old_price": 2.539,
-      "new_price": 1.779,
-      "sale": "-30%",
+      "old_price": 2539,
+      "new_price": 2539,
+      "sale": null,
       "image": "/static/pic/5S486X00W.jpg",
       "color_size_map": [
         {
@@ -174,7 +174,8 @@
           "sizes": [
             "L",
             "M",
-            "S"
+            "S",
+            "XL"
           ]
         }
       ]
@@ -184,9 +185,9 @@
     {
       "name": "КАПЦІ 89W42D019",
       "art": "89W42D019",
-      "old_price": 1.679,
-      "new_price": 1.179,
-      "sale": "-30%",
+      "old_price": 1679,
+      "new_price": 1679,
+      "sale": null,
       "image": "/static/pic/89W42D019.jpg",
       "color_size_map": [
         {
@@ -204,6 +205,7 @@
           "sizes": [
             "41",
             "42",
+            "43",
             "44",
             "45"
           ]

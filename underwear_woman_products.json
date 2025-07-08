@@ -3,21 +3,23 @@
     {
       "name": "ПІЖАМА 35VB3P03P",
       "art": "35VB3P03P",
-      "old_price": 2.429,
-      "new_price": 1.699,
-      "sale": "-30%",
+      "old_price": 2429,
+      "new_price": 2429,
+      "sale": null,
       "image": "/static/pic/35VB3P03P.jpg",
       "color_size_map": [
         {
           "color": "1H5",
           "sizes": [
-            "L"
+            "L",
+            "XS"
           ]
         },
         {
           "color": "506",
           "sizes": [
-            "L"
+            "L",
+            "XS"
           ]
         }
       ]
@@ -25,8 +27,8 @@
     {
       "name": "ПІЖАМА 4T3U3P00R",
       "art": "4T3U3P00R",
-      "old_price": 3.649,
-      "new_price": 2.549,
+      "old_price": 3649,
+      "new_price": 2549,
       "sale": "-30%",
       "image": "/static/pic/4T3U3P00R.jpg",
       "color_size_map": [
@@ -34,7 +36,8 @@
           "color": "63R",
           "sizes": [
             "L",
-            "M"
+            "M",
+            "S"
           ]
         }
       ]
@@ -44,9 +47,9 @@
     {
       "name": "ШОРТИ 36MX3900N",
       "art": "36MX3900N",
-      "old_price": 1.219,
-      "new_price": 849,
-      "sale": "-30%",
+      "old_price": 1219,
+      "new_price": 1219,
+      "sale": null,
       "image": "/static/pic/36MX3900N.jpg",
       "color_size_map": [
         {
@@ -71,9 +74,9 @@
     {
       "name": "ФУТБОЛКА 36MX3M07A",
       "art": "36MX3M07A",
-      "old_price": 1.579,
-      "new_price": 1.109,
-      "sale": "-30%",
+      "old_price": 1579,
+      "new_price": 1579,
+      "sale": null,
       "image": "/static/pic/36MX3M07A.jpg",
       "color_size_map": [
         {
@@ -98,9 +101,9 @@
     {
       "name": "БЮСТГАЛТЕР 3B8Z5R05E",
       "art": "3B8Z5R05E",
-      "old_price": 2.329,
-      "new_price": 1.629,
-      "sale": "-30%",
+      "old_price": 2329,
+      "new_price": 2329,
+      "sale": null,
       "image": "/static/pic/3B8Z5R05E.jpg",
       "color_size_map": [
         {
@@ -116,9 +119,9 @@
     {
       "name": "БЮСТГАЛТЕР 3OP81R00E",
       "art": "3OP81R00E",
-      "old_price": 1.679,
-      "new_price": 1.179,
-      "sale": "-30%",
+      "old_price": 1679,
+      "new_price": 1679,
+      "sale": null,
       "image": "/static/pic/3OP81R00E.jpg",
       "color_size_map": [
         {
@@ -152,9 +155,9 @@
     {
       "name": "БЮСТГАЛТЕР 3OP81R01G",
       "art": "3OP81R01G",
-      "old_price": 1.449,
-      "new_price": 1.009,
-      "sale": "-30%",
+      "old_price": 1449,
+      "new_price": 1449,
+      "sale": null,
       "image": "/static/pic/3OP81R01G.jpg",
       "color_size_map": [
         {
@@ -169,9 +172,9 @@
     {
       "name": "БЮСТГАЛТЕР 3OVL1R01Z",
       "art": "3OVL1R01Z",
-      "old_price": 1.689,
-      "new_price": 1.179,
-      "sale": "-30%",
+      "old_price": 1689,
+      "new_price": 1689,
+      "sale": null,
       "image": "/static/pic/3OVL1R01Z.jpg",
       "color_size_map": [
         {
@@ -198,9 +201,9 @@
     {
       "name": "БЮСТГАЛТЕР 3P5H5R052",
       "art": "3P5H5R052",
-      "old_price": 2.109,
-      "new_price": 1.479,
-      "sale": "-30%",
+      "old_price": 2109,
+      "new_price": 2109,
+      "sale": null,
       "image": "/static/pic/3P5H5R052.jpg",
       "color_size_map": [
         {
@@ -218,8 +221,8 @@
       "name": "БЮСТГАЛТЕР 3ZQM1R1D4",
       "art": "3ZQM1R1D4",
       "old_price": 739,
-      "new_price": 519,
-      "sale": "-30%",
+      "new_price": 739,
+      "sale": null,
       "image": "/static/pic/3ZQM1R1D4.jpg",
       "color_size_map": [
         {
@@ -247,9 +250,9 @@
     {
       "name": "ПЛАВКИ 3B8Z5S04J",
       "art": "3B8Z5S04J",
-      "old_price": 1.789,
-      "new_price": 1.249,
-      "sale": "-30%",
+      "old_price": 1789,
+      "new_price": 1789,
+      "sale": null,
       "image": "/static/pic/3B8Z5S04J.jpg",
       "color_size_map": [
         {
@@ -266,8 +269,8 @@
       "name": "ПЛАВКИ 3P5H5S02X",
       "art": "3P5H5S02X",
       "old_price": 939,
-      "new_price": 659,
-      "sale": "-30%",
+      "new_price": 939,
+      "sale": null,
       "image": "/static/pic/3P5H5S02X.jpg",
       "color_size_map": [
         {
@@ -284,8 +287,8 @@
       "name": "ПЛАВКИ 3P5H5S1BR",
       "art": "3P5H5S1BR",
       "old_price": 939,
-      "new_price": 659,
-      "sale": "-30%",
+      "new_price": 939,
+      "sale": null,
       "image": "/static/pic/3P5H5S1BR.jpg",
       "color_size_map": [
         {
@@ -305,8 +308,8 @@
       "name": "ТРУСИ 3OP81S01L",
       "art": "3OP81S01L",
       "old_price": 719,
-      "new_price": 499,
-      "sale": "-30%",
+      "new_price": 719,
+      "sale": null,
       "image": "/static/pic/3OP81S01L.jpg",
       "color_size_map": [
         {
@@ -321,8 +324,8 @@
       "name": "ТРУСИ 3OP81S01M",
       "art": "3OP81S01M",
       "old_price": 739,
-      "new_price": 519,
-      "sale": "-30%",
+      "new_price": 739,
+      "sale": null,
       "image": "/static/pic/3OP81S01M.jpg",
       "color_size_map": [
         {
@@ -338,8 +341,8 @@
       "name": "ТРУСИ 3OP81S02D",
       "art": "3OP81S02D",
       "old_price": 719,
-      "new_price": 499,
-      "sale": "-30%",
+      "new_price": 719,
+      "sale": null,
       "image": "/static/pic/3OP81S02D.jpg",
       "color_size_map": [
         {
@@ -375,8 +378,8 @@
       "name": "ТРУСИ 3OP81S14L",
       "art": "3OP81S14L",
       "old_price": 739,
-      "new_price": 519,
-      "sale": "-30%",
+      "new_price": 739,
+      "sale": null,
       "image": "/static/pic/3OP81S14L.jpg",
       "color_size_map": [
         {
@@ -412,8 +415,8 @@
       "name": "ТРУСИ 3OP81S1X9",
       "art": "3OP81S1X9",
       "old_price": 559,
-      "new_price": 389,
-      "sale": "-30%",
+      "new_price": 559,
+      "sale": null,
       "image": "/static/pic/3OP81S1X9.jpg",
       "color_size_map": [
         {
@@ -431,8 +434,8 @@
       "name": "ТРУСИ 3OVL1S01F",
       "art": "3OVL1S01F",
       "old_price": 739,
-      "new_price": 519,
-      "sale": "-30%",
+      "new_price": 739,
+      "sale": null,
       "image": "/static/pic/3OVL1S01F.jpg",
       "color_size_map": [
         {
@@ -458,8 +461,8 @@
       "name": "ТРУСИ 3ZQM1S1C7",
       "art": "3ZQM1S1C7",
       "old_price": 559,
-      "new_price": 389,
-      "sale": "-30%",
+      "new_price": 559,
+      "sale": null,
       "image": "/static/pic/3ZQM1S1C7.jpg",
       "color_size_map": [
         {
@@ -486,8 +489,8 @@
       "name": "ТРУСИ 3ZQM1S1C8",
       "art": "3ZQM1S1C8",
       "old_price": 559,
-      "new_price": 389,
-      "sale": "-30%",
+      "new_price": 559,
+      "sale": null,
       "image": "/static/pic/3ZQM1S1C8.jpg",
       "color_size_map": [
         {
@@ -514,8 +517,8 @@
       "name": "ТРУСИ 3ZQM1Z271",
       "art": "3ZQM1Z271",
       "old_price": 559,
-      "new_price": 389,
-      "sale": "-30%",
+      "new_price": 559,
+      "sale": null,
       "image": "/static/pic/3ZQM1Z271.jpg",
       "color_size_map": [
         {
@@ -549,9 +552,9 @@
     {
       "name": "ТОП 3OVL1H009",
       "art": "3OVL1H009",
-      "old_price": 1.219,
-      "new_price": 849,
-      "sale": "-30%",
+      "old_price": 1219,
+      "new_price": 1219,
+      "sale": null,
       "image": "/static/pic/3OVL1H009.jpg",
       "color_size_map": [
         {
@@ -577,8 +580,8 @@
       "name": "ТОП 3ZQM1H291",
       "art": "3ZQM1H291",
       "old_price": 919,
-      "new_price": 639,
-      "sale": "-30%",
+      "new_price": 919,
+      "sale": null,
       "image": "/static/pic/3ZQM1H291.jpg",
       "color_size_map": [
         {
@@ -606,9 +609,9 @@
     {
       "name": "КУПАЛЬНИК 3P5H5I01J",
       "art": "3P5H5I01J",
-      "old_price": 2.929,
-      "new_price": 2.049,
-      "sale": "-30%",
+      "old_price": 2929,
+      "new_price": 2929,
+      "sale": null,
       "image": "/static/pic/3P5H5I01J.jpg",
       "color_size_map": [
         {
@@ -627,9 +630,9 @@
     {
       "name": "СУКНЯ 3Q225V00X",
       "art": "3Q225V00X",
-      "old_price": 2.919,
-      "new_price": 2.039,
-      "sale": "-30%",
+      "old_price": 2919,
+      "new_price": 2919,
+      "sale": null,
       "image": "/static/pic/3Q225V00X.jpg",
       "color_size_map": [
         {
@@ -645,6 +648,7 @@
           "sizes": [
             "L",
             "M",
+            "S",
             "XS"
           ]
         }
@@ -655,9 +659,9 @@
     {
       "name": "СУМКА 6SWS1Y01V",
       "art": "6SWS1Y01V",
-      "old_price": 2.329,
-      "new_price": 1.629,
-      "sale": "-30%",
+      "old_price": 2329,
+      "new_price": 2329,
+      "sale": null,
       "image": "/static/pic/6SWS1Y01V.jpg",
       "color_size_map": [
         {
@@ -673,9 +677,9 @@
     {
       "name": "КАПЦІ 8SGC1D01A",
       "art": "8SGC1D01A",
-      "old_price": 1.489,
-      "new_price": 1.039,
-      "sale": "-30%",
+      "old_price": 1489,
+      "new_price": 1489,
+      "sale": null,
       "image": "/static/pic/8SGC1D01A.jpg",
       "color_size_map": [
         {
