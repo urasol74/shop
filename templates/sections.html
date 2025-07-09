@@ -14,8 +14,8 @@
         <h3>{{ section_verbose }}</h3>
         <div class="sections-2">
             {% for category in categories %}
-            <a class="section-2" href="{{ url_for(section_url, section=category) }}">
-                <div>{{ category }}</div>
+            <a class="section-2" href="{{ url_for(section_url, section=category.raw) }}">
+                <div>{{ category.pretty }}</div>
             </a>
             {% endfor %}
         </div>

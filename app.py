@@ -4,11 +4,47 @@ import os
 import json
 import shutil
 import re
+from flask_sqlalchemy import SQLAlchemy
+
+# Загружаем словарь красивых названий категорий
+with open(os.path.join('static', 'sections-book.json'), encoding='utf-8') as f:
+    SECTIONS_BOOK = json.load(f)
+
+def get_pretty_category(category):
+    if not category:
+        return ''
+    return SECTIONS_BOOK.get(category.upper().strip(), category.capitalize())
 
 app = Flask(__name__)
 
 # Глобальная переменная для хранения категорий
 kids_categories = []
+
+# Конфигурация SQLite
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name_ua = db.Column(db.String, unique=True, nullable=False)
+    name_ru = db.Column(db.String, nullable=False)
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    art = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    color = db.Column(db.String)
+    size = db.Column(db.String)
+    qty = db.Column(db.Float)
+    old_price = db.Column(db.Float)
+    new_price = db.Column(db.Float)
+    sale = db.Column(db.String)
+    image = db.Column(db.String)
+    gender = db.Column(db.String)
+    section = db.Column(db.String)
+    category = db.relationship('Category', backref='products')
 
 def load_kids_categories():
     xlsx_path = os.path.join('data', 'der.xlsx')
@@ -48,7 +84,7 @@ def index():
 
 @app.route('/kids')
 def kids():
-    categories = get_kids_categories()
+    categories = [{"raw": cat, "pretty": get_pretty_category(cat)} for cat in get_kids_categories()]
     return render_template(
         'sections.html',
         section_verbose='Дети',
@@ -204,14 +240,14 @@ def kids_section(section):
             available_genders.add(p['gender'])
     gender_order = ['Мальчик', 'Девочка', 'Детское']
     genders = [g for g in gender_order if g in available_genders]
-    return render_template('products.html', section='kids', section_verbose='Kids', category=section, products=products, genders=genders, back_url='/kids')
+    return render_template('products.html', section='kids', section_verbose='Дети', category=section, pretty_category=get_pretty_category(section), products=products, genders=genders, back_url='/kids')
 
 @app.route('/kids/<section>/<art>')
 def kids_product(section, art):
     section_key = section.upper().strip()
     products = kids_products_by_section.get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('product.html', product=product, section_verbose='Kids', back_url=f'/kids/{section}')
+    return render_template('product.html', product=product, section_verbose='Дети', back_url=f'/kids/{section}')
 
 # Заглушки для men и woman
 # def get_men_categories():http://178.212.198.23/
@@ -264,20 +300,22 @@ woman_categories = load_woman_categories()
 
 @app.route('/women')
 def women():
+    categories = [{"raw": cat, "pretty": get_pretty_category(cat)} for cat in woman_categories]
     return render_template(
         'sections.html',
         section_verbose='Женщина',
-        categories=woman_categories,
+        categories=categories,
         section_url='women_section',
         back_url='/'
     )
 
 @app.route('/men')
 def men():
+    categories = [{"raw": cat, "pretty": get_pretty_category(cat)} for cat in men_categories]
     return render_template(
         'sections.html',
         section_verbose='Мужчина',
-        categories=men_categories,
+        categories=categories,
         section_url='men_section',
         back_url='/'
     )
@@ -381,7 +419,7 @@ woman_products_by_section = build_woman_products()
 def women_section(section):
     section_key = section.upper().strip()
     products = woman_products_by_section.get(section_key, [])
-    return render_template('products.html', section='women', section_verbose='Женщина', category=section, products=products, back_url='/women')
+    return render_template('products.html', section='women', section_verbose='Женщина', category=section, pretty_category=get_pretty_category(section), products=products, back_url='/women')
 
 @app.route('/women/<section>/<art>')
 def women_product(section, art):
@@ -523,7 +561,7 @@ men_products_by_section = build_men_products()
 def men_section(section):
     section_key = section.upper().strip()
     products = men_products_by_section.get(section_key, [])
-    return render_template('products.html', section='men', section_verbose='Мужчина', category=section, products=products, back_url='/men')
+    return render_template('products.html', section='men', section_verbose='Мужчина', category=section, pretty_category=get_pretty_category(section), products=products, back_url='/men')
 
 @app.route('/men/<section>/<art>')
 def men_product(section, art):
@@ -635,40 +673,44 @@ underwear_data = build_underwear_sections_and_products()
 
 @app.route('/underwear-woman')
 def underwear_woman():
+    categories = [{"raw": cat, "pretty": get_pretty_category(cat)} for cat in sorted(underwear_data['woman']['sections'])]
     return render_template(
         'sections.html',
         section_verbose='Бельё — Женщина',
-        categories=sorted(underwear_data['woman']['sections']),
+        categories=categories,
         section_url='underwear_woman_products',
         back_url='/underwear'
     )
 
 @app.route('/underwear-men')
 def underwear_men():
+    categories = [{"raw": cat, "pretty": get_pretty_category(cat)} for cat in sorted(underwear_data['men']['sections'])]
     return render_template(
         'sections.html',
         section_verbose='Бельё — Мужчина',
-        categories=sorted(underwear_data['men']['sections']),
+        categories=categories,
         section_url='underwear_men_products',
         back_url='/underwear'
     )
 
 @app.route('/underwear-boy')
 def underwear_boy():
+    categories = [{"raw": cat, "pretty": get_pretty_category(cat)} for cat in sorted(underwear_data['boy']['sections'])]
     return render_template(
         'sections.html',
         section_verbose='Бельё — Мальчик',
-        categories=sorted(underwear_data['boy']['sections']),
+        categories=categories,
         section_url='underwear_boy_products',
         back_url='/underwear'
     )
 
 @app.route('/underwear-girl')
 def underwear_girl():
+    categories = [{"raw": cat, "pretty": get_pretty_category(cat)} for cat in sorted(underwear_data['girl']['sections'])]
     return render_template(
         'sections.html',
         section_verbose='Бельё — Девочка',
-        categories=sorted(underwear_data['girl']['sections']),
+        categories=categories,
         section_url='underwear_girl_products',
         back_url='/underwear'
     )
@@ -677,25 +719,25 @@ def underwear_girl():
 def underwear_woman_products(section):
     section_key = section.upper().strip()
     products = underwear_data['woman']['products'].get(section_key, [])
-    return render_template('products.html', section='underwear-woman', section_verbose='Бельё — Женщина', category=section, products=products, back_url='/underwear-woman')
+    return render_template('products.html', section='underwear-woman', section_verbose='Бельё — Женщина', category=section, pretty_category=get_pretty_category(section), products=products, back_url='/underwear-woman')
 
 @app.route('/underwear-men/<section>')
 def underwear_men_products(section):
     section_key = section.upper().strip()
     products = underwear_data['men']['products'].get(section_key, [])
-    return render_template('products.html', section='underwear-men', section_verbose='Бельё — Мужчина', category=section, products=products, back_url='/underwear-men')
+    return render_template('products.html', section='underwear-men', section_verbose='Бельё — Мужчина', category=section, pretty_category=get_pretty_category(section), products=products, back_url='/underwear-men')
 
 @app.route('/underwear-boy/<section>')
 def underwear_boy_products(section):
     section_key = section.upper().strip()
     products = underwear_data['boy']['products'].get(section_key, [])
-    return render_template('products.html', section='underwear-boy', section_verbose='Бельё — Мальчик', category=section, products=products, back_url='/underwear-boy')
+    return render_template('products.html', section='underwear-boy', section_verbose='Бельё — Мальчик', category=section, pretty_category=get_pretty_category(section), products=products, back_url='/underwear-boy')
 
 @app.route('/underwear-girl/<section>')
 def underwear_girl_products(section):
     section_key = section.upper().strip()
     products = underwear_data['girl']['products'].get(section_key, [])
-    return render_template('products.html', section='underwear-girl', section_verbose='Бельё — Девочка', category=section, products=products, back_url='/underwear-girl')
+    return render_template('products.html', section='underwear-girl', section_verbose='Бельё — Девочка', category=section, pretty_category=get_pretty_category(section), products=products, back_url='/underwear-girl')
 
 @app.route('/underwear-woman/<section>/<art>')
 def underwear_woman_product(section, art):
