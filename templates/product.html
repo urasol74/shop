@@ -21,14 +21,14 @@
         </div>
         <!-- Название, цены, описание и т.д. -->
         <div class="product-block name-block">
-            <div class="product-name">{{ product.name }} {{ product.art }}</div>
+            <div class="product-name-list">{{ product.name }} {{ product.art }}</div>
         </div>
         <div class="product-block price-block">
-            <div class="product-prices-row">
+            <div class="product-prices-list">
                 {% if product.old_price %}
-                <span class="old-price">{{ product.old_price }} грн.</span>
+                <span class="old-price-list">{{ product.old_price }} грн.</span>
                 {% endif %}
-                <span class="new-price">{{ product.new_price }} грн.</span>
+                <span class="new-price-list">{{ product.new_price }} грн.</span>
                 {% if product.sale %}<span class="big-sale">{{ product.sale }}</span>{% endif %}
             </div>
         </div>

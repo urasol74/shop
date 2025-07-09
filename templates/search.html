@@ -15,7 +15,7 @@
         <ul class="search-results-list">
             {% for r in results %}
             <li>
-                <a href="/{{ r.section }}/{{ r.category }}/{{ r.art }}">
+                <a href="{{ r.url }}">
                     {{ r.art }} {{ r.name }}, Размер: {{ r.size }}, Цвет: {{ r.color }}, {{ r.qty }} шт.
                 </a>
             </li>

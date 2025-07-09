@@ -11,11 +11,22 @@
     <div class="main-block">
         <h3>Бельё</h3>
         <div class="sections">
-            <!-- Здесь ваши ссылки на группы белья: женщина, мужчина, девочка, мальчик -->
-            <!-- Пример:
-            <a class="section" href="{{ url_for('underwear_woman') }}">Женщина</a>
-            ...
-            -->
+            <a class="section" href="{{ url_for('underwear_woman') }}">
+                <img src="{{ url_for('static', filename='image/underwear_woman.png') }}" alt="Женщина">
+                <div>Женщина</div>
+            </a>
+            <a class="section" href="{{ url_for('underwear_men') }}">
+                <img src="{{ url_for('static', filename='image/underwear_men.png') }}" alt="Мужчина">
+                <div>Мужчина</div>
+            </a>
+            <a class="section" href="{{ url_for('underwear_girl') }}">
+                <img src="{{ url_for('static', filename='image/underwear_girl.png') }}" alt="Девочка">
+                <div>Девочка</div>
+            </a>
+            <a class="section" href="{{ url_for('underwear_boy') }}">
+                <img src="{{ url_for('static', filename='image/underwear_boy.png') }}" alt="Мальчик">
+                <div>Мальчик</div>
+            </a>
         </div>
     </div>
     <style>

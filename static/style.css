@@ -189,38 +189,27 @@ h3 {
     background: #f0f0f0;
 }
 
-.product-name {
-    font-weight: 600;
-    font-size: 15px;
-    /* было 16px */
-    margin-bottom: 10px;
-    text-align: center;
-    color: #222;
-    min-height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
+/* Для карточек товаров (products.html) */
 .product-prices {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 4px;
+    margin-top: 2px;
+    font-size: 14px;
+    gap: 2px;
 }
 
-.old-price {
-    text-decoration: line-through;
-    color: #b0b0b0;
-    font-size: 15px;
-    margin-bottom: 2px;
-}
-
-.new-price {
-    color: #e53935;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 2px;
+.product-name {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.18;
+    margin-bottom: 8px;
+    text-align: center;
+    color: #222;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sale {
@@ -232,6 +221,62 @@ h3 {
     margin-top: 3px;
     letter-spacing: 1px;
     font-weight: 500;
+}
+
+/* Для страницы товара (product.html) */
+.product-prices-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    font-size: 22px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.product-name-list {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    color: #222;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+    display: block;
+}
+
+.big-sale {
+    background: #e53935;
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 18px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+}
+
+.old-price-list {
+    text-decoration: line-through;
+    color: #b0b0b0;
+    font-size: 24px;
+    margin-right: 18px;
+}
+
+.new-price-list {
+    color: #e53935;
+    font-size: 28px;
+    font-weight: bold;
+    margin-right: 18px;
 }
 
 /* Поисковая форма на главной */
@@ -292,9 +337,9 @@ box-shadow.search-btn {
 }
 
 .gender-filters-wrapper {
-    width: 100%;
+    width: 100vw;
     min-width: 0;
-    max-width: 100%;
+    max-width: 100vw;
     margin: 0 auto 18px auto;
     background: #fff;
     border-radius: 16px;
@@ -302,7 +347,64 @@ box-shadow.search-btn {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 6px 4vw 6px 4vw;
     box-sizing: border-box;
+}
+
+.gender-filters {
+    display: flex;
+    gap: 0;
+    width: 100%;
+}
+
+.gender-btn {
+    flex: 1 1 0;
+    padding: 6px 0;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border-radius: 0;
+    border-right: 1.5px solid #e0e0e0;
+}
+
+.gender-btn:last-child {
+    border-right: none;
+}
+
+.gender-btn.active {
+    background: #e53935;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.products-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+    justify-content: center;
+    margin: 0 auto 24px auto;
+    max-width: 440px;
+    padding: 0 4vw;
+    box-sizing: border-box;
+}
+
+@media (max-width: 500px) {
+    .gender-filters-wrapper {
+        width: 100vw;
+        min-width: 0;
+        max-width: 100vw;
+        padding: 6px 2vw 6px 2vw;
+    }
+
+    .products-list {
+        grid-template-columns: 1fr 1fr;
+        max-width: 100vw;
+        grid-gap: 10px;
+        padding: 0 2vw;
+    }
 }
 
 .search-summary {
@@ -392,14 +494,6 @@ box-shadow.search-btn {
     box-sizing: border-box;
 }
 
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    aspect-ratio: 1/1;
-    display: block;
-}
-
 .product-block {
     background: #fff;
     border: 1.5px solid #e0e0e0;
@@ -424,13 +518,6 @@ box-shadow.search-btn {
     border-radius: 16px;
 }
 
-.product-name {
-    font-size: 24px;
-    font-weight: 700;
-    text-align: center;
-    color: #222;
-}
-
 .product-prices-row {
     display: flex;
     align-items: center;
@@ -441,30 +528,15 @@ box-shadow.search-btn {
 .old-price {
     text-decoration: line-through;
     color: #b0b0b0;
-    font-size: 20px;
+    font-size: 24px;
     margin-right: 18px;
 }
 
 .new-price {
     color: #e53935;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
     margin-right: 18px;
-}
-
-.big-sale {
-    background: #e53935;
-    color: #fff;
-    font-size: 1.1em;
-    font-weight: 700;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 18px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
 }
 
 .product-block.name-block,

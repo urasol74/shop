@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, abort, request
+from flask import Flask, render_template, send_from_directory, abort, request, url_for
 import openpyxl
 import os
 import json
@@ -210,7 +210,7 @@ def kids_product(section, art):
     section_key = section.upper().strip()
     products = kids_products_by_section.get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('kids_product.html', section=section, product=product)
+    return render_template('product.html', product=product, section_verbose='Kids', back_url=f'/kids/{section}')
 
 # Заглушки для men и woman
 # def get_men_categories():http://178.212.198.23/
@@ -794,8 +794,58 @@ def search():
         qty = str(row[4]).strip() if len(row) > 4 and row[4] else ""
         search_str = " ".join([art, name, color, size, qty]).lower()
         if query in search_str:
-            section = "men"  # Для примера, можно доработать под вашу логику
-            category = name
+            section = None
+            category = None
+            # Проверяем по kids
+            if art.endswith('.K'):
+                section = 'kids'
+                for cat, plist in kids_products_by_section.items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            # Проверяем по women
+            elif any(art == p['art'] for plist in woman_products_by_section.values() for p in plist):
+                section = 'women'
+                for cat, plist in woman_products_by_section.items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            # Проверяем по men
+            elif any(art == p['art'] for plist in men_products_by_section.values() for p in plist):
+                section = 'men'
+                for cat, plist in men_products_by_section.items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            # Проверяем по underwear
+            elif any(art == p['art'] for plist in underwear_data['woman']['products'].values() for p in plist):
+                section = 'underwear-woman'
+                for cat, plist in underwear_data['woman']['products'].items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            elif any(art == p['art'] for plist in underwear_data['men']['products'].values() for p in plist):
+                section = 'underwear-men'
+                for cat, plist in underwear_data['men']['products'].items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            elif any(art == p['art'] for plist in underwear_data['boy']['products'].values() for p in plist):
+                section = 'underwear-boy'
+                for cat, plist in underwear_data['boy']['products'].items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            elif any(art == p['art'] for plist in underwear_data['girl']['products'].values() for p in plist):
+                section = 'underwear-girl'
+                for cat, plist in underwear_data['girl']['products'].items():
+                    if any(art == p['art'] for p in plist):
+                        category = cat
+                        break
+            # Если не нашли категорию — пропускаем результат
+            if not section or not category:
+                continue
+            url = url_for('product_page', section=section, category=category, art=art)
             results.append({
                 "art": art,
                 "name": name,
@@ -803,7 +853,8 @@ def search():
                 "size": size,
                 "qty": qty,
                 "category": category,
-                "section": section
+                "section": section,
+                "url": url
             })
     return render_template('search.html', query=query, results=results, count=len(results))
 
