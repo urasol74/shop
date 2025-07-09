@@ -107,8 +107,13 @@
     <div class="search-results-block search-results-list-block">
         {% if results %}
         <ul class="search-results-list">
-            {% for row, url in results %}
-            <li><a href="{{ url }}">{{ row }}</a></li>
+            {% for item in results %}
+            <li>
+                <a href="{{ item.url }}">
+                    {{ item.art }} {{ item.name }}{% if item.size %}, Размер: {{ item.size }}{% endif %}{% if item.color
+                    %}, Цвет: {{ item.color }}{% endif %}
+                </a>
+            </li>
             {% endfor %}
         </ul>
         {% else %}

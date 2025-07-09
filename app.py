@@ -3,6 +3,7 @@ import openpyxl
 import os
 import json
 import shutil
+import re
 
 app = Flask(__name__)
 
@@ -786,75 +787,47 @@ def search():
     wb = openpyxl.load_workbook(xlsx_path)
     ws = wb.active
     results = []
+    query_parts = query.split()
     for row in ws.iter_rows(min_row=2, values_only=True):
-        art = str(row[0]).strip().upper() if row[0] else ""
-        name = str(row[1]).strip() if len(row) > 1 and row[1] else ""
-        color = str(row[2]).strip() if len(row) > 2 and row[2] else ""
-        size = str(row[3]).strip() if len(row) > 3 and row[3] else ""
-        qty = str(row[4]).strip() if len(row) > 4 and row[4] else ""
-        search_str = " ".join([art, name, color, size, qty]).lower()
-        if query in search_str:
+        cell = str(row[0]).strip() if row[0] else ""
+        cell_l = cell.lower()
+        # Парсим артикул, категорию, размер, цвет
+        art = ''
+        category = ''
+        size = ''
+        color = ''
+        m = re.match(r"([A-Z0-9]+)\.?[A-Z]*\s+([^,]+),\s*Размер:\s*([^,]+),\s*Цвет:\s*([A-Z0-9]+)", cell)
+        if m:
+            art = m.group(1)
+            category = m.group(2)
+            size = m.group(3)
+            color = m.group(4)
+        # Проверяем, что все части запроса есть в нужных полях
+        found = True
+        for part in query_parts:
+            if not (part in art.lower() or part in category.lower() or part in size.lower() or part in color.lower() or part in cell_l):
+                found = False
+                break
+        if found:
+            # --- Генерируем url на страницу товара ---
+            url = "#"
             section = None
-            category = None
-            # Проверяем по kids
-            if art.endswith('.K'):
-                section = 'kids'
-                for cat, plist in kids_products_by_section.items():
-                    if any(art == p['art'] for p in plist):
-                        category = cat
-                        break
-            # Проверяем по women
-            elif any(art == p['art'] for plist in woman_products_by_section.values() for p in plist):
-                section = 'women'
-                for cat, plist in woman_products_by_section.items():
-                    if any(art == p['art'] for p in plist):
-                        category = cat
-                        break
-            # Проверяем по men
-            elif any(art == p['art'] for plist in men_products_by_section.values() for p in plist):
+            cat_key = category.upper().strip()
+            if cat_key in men_products_by_section:
                 section = 'men'
-                for cat, plist in men_products_by_section.items():
-                    if any(art == p['art'] for p in plist):
-                        category = cat
-                        break
-            # Проверяем по underwear
-            elif any(art == p['art'] for plist in underwear_data['woman']['products'].values() for p in plist):
-                section = 'underwear-woman'
-                for cat, plist in underwear_data['woman']['products'].items():
-                    if any(art == p['art'] for p in plist):
-                        category = cat
-                        break
-            elif any(art == p['art'] for plist in underwear_data['men']['products'].values() for p in plist):
-                section = 'underwear-men'
-                for cat, plist in underwear_data['men']['products'].items():
-                    if any(art == p['art'] for p in plist):
-                        category = cat
-                        break
-            elif any(art == p['art'] for plist in underwear_data['boy']['products'].values() for p in plist):
-                section = 'underwear-boy'
-                for cat, plist in underwear_data['boy']['products'].items():
-                    if any(art == p['art'] for p in plist):
-                        category = cat
-                        break
-            elif any(art == p['art'] for plist in underwear_data['girl']['products'].values() for p in plist):
-                section = 'underwear-girl'
-                for cat, plist in underwear_data['girl']['products'].items():
-                    if any(art == p['art'] for p in plist):
-                        category = cat
-                        break
-            # Если не нашли категорию — пропускаем результат
-            if not section or not category:
-                continue
-            url = url_for('product_page', section=section, category=category, art=art)
+            elif cat_key in woman_products_by_section:
+                section = 'women'
+            if section and art and category:
+                url = url_for('product_page', section=section, category=cat_key, art=art)
             results.append({
                 "art": art,
-                "name": name,
+                "name": category,
                 "color": color,
                 "size": size,
-                "qty": qty,
+                "qty": "",
                 "category": category,
-                "section": section,
-                "url": url
+                "section": section or "",
+                "url": url,
             })
     return render_template('search.html', query=query, results=results, count=len(results))
 
