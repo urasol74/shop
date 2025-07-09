@@ -381,14 +381,14 @@ woman_products_by_section = build_woman_products()
 def women_section(section):
     section_key = section.upper().strip()
     products = woman_products_by_section.get(section_key, [])
-    return render_template('products.html', section='women', section_verbose='Women', category=section, products=products, back_url='/women')
+    return render_template('products.html', section='women', section_verbose='Женщина', category=section, products=products, back_url='/women')
 
 @app.route('/women/<section>/<art>')
 def women_product(section, art):
     section_key = section.upper().strip()
     products = woman_products_by_section.get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('product.html', product=product, section_verbose='Women', back_url=f'/women/{section}')
+    return render_template('product.html', product=product, section_verbose='Женщина', back_url=f'/women/{section}')
 
 def load_men_categories():
     der_path = os.path.join('data', 'der.xlsx')
@@ -523,14 +523,14 @@ men_products_by_section = build_men_products()
 def men_section(section):
     section_key = section.upper().strip()
     products = men_products_by_section.get(section_key, [])
-    return render_template('products.html', section='men', section_verbose='Men', category=section, products=products, back_url='/men')
+    return render_template('products.html', section='men', section_verbose='Мужчина', category=section, products=products, back_url='/men')
 
 @app.route('/men/<section>/<art>')
 def men_product(section, art):
     section_key = section.upper().strip()
     products = men_products_by_section.get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('product.html', product=product, section_verbose='Men', back_url=f'/men/{section}')
+    return render_template('product.html', product=product, section_verbose='Мужчина', back_url=f'/men/{section}')
 
 def build_underwear_sections_and_products():
     der_path = os.path.join('data', 'der.xlsx')
@@ -677,53 +677,53 @@ def underwear_girl():
 def underwear_woman_products(section):
     section_key = section.upper().strip()
     products = underwear_data['woman']['products'].get(section_key, [])
-    return render_template('products.html', section='underwear-woman', section_verbose='Underwear Woman', category=section, products=products, back_url='/underwear-woman')
+    return render_template('products.html', section='underwear-woman', section_verbose='Бельё — Женщина', category=section, products=products, back_url='/underwear-woman')
 
 @app.route('/underwear-men/<section>')
 def underwear_men_products(section):
     section_key = section.upper().strip()
     products = underwear_data['men']['products'].get(section_key, [])
-    return render_template('products.html', section='underwear-men', section_verbose='Underwear Men', category=section, products=products, back_url='/underwear-men')
+    return render_template('products.html', section='underwear-men', section_verbose='Бельё — Мужчина', category=section, products=products, back_url='/underwear-men')
 
 @app.route('/underwear-boy/<section>')
 def underwear_boy_products(section):
     section_key = section.upper().strip()
     products = underwear_data['boy']['products'].get(section_key, [])
-    return render_template('products.html', section='underwear-boy', section_verbose='Underwear Boy', category=section, products=products, back_url='/underwear-boy')
+    return render_template('products.html', section='underwear-boy', section_verbose='Бельё — Мальчик', category=section, products=products, back_url='/underwear-boy')
 
 @app.route('/underwear-girl/<section>')
 def underwear_girl_products(section):
     section_key = section.upper().strip()
     products = underwear_data['girl']['products'].get(section_key, [])
-    return render_template('products.html', section='underwear-girl', section_verbose='Underwear Girl', category=section, products=products, back_url='/underwear-girl')
+    return render_template('products.html', section='underwear-girl', section_verbose='Бельё — Девочка', category=section, products=products, back_url='/underwear-girl')
 
 @app.route('/underwear-woman/<section>/<art>')
 def underwear_woman_product(section, art):
     section_key = section.upper().strip()
     products = underwear_data['woman']['products'].get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('product.html', product=product, section_verbose='Underwear Woman', back_url=f'/underwear-woman/{section}')
+    return render_template('product.html', product=product, section_verbose='Бельё — Женщина', back_url=f'/underwear-woman/{section}')
 
 @app.route('/underwear-men/<section>/<art>')
 def underwear_men_product(section, art):
     section_key = section.upper().strip()
     products = underwear_data['men']['products'].get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('product.html', product=product, section_verbose='Underwear Men', back_url=f'/underwear-men/{section}')
+    return render_template('product.html', product=product, section_verbose='Бельё — Мужчина', back_url=f'/underwear-men/{section}')
 
 @app.route('/underwear-boy/<section>/<art>')
 def underwear_boy_product(section, art):
     section_key = section.upper().strip()
     products = underwear_data['boy']['products'].get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('product.html', product=product, section_verbose='Underwear Boy', back_url=f'/underwear-boy/{section}')
+    return render_template('product.html', product=product, section_verbose='Бельё — Мальчик', back_url=f'/underwear-boy/{section}')
 
 @app.route('/underwear-girl/<section>/<art>')
 def underwear_girl_product(section, art):
     section_key = section.upper().strip()
     products = underwear_data['girl']['products'].get(section_key, [])
     product = next((p for p in products if p['art'] == art), None)
-    return render_template('product.html', product=product, section_verbose='Underwear Girl', back_url=f'/underwear-girl/{section}')
+    return render_template('product.html', product=product, section_verbose='Бельё — Девочка', back_url=f'/underwear-girl/{section}')
 
 # Универсальный роут для страницы товара
 @app.route('/<section>/<category>/<art>')
@@ -732,37 +732,37 @@ def product_page(section, category, art):
     section_map = {
         'women': {
             'products': build_woman_products(),
-            'verbose': 'Women',
+            'verbose': 'Женщина',
             'back_url': f'/women/{category}'
         },
         'men': {
             'products': build_men_products(),
-            'verbose': 'Men',
+            'verbose': 'Мужчина',
             'back_url': f'/men/{category}'
         },
         'kids': {
             'products': kids_products_by_section,
-            'verbose': 'Kids',
+            'verbose': 'Дети',
             'back_url': f'/kids/{category}'
         },
         'underwear-woman': {
             'products': underwear_woman_products,
-            'verbose': 'Underwear Woman',
+            'verbose': 'Бельё — Женщина',
             'back_url': f'/underwear-woman/{category}'
         },
         'underwear-men': {
             'products': underwear_men_products,
-            'verbose': 'Underwear Men',
+            'verbose': 'Бельё — Мужчина',
             'back_url': f'/underwear-men/{category}'
         },
         'underwear-boy': {
             'products': underwear_boy_products,
-            'verbose': 'Underwear Boy',
+            'verbose': 'Бельё — Мальчик',
             'back_url': f'/underwear-boy/{category}'
         },
         'underwear-girl': {
             'products': underwear_girl_products,
-            'verbose': 'Underwear Girl',
+            'verbose': 'Бельё — Девочка',
             'back_url': f'/underwear-girl/{category}'
         },
     }

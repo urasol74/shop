@@ -15,7 +15,10 @@
 <body>
     <div class="main-block">
         <a href="{{ back_url }}" class="back-btn">← Назад</a>
-        <h3>{{ section_verbose }}</h3>
+        <h3 id="section-title">
+            {% if category %}{{ category|capitalize }}{% if genders %}{% else %} - {{ section_verbose }}{% endif %}{%
+            else %}{{ section_verbose }}{% endif %}
+        </h3>
         {% if genders %}
         <div class="gender-filters-wrapper">
             <div class="gender-filters">
@@ -47,6 +50,8 @@
     <script>
         const filterBtns = document.querySelectorAll('.gender-btn');
         const cards = document.querySelectorAll('.product-card');
+        const sectionTitle = document.getElementById('section-title');
+        var categoryJS = {{ category| tojson }};
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 filterBtns.forEach(b => b.classList.remove('active'));
@@ -59,6 +64,12 @@
                         card.style.display = 'none';
                     }
                 });
+                // Меняем заголовок
+                if (gender === 'all') {
+                    sectionTitle.textContent = categoryJS;
+                } else {
+                    sectionTitle.textContent = categoryJS + ' - ' + gender;
+                }
             });
         });
     </script>
