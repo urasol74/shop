@@ -82,22 +82,6 @@
     },
     {
       "name": "СВЕТР",
-      "art": "115GD10CS",
-      "old_price": 3.469,
-      "new_price": 2.429,
-      "sale": "-30%",
-      "image": "/static/pic/115GD10CS.jpg",
-      "color_size_map": [
-        {
-          "color": "100",
-          "sizes": [
-            "M"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "СВЕТР",
       "art": "1194E10DE",
       "old_price": 3.959,
       "new_price": 2.769,
@@ -379,1137 +363,6 @@
           "sizes": [
             "M",
             "XL"
-          ]
-        }
-      ]
-    }
-  ],
-  "КУРТКА": [
-    {
-      "name": "КУРТКА",
-      "art": "2FEADN06A",
-      "old_price": 7.429,
-      "new_price": 739,
-      "sale": "-90%",
-      "image": "/static/pic/2FEADN06A.jpg",
-      "color_size_map": [
-        {
-          "color": "901",
-          "sizes": [
-            "S"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "25BVDW036",
-      "old_price": 7.859,
-      "new_price": 5.499,
-      "sale": "-30%",
-      "image": "/static/pic/25BVDW036.jpg",
-      "color_size_map": [
-        {
-          "color": "152",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "50"
-          ]
-        },
-        {
-          "color": "252",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "265XDW035",
-      "old_price": 7.189,
-      "new_price": 5.029,
-      "sale": "-30%",
-      "image": "/static/pic/265XDW035.jpg",
-      "color_size_map": [
-        {
-          "color": "902",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "903",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "296XDN07R",
-      "old_price": 4.969,
-      "new_price": 2.479,
-      "sale": "-50%",
-      "image": "/static/pic/296XDN07R.jpg",
-      "color_size_map": [
-        {
-          "color": "901",
-          "sizes": [
-            "L"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "2AGHDN07Q",
-      "old_price": 7.319,
-      "new_price": 5.119,
-      "sale": "-30%",
-      "image": "/static/pic/2AGHDN07Q.jpg",
-      "color_size_map": [
-        {
-          "color": "152",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48"
-          ]
-        },
-        {
-          "color": "20W",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "2AGHDW00R",
-      "old_price": 6.399,
-      "new_price": 4.479,
-      "sale": "-30%",
-      "image": "/static/pic/2AGHDW00R.jpg",
-      "color_size_map": [
-        {
-          "color": "04U",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "100",
-          "sizes": [
-            "38",
-            "42",
-            "44",
-            "46",
-            "48"
-          ]
-        },
-        {
-          "color": "101",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "152",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "17H",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "17W",
-          "sizes": [
-            "38",
-            "42",
-            "46",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "193",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "1Y3",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "20W",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "26U",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48"
-          ]
-        },
-        {
-          "color": "36H",
-          "sizes": [
-            "38",
-            "40",
-            "42",
-            "44",
-            "46",
-            "48",
-            "50"
-          ]
-        },
-        {
-          "color": "12E",
-          "sizes": [
-            "40",
-            "42",
-            "44",
-            "46",
-            "48",
-            "50"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "2KOWDJ00Z",
-      "old_price": 5.289,
-      "new_price": 2.639,
-      "sale": "-50%",
-      "image": "/static/pic/2KOWDJ00Z.jpg",
-      "color_size_map": [
-        {
-          "color": "902",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "2RGCDW034",
-      "old_price": 9.239,
-      "new_price": 4.619,
-      "sale": "-50%",
-      "image": "/static/pic/2RGCDW034.jpg",
-      "color_size_map": [
-        {
-          "color": "34A",
-          "sizes": [
-            "48"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "2RZVDN00N",
-      "old_price": 4.339,
-      "new_price": 2.169,
-      "sale": "-50%",
-      "image": "/static/pic/2RZVDN00N.jpg",
-      "color_size_map": [
-        {
-          "color": "26Y",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "КУРТКА",
-      "art": "3UNID500R",
-      "old_price": 3.519,
-      "new_price": 2.459,
-      "sale": "-30%",
-      "image": "/static/pic/3UNID500R.jpg",
-      "color_size_map": [
-        {
-          "color": "07M",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "2B1",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        }
-      ]
-    }
-  ],
-  "ФУТБОЛКА": [
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3096D102O",
-      "old_price": 1.029,
-      "new_price": 99,
-      "sale": "-90%",
-      "image": "/static/pic/3096D102O.jpg",
-      "color_size_map": [
-        {
-          "color": "101",
-          "sizes": [
-            "S"
-          ]
-        },
-        {
-          "color": "100",
-          "sizes": [
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3096D1071",
-      "old_price": 1.139,
-      "new_price": 799,
-      "sale": "-30%",
-      "image": "/static/pic/3096D1071.jpg",
-      "color_size_map": [
-        {
-          "color": "09J",
-          "sizes": [
-            "L",
-            "M",
-            "S"
-          ]
-        },
-        {
-          "color": "22G",
-          "sizes": [
-            "L",
-            "M",
-            "S"
-          ]
-        },
-        {
-          "color": "26K",
-          "sizes": [
-            "L",
-            "M",
-            "S"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "30YSD109W",
-      "old_price": 1.549,
-      "new_price": 1.079,
-      "sale": "-30%",
-      "image": "/static/pic/30YSD109W.jpg",
-      "color_size_map": [
-        {
-          "color": "8B1",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "901",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "30YSE16A0",
-      "old_price": 1.369,
-      "new_price": 959,
-      "sale": "-30%",
-      "image": "/static/pic/30YSE16A0.jpg",
-      "color_size_map": [
-        {
-          "color": "8B1",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XS"
-          ]
-        },
-        {
-          "color": "901",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "32JPD10A5",
-      "old_price": 1.559,
-      "new_price": 1.089,
-      "sale": "-30%",
-      "image": "/static/pic/32JPD10A5.jpg",
-      "color_size_map": [
-        {
-          "color": "68M",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XS"
-          ]
-        },
-        {
-          "color": "77T",
-          "sizes": [
-            "L",
-            "M"
-          ]
-        },
-        {
-          "color": "77U",
-          "sizes": [
-            "L",
-            "M"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "37UJD401Q",
-      "old_price": 2.209,
-      "new_price": 1.769,
-      "sale": "-20%",
-      "image": "/static/pic/37UJD401Q.jpg",
-      "color_size_map": [
-        {
-          "color": "04U",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "101",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "12E",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "17H",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "193",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XS"
-          ]
-        },
-        {
-          "color": "26U",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "36H",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "20W",
-          "sizes": [
-            "M",
-            "S",
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "37UJE16B1",
-      "old_price": 1.909,
-      "new_price": 1.529,
-      "sale": "-20%",
-      "image": "/static/pic/37UJE16B1.jpg",
-      "color_size_map": [
-        {
-          "color": "04U",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "101",
-          "sizes": [
-            "L",
-            "S"
-          ]
-        },
-        {
-          "color": "12E",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "152",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "17H",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "193",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "20W",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "26U",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "36H",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "100",
-          "sizes": [
-            "M",
-            "S"
-          ]
-        },
-        {
-          "color": "1Y3",
-          "sizes": [
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "38O0D10A8",
-      "old_price": 1.909,
-      "new_price": 1.529,
-      "sale": "-20%",
-      "image": "/static/pic/38O0D10A8.jpg",
-      "color_size_map": [
-        {
-          "color": "912",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "915",
-          "sizes": [
-            "L",
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "916",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3903D10AA",
-      "old_price": 1.869,
-      "new_price": 1.309,
-      "sale": "-30%",
-      "image": "/static/pic/3903D10AA.jpg",
-      "color_size_map": [
-        {
-          "color": "101",
-          "sizes": [
-            "L",
-            "M",
-            "S"
-          ]
-        },
-        {
-          "color": "100",
-          "sizes": [
-            "M",
-            "S"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3BL0D109D",
-      "old_price": 1.299,
-      "new_price": 909,
-      "sale": "-30%",
-      "image": "/static/pic/3BL0D109D.jpg",
-      "color_size_map": [
-        {
-          "color": "100",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XS"
-          ]
-        },
-        {
-          "color": "12E",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "902",
-          "sizes": [
-            "S"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3BL0D10AK",
-      "old_price": 1.449,
-      "new_price": 1.009,
-      "sale": "-30%",
-      "image": "/static/pic/3BL0D10AK.jpg",
-      "color_size_map": [
-        {
-          "color": "101",
-          "sizes": [
-            "L",
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "901",
-          "sizes": [
-            "L"
-          ]
-        },
-        {
-          "color": "904",
-          "sizes": [
-            "S",
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3BL0E17G5",
-      "old_price": 1.169,
-      "new_price": 819,
-      "sale": "-30%",
-      "image": "/static/pic/3BL0E17G5.jpg",
-      "color_size_map": [
-        {
-          "color": "09J",
-          "sizes": [
-            "L",
-            "M",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "12E",
-          "sizes": [
-            "L",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "100",
-          "sizes": [
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "12J",
-          "sizes": [
-            "S"
-          ]
-        },
-        {
-          "color": "08N",
-          "sizes": [
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3FJHD109K",
-      "old_price": 919,
-      "new_price": 639,
-      "sale": "-30%",
-      "image": "/static/pic/3FJHD109K.jpg",
-      "color_size_map": [
-        {
-          "color": "2B1",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "100",
-          "sizes": [
-            "S",
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3GA2D400U",
-      "old_price": 1.139,
-      "new_price": 799,
-      "sale": "-30%",
-      "image": "/static/pic/3GA2D400U.jpg",
-      "color_size_map": [
-        {
-          "color": "09J",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "12J",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3GA2E16A0",
-      "old_price": 989,
-      "new_price": 689,
-      "sale": "-30%",
-      "image": "/static/pic/3GA2E16A0.jpg",
-      "color_size_map": [
-        {
-          "color": "101",
-          "sizes": [
-            "L"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3IFVD10AF",
-      "old_price": 2.329,
-      "new_price": 1.629,
-      "sale": "-30%",
-      "image": "/static/pic/3IFVD10AF.jpg",
-      "color_size_map": [
-        {
-          "color": "136",
-          "sizes": [
-            "L",
-            "M",
-            "S"
-          ]
-        },
-        {
-          "color": "152",
-          "sizes": [
-            "L",
-            "M",
-            "S"
-          ]
-        },
-        {
-          "color": "101",
-          "sizes": [
-            "M",
-            "S"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3J5CD109V",
-      "old_price": 1.689,
-      "new_price": 1.179,
-      "sale": "-30%",
-      "image": "/static/pic/3J5CD109V.jpg",
-      "color_size_map": [
-        {
-          "color": "100",
-          "sizes": [
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "101",
-          "sizes": [
-            "XL",
-            "XS"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3KMTD10A9",
-      "old_price": 1.239,
-      "new_price": 869,
-      "sale": "-30%",
-      "image": "/static/pic/3KMTD10A9.jpg",
-      "color_size_map": [
-        {
-          "color": "100",
-          "sizes": [
-            "L",
-            "S"
-          ]
-        },
-        {
-          "color": "22G",
-          "sizes": [
-            "L",
-            "M",
-            "S"
-          ]
-        },
-        {
-          "color": "26K",
-          "sizes": [
-            "L",
-            "M",
-            "S"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3LNSD109Z",
-      "old_price": 1.759,
-      "new_price": 1.229,
-      "sale": "-30%",
-      "image": "/static/pic/3LNSD109Z.jpg",
-      "color_size_map": [
-        {
-          "color": "217",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "101",
-          "sizes": [
-            "M",
-            "S",
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3SEBD10AE",
-      "old_price": 1.559,
-      "new_price": 1.089,
-      "sale": "-30%",
-      "image": "/static/pic/3SEBD10AE.jpg",
-      "color_size_map": [
-        {
-          "color": "71T",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "71U",
-          "sizes": [
-            "L",
-            "M",
-            "S",
-            "XL"
-          ]
-        },
-        {
-          "color": "78E",
-          "sizes": [
-            "M",
-            "S",
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
-      "art": "3U53D109U",
-      "old_price": 1.299,
-      "new_price": 909,
-      "sale": "-30%",
-      "image": "/static/pic/3U53D109U.jpg",
-      "color_size_map": [
-        {
-          "color": "12E",
-          "sizes": [
-            "L",
-            "S",
-            "XL",
-            "XS"
-          ]
-        },
-        {
-          "color": "12J",
-          "sizes": [
-            "M"
           ]
         }
       ]
@@ -2126,24 +979,6 @@
     },
     {
       "name": "СУКНЯ",
-      "art": "4ENDDV0BT",
-      "old_price": 5.929,
-      "new_price": 4.149,
-      "sale": "-30%",
-      "image": "/static/pic/4ENDDV0BT.jpg",
-      "color_size_map": [
-        {
-          "color": "71T",
-          "sizes": [
-            "M",
-            "S",
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "СУКНЯ",
       "art": "4KPRDV0BB",
       "old_price": 7.319,
       "new_price": 5.859,
@@ -2183,22 +1018,6 @@
             "L",
             "M",
             "S"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "СУКНЯ",
-      "art": "4RZKDV0B5",
-      "old_price": 5.479,
-      "new_price": 3.839,
-      "sale": "-30%",
-      "image": "/static/pic/4RZKDV0B5.jpg",
-      "color_size_map": [
-        {
-          "color": "901",
-          "sizes": [
-            "XL"
           ]
         }
       ]
@@ -3447,6 +2266,346 @@
       ]
     }
   ],
+  "КУРТКА": [
+    {
+      "name": "КУРТКА",
+      "art": "25BVDW036",
+      "old_price": 7.859,
+      "new_price": 5.499,
+      "sale": "-30%",
+      "image": "/static/pic/25BVDW036.jpg",
+      "color_size_map": [
+        {
+          "color": "152",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "50"
+          ]
+        },
+        {
+          "color": "252",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "КУРТКА",
+      "art": "265XDW035",
+      "old_price": 7.189,
+      "new_price": 5.029,
+      "sale": "-30%",
+      "image": "/static/pic/265XDW035.jpg",
+      "color_size_map": [
+        {
+          "color": "902",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "903",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "КУРТКА",
+      "art": "296XDN07R",
+      "old_price": 4.969,
+      "new_price": 2.479,
+      "sale": "-50%",
+      "image": "/static/pic/296XDN07R.jpg",
+      "color_size_map": [
+        {
+          "color": "901",
+          "sizes": [
+            "L"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "КУРТКА",
+      "art": "2AGHDN07Q",
+      "old_price": 7.319,
+      "new_price": 5.119,
+      "sale": "-30%",
+      "image": "/static/pic/2AGHDN07Q.jpg",
+      "color_size_map": [
+        {
+          "color": "152",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48"
+          ]
+        },
+        {
+          "color": "20W",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "КУРТКА",
+      "art": "2AGHDW00R",
+      "old_price": 6.399,
+      "new_price": 4.479,
+      "sale": "-30%",
+      "image": "/static/pic/2AGHDW00R.jpg",
+      "color_size_map": [
+        {
+          "color": "04U",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "38",
+            "42",
+            "44",
+            "46",
+            "48"
+          ]
+        },
+        {
+          "color": "101",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "152",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "17H",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "17W",
+          "sizes": [
+            "38",
+            "42",
+            "46",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "193",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "1Y3",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "20W",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "26U",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48"
+          ]
+        },
+        {
+          "color": "36H",
+          "sizes": [
+            "38",
+            "40",
+            "42",
+            "44",
+            "46",
+            "48",
+            "50"
+          ]
+        },
+        {
+          "color": "12E",
+          "sizes": [
+            "40",
+            "42",
+            "44",
+            "46",
+            "48",
+            "50"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "КУРТКА",
+      "art": "2KOWDJ00Z",
+      "old_price": 5.289,
+      "new_price": 2.639,
+      "sale": "-50%",
+      "image": "/static/pic/2KOWDJ00Z.jpg",
+      "color_size_map": [
+        {
+          "color": "902",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "КУРТКА",
+      "art": "2RGCDW034",
+      "old_price": 9.239,
+      "new_price": 4.619,
+      "sale": "-50%",
+      "image": "/static/pic/2RGCDW034.jpg",
+      "color_size_map": [
+        {
+          "color": "34A",
+          "sizes": [
+            "48"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "КУРТКА",
+      "art": "2RZVDN00N",
+      "old_price": 4.339,
+      "new_price": 2.169,
+      "sale": "-50%",
+      "image": "/static/pic/2RZVDN00N.jpg",
+      "color_size_map": [
+        {
+          "color": "26Y",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "КУРТКА",
+      "art": "3UNID500R",
+      "old_price": 3.519,
+      "new_price": 2.459,
+      "sale": "-30%",
+      "image": "/static/pic/3UNID500R.jpg",
+      "color_size_map": [
+        {
+          "color": "07M",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "2B1",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    }
+  ],
   "ЖИЛЕТКА": [
     {
       "name": "ЖИЛЕТКА",
@@ -3521,6 +2680,781 @@
           "color": "0R2",
           "sizes": [
             "XS"
+          ]
+        }
+      ]
+    }
+  ],
+  "ФУТБОЛКА": [
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3096D102O",
+      "old_price": 1.139,
+      "new_price": 799,
+      "sale": "-30%",
+      "image": "/static/pic/3096D102O.jpg",
+      "color_size_map": [
+        {
+          "color": "101",
+          "sizes": [
+            "S"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3096D1071",
+      "old_price": 1.139,
+      "new_price": 799,
+      "sale": "-30%",
+      "image": "/static/pic/3096D1071.jpg",
+      "color_size_map": [
+        {
+          "color": "09J",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "22G",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "26K",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "30YSD109W",
+      "old_price": 1.549,
+      "new_price": 1.079,
+      "sale": "-30%",
+      "image": "/static/pic/30YSD109W.jpg",
+      "color_size_map": [
+        {
+          "color": "8B1",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "901",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "30YSE16A0",
+      "old_price": 1.369,
+      "new_price": 959,
+      "sale": "-30%",
+      "image": "/static/pic/30YSE16A0.jpg",
+      "color_size_map": [
+        {
+          "color": "8B1",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "901",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "32JPD10A5",
+      "old_price": 1.559,
+      "new_price": 1.089,
+      "sale": "-30%",
+      "image": "/static/pic/32JPD10A5.jpg",
+      "color_size_map": [
+        {
+          "color": "68M",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "77T",
+          "sizes": [
+            "L",
+            "M"
+          ]
+        },
+        {
+          "color": "77U",
+          "sizes": [
+            "L",
+            "M"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "37UJD401Q",
+      "old_price": 2.209,
+      "new_price": 1.769,
+      "sale": "-20%",
+      "image": "/static/pic/37UJD401Q.jpg",
+      "color_size_map": [
+        {
+          "color": "04U",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "101",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "12E",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "17H",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "193",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "26U",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "36H",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "20W",
+          "sizes": [
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "37UJE16B1",
+      "old_price": 1.909,
+      "new_price": 1.529,
+      "sale": "-20%",
+      "image": "/static/pic/37UJE16B1.jpg",
+      "color_size_map": [
+        {
+          "color": "04U",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "101",
+          "sizes": [
+            "L",
+            "S"
+          ]
+        },
+        {
+          "color": "12E",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "152",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "17H",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "193",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "20W",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "26U",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "36H",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "1Y3",
+          "sizes": [
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "38O0D10A8",
+      "old_price": 1.909,
+      "new_price": 1.529,
+      "sale": "-20%",
+      "image": "/static/pic/38O0D10A8.jpg",
+      "color_size_map": [
+        {
+          "color": "912",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "915",
+          "sizes": [
+            "L",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "916",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3903D10AA",
+      "old_price": 1.869,
+      "new_price": 1.309,
+      "sale": "-30%",
+      "image": "/static/pic/3903D10AA.jpg",
+      "color_size_map": [
+        {
+          "color": "101",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "M",
+            "S"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3BL0D109D",
+      "old_price": 1.299,
+      "new_price": 909,
+      "sale": "-30%",
+      "image": "/static/pic/3BL0D109D.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XS"
+          ]
+        },
+        {
+          "color": "12E",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "902",
+          "sizes": [
+            "S"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3BL0D10AK",
+      "old_price": 1.449,
+      "new_price": 1.009,
+      "sale": "-30%",
+      "image": "/static/pic/3BL0D10AK.jpg",
+      "color_size_map": [
+        {
+          "color": "101",
+          "sizes": [
+            "L",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "901",
+          "sizes": [
+            "L"
+          ]
+        },
+        {
+          "color": "904",
+          "sizes": [
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3BL0E17G5",
+      "old_price": 1.169,
+      "new_price": 819,
+      "sale": "-30%",
+      "image": "/static/pic/3BL0E17G5.jpg",
+      "color_size_map": [
+        {
+          "color": "09J",
+          "sizes": [
+            "L",
+            "M",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "12E",
+          "sizes": [
+            "L",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "12J",
+          "sizes": [
+            "S"
+          ]
+        },
+        {
+          "color": "08N",
+          "sizes": [
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3FJHD109K",
+      "old_price": 919,
+      "new_price": 639,
+      "sale": "-30%",
+      "image": "/static/pic/3FJHD109K.jpg",
+      "color_size_map": [
+        {
+          "color": "2B1",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "100",
+          "sizes": [
+            "S",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3GA2D400U",
+      "old_price": 1.139,
+      "new_price": 799,
+      "sale": "-30%",
+      "image": "/static/pic/3GA2D400U.jpg",
+      "color_size_map": [
+        {
+          "color": "09J",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "12J",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3GA2E16A0",
+      "old_price": 989,
+      "new_price": 689,
+      "sale": "-30%",
+      "image": "/static/pic/3GA2E16A0.jpg",
+      "color_size_map": [
+        {
+          "color": "101",
+          "sizes": [
+            "L"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3IFVD10AF",
+      "old_price": 2.329,
+      "new_price": 1.629,
+      "sale": "-30%",
+      "image": "/static/pic/3IFVD10AF.jpg",
+      "color_size_map": [
+        {
+          "color": "136",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "152",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "101",
+          "sizes": [
+            "M",
+            "S"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3J5CD109V",
+      "old_price": 1.689,
+      "new_price": 1.179,
+      "sale": "-30%",
+      "image": "/static/pic/3J5CD109V.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "101",
+          "sizes": [
+            "XL",
+            "XS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3KMTD10A9",
+      "old_price": 1.239,
+      "new_price": 869,
+      "sale": "-30%",
+      "image": "/static/pic/3KMTD10A9.jpg",
+      "color_size_map": [
+        {
+          "color": "100",
+          "sizes": [
+            "L",
+            "S"
+          ]
+        },
+        {
+          "color": "22G",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        },
+        {
+          "color": "26K",
+          "sizes": [
+            "L",
+            "M",
+            "S"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3LNSD109Z",
+      "old_price": 1.759,
+      "new_price": 1.229,
+      "sale": "-30%",
+      "image": "/static/pic/3LNSD109Z.jpg",
+      "color_size_map": [
+        {
+          "color": "217",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "101",
+          "sizes": [
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3SEBD10AE",
+      "old_price": 1.559,
+      "new_price": 1.089,
+      "sale": "-30%",
+      "image": "/static/pic/3SEBD10AE.jpg",
+      "color_size_map": [
+        {
+          "color": "71T",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "71U",
+          "sizes": [
+            "L",
+            "M",
+            "S",
+            "XL"
+          ]
+        },
+        {
+          "color": "78E",
+          "sizes": [
+            "M",
+            "S",
+            "XL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ФУТБОЛКА",
+      "art": "3U53D109U",
+      "old_price": 1.299,
+      "new_price": 909,
+      "sale": "-30%",
+      "image": "/static/pic/3U53D109U.jpg",
+      "color_size_map": [
+        {
+          "color": "12E",
+          "sizes": [
+            "L",
+            "S",
+            "XL",
+            "XS"
+          ]
+        },
+        {
+          "color": "12J",
+          "sizes": [
+            "M"
           ]
         }
       ]

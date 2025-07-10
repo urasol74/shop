@@ -78,6 +78,10 @@ dst = "/home/ubuntu/shop/data/der.xlsx"
 os.makedirs(os.path.dirname(dst), exist_ok=True)
 shutil.copyfile(src, dst)
 
+# --- Автоматическое обновление базы данных из der.xlsx ---
+# import subprocess
+# subprocess.run(['python3', 'import_excel_to_db.py'])
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -152,6 +156,10 @@ def build_kids_products():
     products_by_section = {}
     all_rows = list(ws.iter_rows(min_row=2))
     for row in all_rows:
+        # --- Фильтрация по количеству ---
+        qty = row[3].value if len(row) > 3 else None
+        if not qty or str(qty).strip() == "0" or "-" in str(qty):
+            continue
         cell = row[0].value
         if not cell:
             continue
@@ -345,6 +353,10 @@ def build_woman_products():
     products_by_section = {}
     all_rows = list(ws_der.iter_rows(min_row=2))
     for row in all_rows:
+        # --- Фильтрация по количеству ---
+        qty = row[3].value if len(row) > 3 else None
+        if not qty or str(qty).strip() == "0" or "-" in str(qty):
+            continue
         values = [str(cell.value) if cell.value is not None else "" for cell in row[:3]]
         combined = " ".join(values).strip()
         if not combined:
@@ -487,6 +499,10 @@ def build_men_products():
     products_by_section = {}
     all_rows = list(ws_der.iter_rows(min_row=2))
     for row in all_rows:
+        # --- Фильтрация по количеству ---
+        qty = row[3].value if len(row) > 3 else None
+        if not qty or str(qty).strip() == "0" or "-" in str(qty):
+            continue
         values = [str(cell.value) if cell.value is not None else "" for cell in row[:3]]
         combined = " ".join(values).strip()
         if not combined:
@@ -597,6 +613,10 @@ def build_underwear_sections_and_products():
     # Теперь собираем категории и товары по der.xlsx
     all_rows = list(ws_der.iter_rows(min_row=2))
     for row in all_rows:
+        # --- Фильтрация по количеству ---
+        qty = row[3].value if len(row) > 3 else None
+        if not qty or str(qty).strip() == "0" or "-" in str(qty):
+            continue
         values = [str(cell.value) if cell.value is not None else "" for cell in row[:3]]
         combined = " ".join(values).strip()
         if not combined:

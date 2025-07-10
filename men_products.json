@@ -942,25 +942,9 @@
     },
     {
       "name": "ФУТБОЛКА",
-      "art": "3BL0U10A2",
-      "old_price": 1.729,
-      "new_price": 1.209,
-      "sale": "-30%",
-      "image": "/static/pic/3BL0U10A2.jpg",
-      "color_size_map": [
-        {
-          "color": "100",
-          "sizes": [
-            "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ФУТБОЛКА",
       "art": "3BL0U10AF",
-      "old_price": 1.909,
-      "new_price": 1.339,
+      "old_price": 1.789,
+      "new_price": 1.249,
       "sale": "-30%",
       "image": "/static/pic/3BL0U10AF.jpg",
       "color_size_map": [

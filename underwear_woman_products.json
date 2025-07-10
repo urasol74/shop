@@ -1,45 +1,4 @@
 {
-  "ПІЖАМА": [
-    {
-      "name": "ПІЖАМА 35VB3P03P",
-      "art": "35VB3P03P",
-      "old_price": 2.429,
-      "new_price": 1.699,
-      "sale": "-30%",
-      "image": "/static/pic/35VB3P03P.jpg",
-      "color_size_map": [
-        {
-          "color": "1H5",
-          "sizes": [
-            "L"
-          ]
-        },
-        {
-          "color": "506",
-          "sizes": [
-            "L"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ПІЖАМА 4T3U3P00R",
-      "art": "4T3U3P00R",
-      "old_price": 3.649,
-      "new_price": 2.549,
-      "sale": "-30%",
-      "image": "/static/pic/4T3U3P00R.jpg",
-      "color_size_map": [
-        {
-          "color": "63R",
-          "sizes": [
-            "L",
-            "M"
-          ]
-        }
-      ]
-    }
-  ],
   "ШОРТИ": [
     {
       "name": "ШОРТИ 36MX3900N",
@@ -145,23 +104,6 @@
             "M",
             "S",
             "XL"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "БЮСТГАЛТЕР 3OP81R01G",
-      "art": "3OP81R01G",
-      "old_price": 1.449,
-      "new_price": 1.009,
-      "sale": "-30%",
-      "image": "/static/pic/3OP81R01G.jpg",
-      "color_size_map": [
-        {
-          "color": "100",
-          "sizes": [
-            "L",
-            "M"
           ]
         }
       ]
@@ -301,39 +243,6 @@
     }
   ],
   "ТРУСИ": [
-    {
-      "name": "ТРУСИ 3OP81S01L",
-      "art": "3OP81S01L",
-      "old_price": 719,
-      "new_price": 499,
-      "sale": "-30%",
-      "image": "/static/pic/3OP81S01L.jpg",
-      "color_size_map": [
-        {
-          "color": "100",
-          "sizes": [
-            "L"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "ТРУСИ 3OP81S01M",
-      "art": "3OP81S01M",
-      "old_price": 739,
-      "new_price": 519,
-      "sale": "-30%",
-      "image": "/static/pic/3OP81S01M.jpg",
-      "color_size_map": [
-        {
-          "color": "100",
-          "sizes": [
-            "L",
-            "M"
-          ]
-        }
-      ]
-    },
     {
       "name": "ТРУСИ 3OP81S02D",
       "art": "3OP81S02D",
