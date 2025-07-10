@@ -1728,22 +1728,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "СОРОЧКА",
-      "art": "5XGBUQ05L",
-      "old_price": 3.119,
-      "new_price": 1.559,
-      "sale": "-50%",
-      "image": "/static/pic/5XGBUQ05L.jpg",
-      "color_size_map": [
-        {
-          "color": "901",
-          "sizes": [
-            "M"
-          ]
-        }
-      ]
     }
   ],
   "СУМКА": [

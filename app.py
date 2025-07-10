@@ -43,6 +43,8 @@ class Product(db.Model):
     sale = db.Column(db.String)
     image = db.Column(db.String)
     gender = db.Column(db.String)
+    season = db.Column(db.String)
+    brand = db.Column(db.String)
     section = db.Column(db.String)
     category = db.relationship('Category', backref='products')
 
