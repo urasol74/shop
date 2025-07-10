@@ -1,0 +1,6 @@
+pass github 
+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
+
+python import_excel_to_db.py
+
+gunicorn -w 4 -b 0.0.0.0:5000 app:app
