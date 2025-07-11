@@ -33,9 +33,20 @@
             </div>
         </div>
         <div class="meta-block">
-            {% for cs in product.color_size_map %}
-            <div>Цвет: {{ cs.color }} &nbsp; Размер: {{ cs.sizes|join(', ') }}</div>
-            {% endfor %}
+            {% if color_size_map %}
+            <table style="width:100%; text-align:center; border-collapse:collapse;">
+                <tr>
+                    <th>Цвет</th>
+                    <th>Размер</th>
+                </tr>
+                {% for cs in color_size_map %}
+                <tr>
+                    <td>{{ cs.color }}</td>
+                    <td>{{ cs.sizes|join(', ') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
         </div>
         <!-- ...другие блоки... -->
     </div>

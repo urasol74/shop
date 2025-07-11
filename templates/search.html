@@ -15,7 +15,7 @@
         <ul class="search-results-list">
             {% for r in results %}
             <li>
-                <a href="{{ r.url }}">
+                <a href="{{ url_for('product_page', product_id=r['id'], back=request.full_path) }}">
                     {{ r.art }} {{ r.name }}, Размер: {{ r.size }}, Цвет: {{ r.color }}, {{ r.qty }} шт.
                 </a>
             </li>

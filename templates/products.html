@@ -15,10 +15,13 @@
 <body>
     <div class="main-block">
         <a href="{{ back_url }}" class="back-btn">← Назад</a>
-        <h3 id="section-title">
-            {% if category %}{{ category|capitalize }}{% if genders %}{% else %} - {{ section_verbose }}{% endif %}{%
-            else %}{{ section_verbose }}{% endif %}
-        </h3>
+        <h3 id="section-title">{{ section_verbose }}</h3>
+        <!-- Сортировка по цене -->
+        <div class="sort-block">
+            <a href="?sort=asc" class="sort-btn{% if sort == 'asc' %} active{% endif %}">Сначала дешёвые</a>
+            <a href="?sort=desc" class="sort-btn{% if sort == 'desc' %} active{% endif %}">Сначала дорогие</a>
+        </div>
+        {% set genders_map = {'дiвч': 'Девочка', 'хлопч': 'Мальчик'} %}
         {% if genders %}
         <div class="gender-filters-wrapper">
             <div class="gender-filters">
@@ -31,14 +34,16 @@
         {% endif %}
         <div class="products-list">
             {% for product in products %}
-            <div class="product-card" {% if genders %}data-gender="{{ product.gender }}" {% endif %}>
-                <a href="{{ url_for('product_page', section=section, category=category, art=product.art) }}">
+            <div class="product-card" {% if genders
+                %}data-gender="{{ genders_map[product.gender] if product.gender in genders_map else product.gender }}"
+                {% endif %}>
+                <a href="{{ url_for('product_page', product_id=product.id, back=request.path) }}">
                     <img src="{{ product.image }}" alt="{{ product.name }}">
                     <div class="product-name">{{ product.name }} {{ product.art }}</div>
                     <div class="product-prices">
                         {% if product.old_price %}<span class="old-price">{{ product.old_price }} грн.</span>{% endif %}
                         <span class="new-price">{{ product.new_price }} грн.</span>
-                        {% if product.sale %}<span class="sale">{{ product.sale }}</span>{% endif %}
+                        {% if product.sale %}<span class="sale">{{ product.sale }}%</span>{% endif %}
                     </div>
                 </a>
             </div>

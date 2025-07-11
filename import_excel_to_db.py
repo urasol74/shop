@@ -18,9 +18,9 @@ def import_products():
     base_map = {}
     for row in ws_base.iter_rows(min_row=2):
         art = str(row[0].value).replace('.0', '').replace('.K', '').strip().upper() if row[0].value else None
-        brand = row[6].value if len(row) > 6 else None
-        season = row[7].value if len(row) > 7 else None
-        gender = row[9].value if len(row) > 9 else None
+        brand = row[6].value if len(row) > 6 else None   # G
+        season = row[8].value if len(row) > 8 else None  # I
+        gender = row[9].value if len(row) > 9 else None  # J
         if art:
             base_map[art] = {
                 'brand': brand,
@@ -45,6 +45,9 @@ def import_products():
         art_raw = parts[0]
         art = art_raw.replace('.K', '')  # для поиска и хранения
         category_name_ua = parts[1].replace(',', '')  # до запятой
+        # Исключения: если категория 'НАБІР' или 'комплект', то считаем это 'БЮСТГАЛЬТЕР'
+        if category_name_ua.strip().upper() in ["НАБІР", "КОМПЛЕКТ"]:
+            category_name_ua = "БЮСТГАЛЬТЕР"
 
         # Далее парсим размер и цвет как раньше
         m = re.search(r'Размер:\s*([^,]+),\s*Цвет:\s*([A-Z0-9]+)', cell)
@@ -62,19 +65,21 @@ def import_products():
         image = f"/static/pic/{art}.jpg"
         # Категория
         category = Category.query.filter_by(name_ua=category_name_ua).first()
-        category_id = category.id if category else None
+        if not category:
+            category = Category(name_ua=category_name_ua, name_ru=category_name_ua)
+            db.session.add(category)
+            db.session.commit()
+        category_id = category.id
         # Данные из base.xlsx
         base_info = base_map.get(art, {})
         gender = base_info.get('gender')
         season = base_info.get('season')
         brand = base_info.get('brand')
-        # Проверяем, есть ли уже такой товар
-        product = Product.query.filter_by(art=art).first()
+        # Проверяем, есть ли уже такой товар (по art, color, size)
+        product = Product.query.filter_by(art=art, color=color, size=size).first()
         if product:
             product.name = category_name_ua
             product.category_id = category_id
-            product.color = color
-            product.size = size
             product.qty = qty
             product.old_price = old_price
             product.new_price = new_price

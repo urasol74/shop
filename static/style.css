@@ -337,9 +337,9 @@ box-shadow.search-btn {
 }
 
 .gender-filters-wrapper {
-    width: 100vw;
+    width: 100%;
     min-width: 0;
-    max-width: 100vw;
+    max-width: 100%;
     margin: 0 auto 18px auto;
     background: #fff;
     border-radius: 16px;
@@ -347,7 +347,7 @@ box-shadow.search-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 6px 4vw 6px 4vw;
+    padding: 6px 0;
     box-sizing: border-box;
 }
 
