@@ -38,7 +38,7 @@
                 %}data-gender="{{ genders_map[product.gender] if product.gender in genders_map else product.gender }}"
                 {% endif %}>
                 <a href="{{ url_for('product_page', product_id=product.id, back=request.path) }}">
-                    <img src="{{ product.image }}" alt="{{ product.name }}">
+                    <img src="/static/pic/cat/{{ product.image|basename }}" alt="{{ product.name }}">
                     <div class="product-name">{{ product.name }} {{ product.art }}</div>
                     <div class="product-prices">
                         {% if product.old_price %}<span class="old-price">{{ product.old_price }} грн.</span>{% endif %}

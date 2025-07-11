@@ -22,10 +22,15 @@ os.makedirs(os.path.dirname(dst), exist_ok=True)
 shutil.copyfile(src, dst)
 
 app = Flask(__name__)
-# Конфигурация SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
+import os
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'shop.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 init_app(app)
+
+@app.template_filter('basename')
+def basename_filter(path):
+    return os.path.basename(path)
 
 # --- Автоматический импорт данных в базу ---
 # (удалено по просьбе пользователя)
@@ -122,8 +127,9 @@ def product_page(product_id):
         if color:
             if color not in color_size_map:
                 color_size_map[color] = set()
-            if size:
-                color_size_map[color].add(size)
+        if size:
+            color_size_map[color].add(size)
+
     color_size_list = [
         {"color": color, "sizes": sorted(list(sizes))}
         for color, sizes in color_size_map.items()

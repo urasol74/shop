@@ -17,7 +17,7 @@
         <a href="{{ back_url }}" class="back-btn">← Назад</a>
         <!-- Картинка товара -->
         <div class="product-image">
-            <img src="{{ product.image }}" alt="{{ product.name }}">
+            <img src="/static/pic/list/{{ product.image|basename }}" alt="{{ product.name }}">
         </div>
         <!-- Название, цены, описание и т.д. -->
         <div class="product-block name-block">
@@ -29,7 +29,7 @@
                 <span class="old-price-list">{{ product.old_price }} грн.</span>
                 {% endif %}
                 <span class="new-price-list">{{ product.new_price }} грн.</span>
-                {% if product.sale %}<span class="big-sale">{{ product.sale }}</span>{% endif %}
+                {% if product.sale %}<span class="big-sale">{{ product.sale }}%</span>{% endif %}
             </div>
         </div>
         <div class="meta-block">

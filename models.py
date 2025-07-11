@@ -19,6 +19,8 @@ class Product(db.Model):
     new_price = db.Column(db.Float)
     sale = db.Column(db.String)
     image = db.Column(db.String)
+    img_list = db.Column(db.String)  # миниатюра для product.html
+    img_cat = db.Column(db.String)   # миниатюра для products.html
     gender = db.Column(db.String)
     season = db.Column(db.String)
     brand = db.Column(db.String)

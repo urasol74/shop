@@ -17,7 +17,7 @@ def import_products():
     # Составляем map артикул -> (gender, season, brand)
     base_map = {}
     for row in ws_base.iter_rows(min_row=2):
-        art = str(row[0].value).replace('.0', '').replace('.K', '').strip().upper() if row[0].value else None
+        art = str(row[0].value).strip().upper() if row[0].value else None
         brand = row[6].value if len(row) > 6 else None   # G
         season = row[8].value if len(row) > 8 else None  # I
         gender = row[9].value if len(row) > 9 else None  # J
@@ -27,6 +27,7 @@ def import_products():
                 'season': season,
                 'gender': gender
             }
+    print("base_map keys:", list(base_map.keys())[:10])  # диагностика
 
     count_new = 0
     count_upd = 0
@@ -43,7 +44,8 @@ def import_products():
         if len(parts) < 2:
             continue
         art_raw = parts[0]
-        art = art_raw.replace('.K', '')  # для поиска и хранения
+        art = art_raw.replace('.K', '').strip().upper()
+        print("der art:", repr(art))  # диагностика
         category_name_ua = parts[1].replace(',', '')  # до запятой
         # Исключения: если категория 'НАБІР' или 'комплект', то считаем это 'БЮСТГАЛЬТЕР'
         if category_name_ua.strip().upper() in ["НАБІР", "КОМПЛЕКТ"]:
@@ -55,8 +57,6 @@ def import_products():
             continue
         size = m.group(1)
         color = m.group(2)
-        # Проверяем kids
-        is_kids = '.K' in cell
         # Количество, цены, скидка
         qty = row[3].value if len(row) > 3 else None
         old_price = row[5].value if len(row) > 5 else None
@@ -70,11 +70,27 @@ def import_products():
             db.session.add(category)
             db.session.commit()
         category_id = category.id
-        # Данные из base.xlsx
+        # --- Логика поиска артикула в base_map ---
+        # Сначала пробуем как есть
         base_info = base_map.get(art, {})
         gender = base_info.get('gender')
-        season = base_info.get('season')
         brand = base_info.get('brand')
+        season = base_info.get('season')
+        # Если не найдено и артикул оканчивается на .K, пробуем без .K (для всех товаров)
+        if not gender and art.endswith('.K'):
+            art_nok = art.replace('.K', '')
+            base_info_nok = base_map.get(art_nok, {})
+            if base_info_nok:
+                base_info = base_info_nok
+                gender = base_info.get('gender')
+                brand = base_info.get('brand')
+                season = base_info.get('season')
+        # Диагностика
+        if not base_info:
+            print(f"НЕ НАЙДЕН В base_map: '{art}' и '{art.replace('.K','')}'")
+        else:
+            print(f"НАЙДЕН В base_map: '{art if base_info == base_map.get(art, {}) else art.replace('.K','')}' -> {base_info}")
+        # Данные из base.xlsx
         # Проверяем, есть ли уже такой товар (по art, color, size)
         product = Product.query.filter_by(art=art, color=color, size=size).first()
         if product:
@@ -91,7 +107,7 @@ def import_products():
             count_upd += 1
         else:
             product = Product(
-                art=art,
+                art=art,  # только art без .K
                 name=category_name_ua,
                 category_id=category_id,
                 color=color,
@@ -188,6 +204,7 @@ def import_additional_categories_from_base():
 
 if __name__ == "__main__":
     with app.app_context():
+        db.create_all()  # Создаёт все таблицы, если их нет
         import_categories()
         import_additional_categories_from_base()
         import_products()
