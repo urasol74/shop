@@ -9,7 +9,7 @@ CAT_DIR = os.path.join(BASE_DIR, 'cat')
 
 # Размеры миниатюр
 LIST_SIZE = (378, 378)   # для product.html (большая карточка)
-CAT_SIZE = (180, 150)     # для products.html (маленькая карточка)
+CAT_SIZE = (180, 180)     # для products.html (маленькая карточка)
 
 # Создаём папки, если их нет
 os.makedirs(LIST_DIR, exist_ok=True)

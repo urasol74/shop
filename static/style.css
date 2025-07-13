@@ -3,13 +3,22 @@
   Общие стили для главной и разделов
 */
 
+
+/* Стили для сортировки */
+
+.sort-block {
+    text-align: center;
+    padding-bottom: 5px;
+}
+
 /* Стили для всей страницы: фон, цвет текста, отступы */
 body {
     background: #fafbfc;
     color: #000000;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    /*font-family: 'Segoe UI', Arial, sans-serif;*/
     margin: 0;
     padding: 0;
+    text-align: left;
 }
 
 /* Сетка для меню разделов (4 блока) */
@@ -137,7 +146,7 @@ button {
 h3 {
     text-align: center;
     margin-top: 24px;
-    font-size: 28px;
+    font-size: 24px;
     letter-spacing: 1px;
 }
 
@@ -183,7 +192,7 @@ h3 {
 
 .product-card img {
     width: 180px;
-    height: 150px;
+    height: 180px;
     object-fit: cover;
     border-radius: 12px;
     margin-bottom: 10px;
@@ -232,8 +241,8 @@ h3 {
     justify-content: center;
     gap: 18px;
     font-size: 22px;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .product-name-list {
@@ -262,7 +271,7 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 18px;
+    margin-left: 10px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
 }
 
@@ -270,14 +279,14 @@ h3 {
     text-decoration: line-through;
     color: #b0b0b0;
     font-size: 24px;
-    margin-right: 18px;
+    margin-right: 10px;
 }
 
 .new-price-list {
     color: #e53935;
     font-size: 28px;
     font-weight: bold;
-    margin-right: 18px;
+    margin-right: 10px;
 }
 
 /* Поисковая форма на главной */
@@ -564,6 +573,10 @@ box-shadow.search-btn {
     display: inline-block;
     text-align: left;
     margin: 0 auto 4px auto;
+}
+
+.main-title {
+    padding-top: 10px;
 }
 
 @media (max-width: 600px) {
