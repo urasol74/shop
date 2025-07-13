@@ -11,6 +11,28 @@
     padding-bottom: 5px;
 }
 
+.sort-btn {
+    padding-right: 5px;
+    padding-left: 5px;
+    color: green;
+}
+
+.sort-btn.active {
+    padding-right: 5px;
+    padding-left: 5px;
+    font-weight: bold;
+    color: green;
+}
+
+/* Стили для кнопок назад */
+.back-btn {
+    color: green;
+}
+
+.back-bottom {
+    color: green;
+}
+
 /* Стили для всей страницы: фон, цвет текста, отступы */
 body {
     background: #fafbfc;
@@ -148,6 +170,11 @@ h3 {
     margin-top: 24px;
     font-size: 24px;
     letter-spacing: 1px;
+}
+
+.section-title {
+    color: blue;
+    font-size: 26px;
 }
 
 .products-list {

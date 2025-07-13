@@ -214,9 +214,8 @@ def women_category(category_name):
             unique_products[p.art] = p
     products = list(unique_products.values())
     # Получаем русское название категории
-    category_obj = Category.query.filter_by(name_ua=category_name).first()
-    category_ru = category_obj.name_ru if category_obj else category_name
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Женщина — {category_ru}', back_url='/women', genders=None, sort=sort)
+    category_ru = get_pretty_category(category_name)
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Женщина {category_ru}', back_url='/women', genders=None, sort=sort)
 
 @app.route('/men/category/<category_name>')
 def men_category(category_name):
@@ -228,9 +227,8 @@ def men_category(category_name):
         if p.art not in unique_products:
             unique_products[p.art] = p
     products = list(unique_products.values())
-    category_obj = Category.query.filter_by(name_ua=category_name).first()
-    category_ru = category_obj.name_ru if category_obj else category_name
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Мужчина — {category_ru}', back_url='/men', genders=None, sort=sort)
+    category_ru = get_pretty_category(category_name)
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Мужчина {category_ru}', back_url='/men', genders=None, sort=sort)
 
 @app.route('/kids/category/<category_name>')
 def kids_category(category_name):
@@ -246,9 +244,8 @@ def kids_category(category_name):
     genders_present = sorted(set(p.gender for p in products))
     genders_map = {'дiвч': 'Девочка', 'хлопч': 'Мальчик'}
     genders = [genders_map[g] for g in genders_present if g in genders_map]
-    category_obj = Category.query.filter_by(name_ua=category_name).first()
-    category_ru = category_obj.name_ru if category_obj else category_name
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Дети — {category_ru}', back_url='/kids', genders=genders if len(genders) > 0 else None, sort=sort)
+    category_ru = get_pretty_category(category_name)
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Дети {category_ru}', back_url='/kids', genders=genders if len(genders) > 0 else None, sort=sort)
 
 @app.route('/underwear')
 def underwear():
@@ -308,7 +305,9 @@ def underwear_men_category(category_name):
         if p.art not in unique_products:
             unique_products[p.art] = p
     products = list(unique_products.values())
-    return render_template('products.html', products=products, category=category_name, section_verbose=f'Бельё — Мужчина — {category_name}', back_url='/underwear/underwear-men', genders=None, sort=sort)
+    # Получаем русское название категории
+    category_ru = get_pretty_category(category_name)
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Мужчина {category_ru}', back_url='/underwear/underwear-men', genders=None, sort=sort)
 
 @app.route('/underwear/underwear-boy/category/<category_name>')
 def underwear_boy_category(category_name):
