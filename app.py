@@ -283,13 +283,13 @@ def underwear_woman_category(category_name):
         Product.name == category_name
     ).all()
     products, sort = filter_and_sort_products(query)
-    # Оставляем только по одному товару на артикул
     unique_products = {}
     for p in products:
         if p.art not in unique_products:
             unique_products[p.art] = p
     products = list(unique_products.values())
-    return render_template('products.html', products=products, category=category_name, section_verbose=f'Бельё — Женщина — {category_name}', back_url='/underwear/underwear-woman', genders=None, sort=sort)
+    category_ru = get_pretty_category(category_name)
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Женщина {category_ru}', back_url='/underwear/underwear-woman', genders=None, sort=sort)
 
 @app.route('/underwear/underwear-men/category/<category_name>')
 def underwear_men_category(category_name):
@@ -299,13 +299,11 @@ def underwear_men_category(category_name):
         Product.name == category_name
     ).all()
     products, sort = filter_and_sort_products(query)
-    # Оставляем только по одному товару на артикул
     unique_products = {}
     for p in products:
         if p.art not in unique_products:
             unique_products[p.art] = p
     products = list(unique_products.values())
-    # Получаем русское название категории
     category_ru = get_pretty_category(category_name)
     return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Мужчина {category_ru}', back_url='/underwear/underwear-men', genders=None, sort=sort)
 
@@ -317,13 +315,13 @@ def underwear_boy_category(category_name):
         Product.name == category_name
     ).all()
     products, sort = filter_and_sort_products(query)
-    # Оставляем только по одному товару на артикул
     unique_products = {}
     for p in products:
         if p.art not in unique_products:
             unique_products[p.art] = p
     products = list(unique_products.values())
-    return render_template('products.html', products=products, category=category_name, section_verbose=f'Бельё — Мальчик — {category_name}', back_url='/underwear/underwear-boy', genders=None, sort=sort)
+    category_ru = get_pretty_category(category_name)
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Мальчик {category_ru}', back_url='/underwear/underwear-boy', genders=None, sort=sort)
 
 @app.route('/underwear/underwear-girl/category/<category_name>')
 def underwear_girl_category(category_name):
@@ -333,13 +331,13 @@ def underwear_girl_category(category_name):
         Product.name == category_name
     ).all()
     products, sort = filter_and_sort_products(query)
-    # Оставляем только по одному товару на артикул
     unique_products = {}
     for p in products:
         if p.art not in unique_products:
             unique_products[p.art] = p
     products = list(unique_products.values())
-    return render_template('products.html', products=products, category=category_name, section_verbose=f'Бельё — Девочка — {category_name}', back_url='/underwear/underwear-girl', genders=None, sort=sort)
+    category_ru = get_pretty_category(category_name)
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Девочка {category_ru}', back_url='/underwear/underwear-girl', genders=None, sort=sort)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
