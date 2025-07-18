@@ -18,8 +18,8 @@
         <h3 id="section-title">{{ section_verbose.replace('—', ' ') }}</h3>
         <!-- Сортировка по цене -->
         <div class="sort-block">
-            <a href="?sort=asc" class="sort-btn{% if sort == 'asc' %} active{% endif %}">Сначала дешёвые</a>
-            <a href="?sort=desc" class="sort-btn{% if sort == 'desc' %} active{% endif %}">Сначала дорогие</a>
+            <a href="?sort=asc" class="sort-btn{% if sort == 'asc' %} active{% endif %}">От низкой цены</a>
+            <a href="?sort=desc" class="sort-btn{% if sort == 'desc' %} active{% endif %}">От высокой цены</a>
         </div>
         {% set genders_map = {'дiвч': 'Девочка', 'хлопч': 'Мальчик'} %}
         {% if genders %}
@@ -43,7 +43,7 @@
                     <div class="product-prices">
                         {% if product.old_price %}<span class="old-price">{{ product.old_price }} грн.</span>{% endif %}
                         <span class="new-price">{{ product.new_price }} грн.</span>
-                        {% if product.sale %}<span class="sale">{{ product.sale }}%</span>{% endif %}
+                        {% if product.sale %}<span class="sale">-{{ product.sale }}%</span>{% endif %}
                     </div>
                 </a>
             </div>

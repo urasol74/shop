@@ -1,0 +1,55 @@
+<!--
+  Benetton Mini App
+  Универсальная страница отдельного товара для всех категорий
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }} — Benetton {{ section_verbose }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="main-block">
+        <!-- Кнопка назад -->
+        <a href="{{ back_url }}" class="back-btn">← Назад</a>
+        <!-- Картинка товара -->
+        <div class="product-image">
+            <img src="/static/pic/list/{{ product.image|basename }}" alt="{{ product.name }}">
+        </div>
+        <!-- Название, цены, описание и т.д. -->
+        <div class="product-block name-block">
+            <div class="product-name-list">{{ product.name }} {{ product.art }}</div>
+        </div>
+        <div class="product-block price-block">
+            <div class="product-prices-list">
+                {% if product.old_price %}
+                <span class="old-price-list">{{ product.old_price }} грн.</span>
+                {% endif %}
+                <span class="new-price-list">{{ product.new_price }} грн.</span>
+                {% if product.sale %}<span class="big-sale">{{ product.sale }}%</span>{% endif %}
+            </div>
+        </div>
+        <div class="meta-block">
+            {% if color_size_map %}
+            <table style="width:100%; text-align:center; border-collapse:collapse;">
+                <tr>
+                    <th>Цвет</th>
+                    <th>Размер</th>
+                </tr>
+                {% for cs in color_size_map %}
+                <tr>
+                    <td>{{ cs.color }}</td>
+                    <td>{{ cs.sizes|join(', ') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
+        <!-- ...другие блоки... -->
+    </div>
+</body>
+
+</html>

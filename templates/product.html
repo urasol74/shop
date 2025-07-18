@@ -15,9 +15,22 @@
     <div class="main-block">
         <!-- Кнопка назад -->
         <a href="{{ back_url }}" class="back-btn">← Назад</a>
-        <!-- Картинка товара -->
-        <div class="product-image">
-            <img src="/static/pic/list/{{ product.image|basename }}" alt="{{ product.name }}">
+        <!-- Слайдер картинок товара -->
+        <div class="slider-container">
+            <button class="slider-arrow left" type="button">&#8592;</button>
+            <div class="product-slider" id="product-slider">
+                {% for img in product_images %}
+                <img src="/static/pic/list/{{ img }}" alt="{{ product.name }}">
+                {% endfor %}
+            </div>
+            <button class="slider-arrow right" type="button">&#8594;</button>
+        </div>
+        <!-- Модальное окно для просмотра оригинала -->
+        <div id="modal-viewer" class="modal-viewer">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <button class="modal-arrow left" type="button">&#8592;</button>
+            <img id="modal-img" src="" alt="Фото товара">
+            <button class="modal-arrow right" type="button">&#8594;</button>
         </div>
         <!-- Название, цены, описание и т.д. -->
         <div class="product-block name-block">
@@ -29,7 +42,7 @@
                 <span class="old-price-list">{{ product.old_price }} грн.</span>
                 {% endif %}
                 <span class="new-price-list">{{ product.new_price }} грн.</span>
-                {% if product.sale %}<span class="big-sale">{{ product.sale }}%</span>{% endif %}
+                {% if product.sale %}<span class="big-sale">-{{ product.sale }}%</span>{% endif %}
             </div>
         </div>
         <div class="meta-block">
@@ -50,6 +63,104 @@
         </div>
         <!-- ...другие блоки... -->
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Слайдер (как раньше)
+            const slider = document.getElementById('product-slider');
+            const images = slider.querySelectorAll('img');
+            const leftBtn = document.querySelector('.slider-arrow.left');
+            const rightBtn = document.querySelector('.slider-arrow.right');
+            let current = 0;
+            function showImage(idx) {
+                images.forEach((img, i) => {
+                    img.style.display = (i === idx) ? 'block' : 'none';
+                });
+            }
+            showImage(current);
+            leftBtn.addEventListener('click', () => {
+                current = (current - 1 + images.length) % images.length;
+                showImage(current);
+            });
+            rightBtn.addEventListener('click', () => {
+                current = (current + 1) % images.length;
+                showImage(current);
+            });
+            // Свайп для мобильных
+            let startX = null;
+            slider.addEventListener('touchstart', function (e) {
+                startX = e.touches[0].clientX;
+            });
+            slider.addEventListener('touchend', function (e) {
+                if (startX === null) return;
+                let endX = e.changedTouches[0].clientX;
+                if (endX - startX > 40) {
+                    current = (current - 1 + images.length) % images.length;
+                    showImage(current);
+                } else if (startX - endX > 40) {
+                    current = (current + 1) % images.length;
+                    showImage(current);
+                }
+                startX = null;
+            });
+
+            // Модальное окно (лайтбокс)
+            const modal = document.getElementById('modal-viewer');
+            const modalImg = document.getElementById('modal-img');
+            const modalClose = document.getElementById('modal-close');
+            const modalLeft = document.querySelector('.modal-viewer .modal-arrow.left');
+            const modalRight = document.querySelector('.modal-viewer .modal-arrow.right');
+            let modalCurrent = 0;
+            // Пути к оригинальным картинкам
+            const origImages = Array.from(images).map(img => {
+                const src = img.getAttribute('src');
+                const filename = src.split('/').pop();
+                return '/static/pic/' + filename;
+            });
+            // Открытие модального окна
+            images.forEach((img, idx) => {
+                img.addEventListener('click', function () {
+                    modalCurrent = idx;
+                    modalImg.src = origImages[modalCurrent];
+                    modal.style.display = 'flex';
+                });
+            });
+            function showModalImg(idx) {
+                modalImg.src = origImages[idx];
+            }
+            modalLeft.addEventListener('click', function () {
+                modalCurrent = (modalCurrent - 1 + origImages.length) % origImages.length;
+                showModalImg(modalCurrent);
+            });
+            modalRight.addEventListener('click', function () {
+                modalCurrent = (modalCurrent + 1) % origImages.length;
+                showModalImg(modalCurrent);
+            });
+            modalClose.addEventListener('click', function () {
+                modal.style.display = 'none';
+            });
+            // Клик вне картинки — закрыть
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) modal.style.display = 'none';
+            });
+            // Свайп для мобильных в модалке
+            let modalStartX = null;
+            modalImg.addEventListener('touchstart', function (e) {
+                modalStartX = e.touches[0].clientX;
+            });
+            modalImg.addEventListener('touchend', function (e) {
+                if (modalStartX === null) return;
+                let endX = e.changedTouches[0].clientX;
+                if (endX - modalStartX > 40) {
+                    modalCurrent = (modalCurrent - 1 + origImages.length) % origImages.length;
+                    showModalImg(modalCurrent);
+                } else if (modalStartX - endX > 40) {
+                    modalCurrent = (modalCurrent + 1) % origImages.length;
+                    showModalImg(modalCurrent);
+                }
+                modalStartX = null;
+            });
+        });
+    </script>
 </body>
 
 </html>
