@@ -6,8 +6,11 @@ python import_excel_to_db.py
 gunicorn -w 4 -b 0.0.0.0:5000 app:app
 
 
-shop.sh - запуск скрипта с окружением
+shop.sh - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 sudo systemctl stop shop.service
 sudo systemctl restart shop.service
 sudo systemctl status shop.service
+
+/home/ubuntu/shop/static/pic/pic.py
+СЃРєСЂРёРїС‚ С„РѕСЂРјР°С‚РёСЂСѓРµС‚ РѕСЃРЅРѕРІРЅСѓСЋ РєР°СЂС‚РёРЅРєСѓ РїРѕ cat Рё list
