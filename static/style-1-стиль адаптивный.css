@@ -189,16 +189,15 @@ h3 {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     width: 100%;
-    max-width: 100%;
     margin: 0 auto 24px auto;
     box-sizing: border-box;
 }
 
 /* --- Адаптивные карточки товаров --- */
 .product-card {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
+    width: 44vw;
+    max-width: 44vw;
+    min-width: 36vw;
     height: auto;
     background: #fff;
     border-radius: 1.2rem;
@@ -294,40 +293,12 @@ h3 {
 .product-prices-list {
     display: flex;
     flex-direction: row;
-    align-items: stretch;
-    justify-content: center;
-    width: 100%;
-    gap: 0;
-    /* убираем стандартный gap, если нужен border между */
-}
-
-.product-prices-list span {
-    flex: 1 1 0;
-    text-align: center;
-    padding: 20px 0;
-    margin: 0;
-    border: 0;
-    /* Можно добавить border-radius только для крайних */
-    font-size: 1.6em;
-    box-sizing: border-box;
-}
-
-.product-prices-list .big-sale {
-    flex: 0 0 64px;
-    width: 64px;
-    height: 64px;
-    display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    margin-left: 0;
-    margin-right: 0;
-    font-size: 1.1em;
-    font-weight: 700;
-    background: #e53935;
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
-    border: 1px solid #e0e0e0;
+    gap: 18px;
+    font-size: 22px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .product-name-list {
@@ -424,11 +395,11 @@ box-shadow.search-btn {
     border-radius: 20px;
     box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.10), 0 1.5px 6px 0 rgba(0, 0, 0, 0.08);
     width: 100%;
-    max-width: 45vw;
+    max-width: 700px;
     margin: 0 auto 24px auto;
-    padding: 0 0 32px 0;
+    padding: 0 16px 32px 16px;
+    /* увеличиваем горизонтальный паддинг */
     box-sizing: border-box;
-    overflow-x: hidden;
 }
 
 .gender-filters-wrapper {
@@ -478,14 +449,12 @@ box-shadow.search-btn {
 .products-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    width: 100%;
-    max-width: 100%;
+    grid-gap: 20px;
+    justify-content: center;
     margin: 0 auto 24px auto;
+    max-width: 440px;
+    padding: 0 4vw;
     box-sizing: border-box;
-    justify-items: stretch;
-    align-items: stretch;
-    padding: 0;
 }
 
 @media (max-width: 500px) {
@@ -944,27 +913,4 @@ a {
 .new-price,
 .price {
     text-decoration: none !important;
-}
-
-.product-prices-list .old-price-list,
-.product-prices-list .new-price-list {
-    flex: 1 1 0;
-}
-
-.product-prices-list .big-sale {
-    flex: 0 0 64px;
-    width: 64px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin-left: 0;
-    margin-right: 0;
-    font-size: 1.4em;
-    font-weight: 700;
-    background: #e53935;
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
-    border: 1px solid #e0e0e0;
 }

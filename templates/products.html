@@ -7,13 +7,14 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ section_verbose }} Benetton</title>
     <link rel="stylesheet" href="/static/style.css">
     <!-- Стили перенесены в style.css -->
 </head>
 
 <body>
-    <div class="main-block">
+    <div class="main-block" style="padding-bottom: env(safe-area-inset-bottom);">
         <a href="{{ back_url }}" class="back-btn">← Назад</a>
         <h3 id="section-title">{{ section_verbose.replace('—', ' ') }}</h3>
         <!-- Сортировка по цене -->
