@@ -121,7 +121,7 @@ body {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     padding: 6px 0 2px 0;
-    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Стили для кнопок (если появятся) */
@@ -152,7 +152,7 @@ button {
     border-radius: 24px;
     background: #f9f9f9;
     box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.10), 0 1.5px 6px 0 rgba(0, 0, 0, 0.08);
-    font-size: 1.4em;
+    font-size: 1.3em;
     font-weight: 500;
     padding: 12px 0;
     color: #000;
@@ -176,7 +176,7 @@ h3 {
     margin-top: 24px;
     font-size: 32px;
     letter-spacing: 1px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .section-title {

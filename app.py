@@ -271,25 +271,25 @@ def underwear():
 def underwear_woman():
     categories = get_underwear_categories_by_gender('жiн')
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
-    return render_template('sections.html', section_verbose='Бельё — Женщина', categories=categories_list, section_url='underwear_woman_category', back_url='/underwear')
+    return render_template('sections.html', section_verbose='Бельё  Женщина', categories=categories_list, section_url='underwear_woman_category', back_url='/underwear')
 
 @app.route('/underwear/underwear-men')
 def underwear_men():
     categories = get_underwear_categories_by_gender('чол')
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
-    return render_template('sections.html', section_verbose='Бельё — Мужчина', categories=categories_list, section_url='underwear_men_category', back_url='/underwear')
+    return render_template('sections.html', section_verbose='Бельё  Мужчина', categories=categories_list, section_url='underwear_men_category', back_url='/underwear')
 
 @app.route('/underwear/underwear-boy')
 def underwear_boy():
     categories = get_underwear_categories_by_gender('хлопч')
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
-    return render_template('sections.html', section_verbose='Бельё — Мальчик', categories=categories_list, section_url='underwear_boy_category', back_url='/underwear')
+    return render_template('sections.html', section_verbose='Бельё  Мальчик', categories=categories_list, section_url='underwear_boy_category', back_url='/underwear')
 
 @app.route('/underwear/underwear-girl')
 def underwear_girl():
     categories = get_underwear_categories_by_gender('дiвч')
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
-    return render_template('sections.html', section_verbose='Бельё — Девочка', categories=categories_list, section_url='underwear_girl_category', back_url='/underwear')
+    return render_template('sections.html', section_verbose='Бельё  Девочка', categories=categories_list, section_url='underwear_girl_category', back_url='/underwear')
 
 @app.route('/underwear/underwear-woman/category/<category_name>')
 def underwear_woman_category(category_name):
