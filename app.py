@@ -1,8 +1,9 @@
-from flask import Flask, render_template, send_from_directory, abort, request, url_for
+from flask import Flask, render_template, send_from_directory, abort, request, url_for, jsonify
 import os
 import re
 from models import db, Category, Product, init_app
 from sqlalchemy import func, or_, and_
+from flask_cors import CORS
 
 # Загружаем словарь красивых названий категорий
 import json
@@ -22,6 +23,7 @@ os.makedirs(os.path.dirname(dst), exist_ok=True)
 shutil.copyfile(src, dst)
 
 app = Flask(__name__)
+CORS(app)
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'shop.db')}"
@@ -85,6 +87,110 @@ def filter_and_sort_products(query):
     )
     return products, sort
 
+# Новая страница
+# Все товары
+@app.route('/api/products')
+def api_products():
+    section = request.args.get('section')
+    category = request.args.get('category')
+    query = Product.query
+    if section == 'women':
+        query = query.filter(func.lower(func.trim(Product.gender)) == 'жiн', Product.name == category)
+    elif section == 'men':
+        query = query.filter(func.lower(func.trim(Product.gender)) == 'чол', Product.name == category)
+    elif section == 'kids':
+        query = query.filter(Product.gender.in_(['дiвч', 'хлопч']), Product.name == category)
+    products = query.all()
+    result = []
+    for p in products:
+        result.append({
+            'id': p.id,
+            'art': p.art,
+            'name': p.name,
+            'color': p.color,
+            'size': p.size,
+            'qty': p.qty,
+            'price': p.new_price,
+            'old_price': p.old_price,
+            'sale': p.sale,
+            'gender': p.gender,
+        })
+    return jsonify(result)
+
+# Страница категорий
+@app.route('/api/categories')
+def api_categories():
+    section = request.args.get('section')
+    if section == 'women':
+        categories = get_unique_categories_by_gender('жiн', brand='BENETTON')
+    elif section == 'men':
+        categories = get_unique_categories_by_gender('чол', brand='BENETTON')
+    elif section == 'kids':
+        girls = get_unique_categories_by_gender('дiвч', brand='BEN.012')
+        boys = get_unique_categories_by_gender('хлопч', brand='BEN.012')
+        # Удаляем дубли по raw
+        seen = set()
+        unique_categories = []
+        for c in girls + boys:
+            if c['raw'] not in seen:
+                unique_categories.append(c)
+                seen.add(c['raw'])
+        categories = unique_categories
+    else:
+        cats = Category.query.order_by(Category.name_ru).all()
+        categories = [{"raw": c.name_ua, "pretty": c.name_ru} for c in cats]
+    return jsonify(categories)
+
+@app.route('/api/product/<int:product_id>')
+def api_product(product_id):
+    product = Product.query.get_or_404(product_id)
+    category = Category.query.get(product.category_id)
+    # Группировка по цвету и размерам для этого артикула
+    same_art_products = Product.query.filter_by(art=product.art).all()
+    color_size_map = {}
+    for p in same_art_products:
+        if p.qty and str(p.qty).replace('.', '').isdigit() and float(p.qty) > 0:
+            color = p.color.strip() if p.color else ''
+            size = p.size.strip() if p.size else ''
+            if color:
+                if color not in color_size_map:
+                    color_size_map[color] = set()
+            if size:
+                color_size_map[color].add(size)
+    color_size_list = [
+        {"color": color, "sizes": sorted(list(sizes))}
+        for color, sizes in color_size_map.items()
+    ]
+    color_size_list = sorted(color_size_list, key=lambda x: x['color'])
+
+    # Картинки
+    import os
+    pic_dir = os.path.join(app.root_path, 'static', 'pic', 'list')
+    images = []
+    if os.path.isdir(pic_dir):
+        images = [f for f in os.listdir(pic_dir) if f.startswith(product.art) and f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+        images.sort()
+
+    return jsonify({
+        "id": product.id,
+        "art": product.art,
+        "name": product.name,
+        "category": category.name_ru if category else '',
+        "old_price": product.old_price,
+        "new_price": product.new_price,
+        "sale": product.sale,
+        "color_size_map": color_size_list,
+        "images": images,
+    })
+
+@app.route('/api/underwear-categories')
+def api_underwear_categories():
+    gender = request.args.get('gender')
+    categories = get_underwear_categories_by_gender(gender)
+    categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
+    return jsonify(categories_list)
+
+# Старая страница
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -271,25 +377,25 @@ def underwear():
 def underwear_woman():
     categories = get_underwear_categories_by_gender('жiн')
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
-    return render_template('sections.html', section_verbose='Бельё  Женщина', categories=categories_list, section_url='underwear_woman_category', back_url='/underwear')
+    return render_template('sections.html', section_verbose='Бельё — Женщина', categories=categories_list, section_url='underwear_woman_category', back_url='/underwear')
 
 @app.route('/underwear/underwear-men')
 def underwear_men():
     categories = get_underwear_categories_by_gender('чол')
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
-    return render_template('sections.html', section_verbose='Бельё  Мужчина', categories=categories_list, section_url='underwear_men_category', back_url='/underwear')
+    return render_template('sections.html', section_verbose='Бельё — Мужчина', categories=categories_list, section_url='underwear_men_category', back_url='/underwear')
 
 @app.route('/underwear/underwear-boy')
 def underwear_boy():
     categories = get_underwear_categories_by_gender('хлопч')
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
-    return render_template('sections.html', section_verbose='Бельё  Мальчик', categories=categories_list, section_url='underwear_boy_category', back_url='/underwear')
+    return render_template('sections.html', section_verbose='Бельё — Мальчик', categories=categories_list, section_url='underwear_boy_category', back_url='/underwear')
 
 @app.route('/underwear/underwear-girl')
 def underwear_girl():
     categories = get_underwear_categories_by_gender('дiвч')
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
-    return render_template('sections.html', section_verbose='Бельё  Девочка', categories=categories_list, section_url='underwear_girl_category', back_url='/underwear')
+    return render_template('sections.html', section_verbose='Бельё — Девочка', categories=categories_list, section_url='underwear_girl_category', back_url='/underwear')
 
 @app.route('/underwear/underwear-woman/category/<category_name>')
 def underwear_woman_category(category_name):
