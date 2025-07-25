@@ -31,6 +31,8 @@ def import_products():
 
     count_new = 0
     count_upd = 0
+    # --- Сохраняем все товары из der.xlsx ---
+    der_products_set = set()
     for row in ws_der.iter_rows(min_row=20):
         cell = row[0].value
         if not cell:
@@ -123,8 +125,21 @@ def import_products():
             )
             db.session.add(product)
             count_new += 1
+        # Добавляем в множество для проверки
+        der_products_set.add((art, color, size))
     db.session.commit()
     print(f"Добавлено новых: {count_new}, обновлено: {count_upd}")
+
+    # --- Обнуляем qty для товаров, которых нет в der.xlsx ---
+    all_products = Product.query.all()
+    count_zeroed = 0
+    for p in all_products:
+        key = (p.art.strip().upper(), p.color, p.size)
+        if key not in der_products_set and p.qty != 0:
+            p.qty = 0
+            count_zeroed += 1
+    db.session.commit()
+    print(f"Обнулено qty у товаров, отсутствующих в der.xlsx: {count_zeroed}")
 
 # Загружаем словарь переводов категорий
 SECTIONS_BOOK_PATH = os.path.join('static', 'sections-book.json')

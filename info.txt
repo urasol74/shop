@@ -14,3 +14,19 @@ sudo systemctl status shop.service
 
 /home/ubuntu/shop/static/pic/pic.py
 скрипт форматирует основную картинку по cat и list
+
+
+
+OAuth 2.0 Client IDs lkz n8n
+Client ID: 345630880345-qp0pthie7qk9l8jld7kkug3crl58mhkb.apps.googleusercontent.com
+
+Client Secret: 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
+
+Redirect URL: n8n автоматически подставит, но если нет — вставь
+https://benetton-n8n.ddns.net/rest/oauth2-credential/callback
+
+
+sudo systemctl status auto_import_der.service - запуск auto_import.sh отслеживание файла Новый 
+sudo nano /etc/systemd/system/shop.service - запуск shop.sh  - запускает сайт на FlASK :5000
+
+

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 
-function ProductsByCategory() {
-    const { sectionType, categoryRaw } = useParams();
+function ProductsByCategory(props) {
+    const { sectionType: sectionTypeParam, categoryRaw } = useParams();
+    const sectionType = props.sectionType || sectionTypeParam;
+    const gender = props.gender;
+    const brand = props.brand;
     const [products, setProducts] = useState([]);
     const [sort, setSort] = useState('asc');
     const [genders, setGenders] = useState([]);
@@ -12,21 +15,28 @@ function ProductsByCategory() {
     useEffect(() => {
         const sortParam = searchParams.get('sort') || 'asc';
         setSort(sortParam);
-        fetch(`http://178.212.198.23:5000/api/products?section=${sectionType}&category=${categoryRaw}&sort=${sortParam}`)
+        let url = `http://178.212.198.23:5000/api/products?section=${sectionType}&category=${categoryRaw}&sort=${sortParam}`;
+        if (sectionType === 'underwear' && gender && brand) {
+            url += `&gender=${gender}&brand=${brand}`;
+        }
+        fetch(url)
             .then(res => res.json())
             .then(data => {
                 setProducts(data.products || data); // поддержка старого и нового API
                 setGenders(data.genders || []);
             });
-    }, [sectionType, categoryRaw, searchParams]);
+    }, [sectionType, categoryRaw, searchParams, gender, brand]);
 
     // Фильтрация по полу
     const filteredProducts = activeGender === 'all' ? products : products.filter(p => p.gender === activeGender);
 
+    // Не выводим товары с qty <= 0
+    const filteredQtyProducts = filteredProducts.filter(p => Number(p.qty) > 0);
+
     // Оставляем только по одному товару на артикул
     const uniqueProducts = [];
     const seenArts = new Set();
-    for (const p of filteredProducts) {
+    for (const p of filteredQtyProducts) {
         if (!seenArts.has(p.art)) {
             uniqueProducts.push(p);
             seenArts.add(p.art);

@@ -93,6 +93,8 @@ def filter_and_sort_products(query):
 def api_products():
     section = request.args.get('section')
     category = request.args.get('category')
+    gender = request.args.get('gender')
+    brand = request.args.get('brand')
     query = Product.query
     if section == 'women':
         query = query.filter(func.lower(func.trim(Product.gender)) == 'жiн', Product.name == category)
@@ -100,6 +102,12 @@ def api_products():
         query = query.filter(func.lower(func.trim(Product.gender)) == 'чол', Product.name == category)
     elif section == 'kids':
         query = query.filter(Product.gender.in_(['дiвч', 'хлопч']), Product.name == category)
+    elif section == 'underwear' and gender and brand:
+        query = query.filter(
+            func.lower(func.trim(Product.gender)) == gender.lower(),
+            func.lower(func.trim(Product.brand)) == brand.lower(),
+            Product.name == category
+        )
     products = query.all()
     result = []
     for p in products:
@@ -113,7 +121,10 @@ def api_products():
             'price': p.new_price,
             'old_price': p.old_price,
             'sale': p.sale,
+            'image': p.image,
             'gender': p.gender,
+            'season': p.season,
+            'brand': p.brand,
         })
     return jsonify(result)
 
