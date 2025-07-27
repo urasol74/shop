@@ -43,8 +43,8 @@ def main():
         # Для cat — фон белый
         name, ext = os.path.splitext(filename)
         if '-' not in name:
-        dst_cat = os.path.join(CAT_DIR, filename)
-        make_thumbnail(src_path, dst_cat, CAT_SIZE, background_color=(255, 255, 255))
+            dst_cat = os.path.join(CAT_DIR, filename)
+            make_thumbnail(src_path, dst_cat, CAT_SIZE, background_color=(255, 255, 255))
 
 if __name__ == '__main__':
     main() 
