@@ -30,11 +30,40 @@
 
 /* Стили для кнопок назад */
 .back-btn {
-    color: green;
+    display: inline-block;
+    color: #e53935;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 20px;
+    margin: 16px 0 8px 16px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.back-btn:hover {
+    background: #f8f8f8;
+    color: #c62828;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
 }
 
 .back-bottom {
-    color: green;
+    display: inline-block;
+    color: #e53935;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 20px;
+    margin: 16px 0 8px 16px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    border: 1px solid #e0e0e0;
 }
 
 /* Стили для всей страницы: фон, цвет текста, отступы */
@@ -173,8 +202,8 @@ button {
 
 h3 {
     text-align: center;
-    margin-top: 24px;
-    font-size: 32px;
+    margin-top: 10px;
+    font-size: 30px;
     letter-spacing: 1px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -432,9 +461,9 @@ box-shadow.search-btn {
 }
 
 .gender-filters-wrapper {
-    width: 100%;
+    width: 50%;
     min-width: 0;
-    max-width: 100%;
+    max-width: 60%;
     margin: 0 auto 18px auto;
     background: #fff;
     border-radius: 16px;
@@ -450,6 +479,7 @@ box-shadow.search-btn {
     display: flex;
     gap: 0;
     width: 100%;
+    margin: 0 auto;
 }
 
 .gender-btn {
@@ -494,9 +524,9 @@ box-shadow.search-btn {
     }
 
     .gender-filters-wrapper {
-        width: 100vw;
+        width: 50%;
         min-width: 0;
-        max-width: 100vw;
+        max-width: 60%;
         padding: 6px 2vw 6px 2vw;
     }
 
