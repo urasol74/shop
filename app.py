@@ -15,6 +15,20 @@ def get_pretty_category(category):
         return ''
     return SECTIONS_BOOK.get(category.upper().strip(), category.capitalize())
 
+def sort_product_images(images, art):
+    """
+    Сортирует изображения товара так, чтобы основной файл (без суффикса) был первым,
+    а дополнительные файлы (-1, -2, -3, -4) шли после него
+    """
+    def sort_key(filename):
+        # Если файл точно соответствует артикулу (без суффикса), ставим его первым
+        if filename == f"{art}.jpg" or filename == f"{art}.jpeg" or filename == f"{art}.png" or filename == f"{art}.webp":
+            return (0, filename)
+        # Остальные файлы сортируем по алфавиту
+        return (1, filename)
+    
+    return sorted(images, key=sort_key)
+
 import shutil
 # --- Автоматическое обновление der.xlsx при запуске ---
 src = "/home/ubuntu/bot_art/data/Новый.xlsx"
@@ -33,6 +47,37 @@ init_app(app)
 @app.template_filter('basename')
 def basename_filter(path):
     return os.path.basename(path)
+
+@app.template_filter('format_price')
+def format_price_filter(price):
+    """
+    Форматирует цену: убирает точку из тысяч и убирает .0
+    Примеры: 1.219 -> 1219, 849.0 -> 849, 1.529 -> 1529
+    """
+    if price is None:
+        return ''
+    
+    # Преобразуем в строку
+    price_str = str(price)
+    
+    # Отладочная информация
+    app.logger.info(f"DEBUG: Original price: {price}, type: {type(price)}")
+    app.logger.info(f"DEBUG: Price string: {price_str}")
+    
+    # Убираем .0 если есть
+    if price_str.endswith('.0'):
+        price_str = price_str.replace('.0', '')
+        app.logger.info(f"DEBUG: Removed .0: {price_str}")
+    
+    # Убираем точку (разделитель тысяч)
+    if '.' in price_str:
+        parts = price_str.split('.')
+        app.logger.info(f"DEBUG: Parts after split: {parts}")
+        price_str = parts[0] + parts[1]
+        app.logger.info(f"DEBUG: Removed dot separator: {price_str}")
+    
+    app.logger.info(f"DEBUG: Final result: {price_str}")
+    return price_str
 
 # --- Автоматический импорт данных в базу ---
 # (удалено по просьбе пользователя)
@@ -60,20 +105,75 @@ def save_notgender(products):
             json.dump(notgender, f, ensure_ascii=False, indent=2)
 
 def get_unique_categories_by_gender(gender, brand=None):
-    query = Product.query.filter(func.lower(func.trim(Product.gender)) == gender.lower())
+    # Маппинг для соответствия значений пола
+    gender_mapping = {
+        'жін': 'жiн',
+        'чол': 'чол',
+        'діти': 'дiвч',
+        'дівч': 'дiвч',
+        'хлопч': 'хлопч'
+    }
+    
+    # Получаем правильное значение пола
+    target_gender = gender_mapping.get(gender.lower(), gender)
+    
+    query = Product.query.filter(Product.gender == target_gender)
     if brand:
         query = query.filter(func.lower(func.trim(Product.brand)) == brand.lower())
-    category_ids = query.with_entities(Product.category_id).distinct()
-    categories = Category.query.filter(Category.id.in_(category_ids)).all()
-    return [{'raw': c.name_ua, 'pretty': c.name_ru} for c in categories]
+    
+    # Получаем уникальные категории из поля cat
+    categories = query.with_entities(Product.cat).distinct()
+    category_list = [cat[0] for cat in categories if cat[0]]
+    
+    # Сортируем категории
+    sorted_categories = sorted(category_list)
+    
+    return [{'raw': cat, 'pretty': get_pretty_category(cat)} for cat in sorted_categories]
 
 def get_underwear_categories_by_gender(gender):
-    products = Product.query.filter(
+    query = Product.query.filter(
         func.lower(func.trim(Product.gender)) == gender.lower(),
         func.lower(func.trim(Product.brand)) == 'undercolor'
-    ).all()
-    categories = sorted(set(p.name for p in products if p.name))
-    return categories
+    )
+    # Получаем уникальные категории из поля cat
+    categories = query.with_entities(Product.cat).distinct()
+    category_list = [cat[0] for cat in categories if cat[0]]
+    return sorted(category_list)
+
+def parse_price_for_sorting(price):
+    """
+    Сортирует по числовому значению после удаления точки и .0
+    Примеры: 849.0 -> 849, 1.249 -> 1249
+    """
+    if price is None:
+        return 0
+    
+    price_str = str(price)
+    
+    # Отладочная информация
+    app.logger.info(f"SORTING DEBUG: Original price: {price}, type: {type(price)}")
+    app.logger.info(f"SORTING DEBUG: Price string: {price_str}")
+    
+    # Убираем .0 если есть
+    if price_str.endswith('.0'):
+        price_str = price_str.replace('.0', '')
+        app.logger.info(f"SORTING DEBUG: Removed .0: {price_str}")
+    
+    # Убираем точку (разделитель тысяч)
+    if '.' in price_str:
+        parts = price_str.split('.')
+        app.logger.info(f"SORTING DEBUG: Parts after split: {parts}")
+        price_str = parts[0] + parts[1]
+        app.logger.info(f"SORTING DEBUG: Removed dot separator: {price_str}")
+    
+    # Преобразуем в число для сортировки
+    try:
+        numeric_value = float(price_str)
+        app.logger.info(f"SORTING DEBUG: Final result: {numeric_value}")
+        return numeric_value
+    except ValueError:
+        app.logger.info(f"SORTING DEBUG: ValueError for price_str: {price_str}")
+        return 0
 
 def filter_and_sort_products(query):
     # Исключаем товары без гендера и с qty 0 или '-'
@@ -82,7 +182,7 @@ def filter_and_sort_products(query):
     reverse = sort == 'desc'
     products = sorted(
         products,
-        key=lambda p: (p.new_price is None, p.new_price if p.new_price is not None else 0),
+        key=lambda p: (p.new_price is None, parse_price_for_sorting(p.new_price)),
         reverse=reverse
     )
     return products, sort
@@ -180,7 +280,7 @@ def api_product(product_id):
     images = []
     if os.path.isdir(pic_dir):
         images = [f for f in os.listdir(pic_dir) if f.startswith(product.art) and f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
-        images.sort()
+        images = sort_product_images(images, product.art)
 
     return jsonify({
         "id": product.id,
@@ -221,14 +321,16 @@ def categories():
 @app.route('/category/<category_ua>')
 def show_category(category_ua):
     category = Category.query.filter_by(name_ua=category_ua).first_or_404()
-    products = Product.query.filter_by(category_id=category.id).all()
+    query = Product.query.filter_by(category_id=category.id).all()
+    products, sort = filter_and_sort_products(query)
     return render_template(
         'products.html',
         products=products,
         category=category.name_ru,
         section_verbose=category.name_ru,
         pretty_category=category.name_ru,
-        back_url='/categories'
+        back_url='/categories',
+        sort=sort
     )
 
 @app.route('/product/<int:product_id>')
@@ -263,7 +365,7 @@ def product_page(product_id):
     images = []
     if os.path.isdir(pic_dir):
         images = [f for f in os.listdir(pic_dir) if f.startswith(product.art) and f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
-        images.sort()
+        images = sort_product_images(images, product.art)
     # --- КОНЕЦ ---
 
     return render_template(
@@ -338,7 +440,11 @@ def kids():
 
 @app.route('/women/category/<category_name>')
 def women_category(category_name):
-    query = Product.query.filter(func.lower(func.trim(Product.gender)) == 'жiн', Product.name == category_name).all()
+    # Ищем товары по категории
+    query = Product.query.filter(
+        func.lower(func.trim(Product.gender)) == 'жiн',
+        Product.cat == category_name
+    ).all()
     products, sort = filter_and_sort_products(query)
     # Оставляем только по одному товару на артикул
     unique_products = {}
@@ -352,7 +458,11 @@ def women_category(category_name):
 
 @app.route('/men/category/<category_name>')
 def men_category(category_name):
-    query = Product.query.filter(func.lower(func.trim(Product.gender)) == 'чол', Product.name == category_name).all()
+    # Ищем товары по категории
+    query = Product.query.filter(
+        func.lower(func.trim(Product.gender)) == 'чол',
+        Product.cat == category_name
+    ).all()
     products, sort = filter_and_sort_products(query)
     # Оставляем только по одному товару на артикул
     unique_products = {}
@@ -365,7 +475,11 @@ def men_category(category_name):
 
 @app.route('/kids/category/<category_name>')
 def kids_category(category_name):
-    query = Product.query.filter(Product.gender.in_(['дiвч', 'хлопч']), Product.name == category_name).all()
+    # Ищем товары по категории
+    query = Product.query.filter(
+        Product.gender.in_(['дiвч', 'хлопч']),
+        Product.cat == category_name
+    ).all()
     products, sort = filter_and_sort_products(query)
     # Оставляем только по одному товару на артикул
     unique_products = {}
@@ -408,12 +522,14 @@ def underwear_girl():
     categories_list = [{'raw': c, 'pretty': get_pretty_category(c)} for c in categories]
     return render_template('sections.html', section_verbose='Бельё — Девочка', categories=categories_list, section_url='underwear_girl_category', back_url='/underwear')
 
-@app.route('/underwear/underwear-woman/category/<category_name>')
-def underwear_woman_category(category_name):
+def get_underwear_products_by_gender_and_category(gender, category_name, section_name, back_url):
+    """
+    Общая функция для получения товаров белья по полу и категории
+    """
     query = Product.query.filter(
-        func.lower(func.trim(Product.gender)) == 'жiн',
+        func.lower(func.trim(Product.gender)) == gender,
         func.lower(func.trim(Product.brand)) == 'undercolor',
-        Product.name == category_name
+        Product.cat == category_name
     ).all()
     products, sort = filter_and_sort_products(query)
     unique_products = {}
@@ -422,55 +538,23 @@ def underwear_woman_category(category_name):
             unique_products[p.art] = p
     products = list(unique_products.values())
     category_ru = get_pretty_category(category_name)
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Женщина {category_ru}', back_url='/underwear/underwear-woman', genders=None, sort=sort)
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё {section_name} {category_ru}', back_url=back_url, genders=None, sort=sort)
+
+@app.route('/underwear/underwear-woman/category/<category_name>')
+def underwear_woman_category(category_name):
+    return get_underwear_products_by_gender_and_category('жiн', category_name, 'Женщина', '/underwear/underwear-woman')
 
 @app.route('/underwear/underwear-men/category/<category_name>')
 def underwear_men_category(category_name):
-    query = Product.query.filter(
-        func.lower(func.trim(Product.gender)) == 'чол',
-        func.lower(func.trim(Product.brand)) == 'undercolor',
-        Product.name == category_name
-    ).all()
-    products, sort = filter_and_sort_products(query)
-    unique_products = {}
-    for p in products:
-        if p.art not in unique_products:
-            unique_products[p.art] = p
-    products = list(unique_products.values())
-    category_ru = get_pretty_category(category_name)
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Мужчина {category_ru}', back_url='/underwear/underwear-men', genders=None, sort=sort)
+    return get_underwear_products_by_gender_and_category('чол', category_name, 'Мужчина', '/underwear/underwear-men')
 
 @app.route('/underwear/underwear-boy/category/<category_name>')
 def underwear_boy_category(category_name):
-    query = Product.query.filter(
-        func.lower(func.trim(Product.gender)) == 'хлопч',
-        func.lower(func.trim(Product.brand)) == 'undercolor',
-        Product.name == category_name
-    ).all()
-    products, sort = filter_and_sort_products(query)
-    unique_products = {}
-    for p in products:
-        if p.art not in unique_products:
-            unique_products[p.art] = p
-    products = list(unique_products.values())
-    category_ru = get_pretty_category(category_name)
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Мальчик {category_ru}', back_url='/underwear/underwear-boy', genders=None, sort=sort)
+    return get_underwear_products_by_gender_and_category('хлопч', category_name, 'Мальчик', '/underwear/underwear-boy')
 
 @app.route('/underwear/underwear-girl/category/<category_name>')
 def underwear_girl_category(category_name):
-    query = Product.query.filter(
-        func.lower(func.trim(Product.gender)) == 'дiвч',
-        func.lower(func.trim(Product.brand)) == 'undercolor',
-        Product.name == category_name
-    ).all()
-    products, sort = filter_and_sort_products(query)
-    unique_products = {}
-    for p in products:
-        if p.art not in unique_products:
-            unique_products[p.art] = p
-    products = list(unique_products.values())
-    category_ru = get_pretty_category(category_name)
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё Девочка {category_ru}', back_url='/underwear/underwear-girl', genders=None, sort=sort)
+    return get_underwear_products_by_gender_and_category('дiвч', category_name, 'Девочка', '/underwear/underwear-girl')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)

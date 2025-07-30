@@ -41,10 +41,11 @@
                 <a href="{{ url_for('product_page', product_id=product.id, back=request.path) }}">
                     <img class="product-img" src="/static/pic/cat/{{ product.image|basename }}"
                         alt="{{ product.name }}">
-                    <div class="product-name">{{ product.name }} {{ product.art }}</div>
+                    <div class="product-name">{{ product.cat }} {{ product.art }}</div>
                     <div class="product-prices">
-                        {% if product.old_price %}<span class="old-price">{{ product.old_price }} грн.</span>{% endif %}
-                        <span class="new-price">{{ product.new_price }} грн.</span>
+                        {% if product.old_price %}<span class="old-price">{{ product.old_price|format_price }}
+                            грн.</span>{% endif %}
+                        <span class="new-price">{{ product.new_price|format_price }} грн.</span>
                         {% if product.sale %}<span class="sale">-{{ product.sale }}%</span>{% endif %}
                     </div>
                 </a>

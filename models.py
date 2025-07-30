@@ -10,7 +10,8 @@ class Category(db.Model):
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     art = db.Column(db.String, nullable=False)
-    name = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False)  # полное название товара
+    cat = db.Column(db.String)  # основная категория
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     color = db.Column(db.String)
     size = db.Column(db.String)
