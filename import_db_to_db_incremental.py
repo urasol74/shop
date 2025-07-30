@@ -103,8 +103,13 @@ def import_from_db_to_db_incremental():
                 if not art:
                     continue
                     
-                # Очищаем артикул
-                art = str(art).replace('.K', '').strip().upper()
+                # Очищаем артикул (сохраняем .K)
+                art = str(art).strip().upper()
+                
+                # Проверяем, что name содержит "Размер:" и "Цвет:" (исключаем служебные записи)
+                full_name = str(name).strip() if name else ""
+                if not full_name or "Размер:" not in full_name or "Цвет:" not in full_name:
+                    continue
                 
                 # Получаем категорию из name (только основную категорию до первой запятой)
                 full_name = str(name).strip() if name else "НЕИЗВЕСТНО"
@@ -119,16 +124,6 @@ def import_from_db_to_db_incremental():
                 gender = base_info.get('gender')
                 brand = base_info.get('brand')
                 season = base_info.get('season')
-                
-                # Если не найдено и артикул оканчивается на .K, пробуем без .K
-                if not gender and art.endswith('.K'):
-                    art_nok = art.replace('.K', '')
-                    base_info_nok = base_map.get(art_nok, {})
-                    if base_info_nok:
-                        base_info = base_info_nok
-                        gender = base_info.get('gender')
-                        brand = base_info.get('brand')
-                        season = base_info.get('season')
                 
                 # Очищаем числовые значения
                 qty_clean = clean_number(qty)

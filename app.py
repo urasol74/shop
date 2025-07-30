@@ -48,6 +48,15 @@ init_app(app)
 def basename_filter(path):
     return os.path.basename(path)
 
+@app.template_filter('image_name')
+def image_name_filter(art):
+    """
+    Для детских товаров (с .K) возвращает имя картинки без .K
+    """
+    if art and str(art).endswith('.K'):
+        return str(art).replace('.K', '') + '.jpg'
+    return str(art) + '.jpg' if art else ''
+
 @app.template_filter('format_price')
 def format_price_filter(price):
     """
@@ -78,6 +87,22 @@ def format_price_filter(price):
     
     app.logger.info(f"DEBUG: Final result: {price_str}")
     return price_str
+
+@app.template_filter('format_sale')
+def format_sale_filter(sale):
+    """
+    Форматирует скидку: убирает .0
+    Примеры: 50.0 -> 50, 25.0 -> 25
+    """
+    if sale is None:
+        return ''
+    
+    # Преобразуем в строку и убираем .0
+    sale_str = str(sale)
+    if sale_str.endswith('.0'):
+        sale_str = sale_str.replace('.0', '')
+    
+    return sale_str
 
 # --- Автоматический импорт данных в базу ---
 # (удалено по просьбе пользователя)
@@ -117,7 +142,32 @@ def get_unique_categories_by_gender(gender, brand=None):
     # Получаем правильное значение пола
     target_gender = gender_mapping.get(gender.lower(), gender)
     
-    query = Product.query.filter(Product.gender == target_gender)
+    # Базовый запрос
+    query = Product.query
+    
+    # Логика для товаров по полу
+    if target_gender in ['жiн', 'чол']:
+        # Для взрослых категорий (женщины/мужчины)
+        # Включаем товары с соответствующим полом И унісекс товары
+        query = query.filter(
+            or_(
+                Product.gender == target_gender,
+                Product.gender == 'унісекс'
+            )
+        )
+    elif target_gender in ['дiвч', 'хлопч']:
+        # Для детских категорий (девочки/мальчики)
+        # Включаем товары с соответствующим полом И товары с полом 'дит'
+        query = query.filter(
+            or_(
+                Product.gender == target_gender,
+                Product.gender == 'дит'
+            )
+        )
+    else:
+        # Для остальных случаев используем точное совпадение
+        query = query.filter(Product.gender == target_gender)
+    
     if brand:
         query = query.filter(func.lower(func.trim(Product.brand)) == brand.lower())
     
@@ -131,10 +181,34 @@ def get_unique_categories_by_gender(gender, brand=None):
     return [{'raw': cat, 'pretty': get_pretty_category(cat)} for cat in sorted_categories]
 
 def get_underwear_categories_by_gender(gender):
+    # Базовый запрос
     query = Product.query.filter(
-        func.lower(func.trim(Product.gender)) == gender.lower(),
         func.lower(func.trim(Product.brand)) == 'undercolor'
     )
+    
+    # Логика для товаров по полу в белье
+    if gender in ['жiн', 'чол']:
+        # Для взрослых категорий (женщины/мужчины)
+        # Включаем товары с соответствующим полом И унісекс товары
+        query = query.filter(
+            or_(
+                func.lower(func.trim(Product.gender)) == gender.lower(),
+                Product.gender == 'унісекс'
+            )
+        )
+    elif gender in ['дiвч', 'хлопч']:
+        # Для детских категорий (девочки/мальчики)
+        # Включаем товары с соответствующим полом И товары с полом 'дит'
+        query = query.filter(
+            or_(
+                func.lower(func.trim(Product.gender)) == gender.lower(),
+                Product.gender == 'дит'
+            )
+        )
+    else:
+        # Для остальных случаев используем точное совпадение
+        query = query.filter(func.lower(func.trim(Product.gender)) == gender.lower())
+    
     # Получаем уникальные категории из поля cat
     categories = query.with_entities(Product.cat).distinct()
     category_list = [cat[0] for cat in categories if cat[0]]
@@ -186,6 +260,31 @@ def filter_and_sort_products(query):
         reverse=reverse
     )
     return products, sort
+
+def get_unique_seasons():
+    """
+    Получает уникальные сезоны из базы данных
+    Объединяет 2024 осінь-зима и 2025 весна-літо в 2025 весна-літо
+    """
+    seasons = db.session.query(Product.season).distinct().filter(
+        Product.season.isnot(None),
+        Product.season != ''
+    ).order_by(Product.season).all()
+    
+    # Получаем все сезоны
+    all_seasons = [season[0] for season in seasons if season[0]]
+    
+    # Объединяем 2024 осінь-зима и 2025 весна-літо в 2025 весна-літо
+    processed_seasons = []
+    for season in all_seasons:
+        if season in ['2024 осінь-зима', '2025 весна-літо']:
+            if '2025 весна-літо' not in processed_seasons:
+                processed_seasons.append('2025 весна-літо')
+        else:
+            if season not in processed_seasons:
+                processed_seasons.append(season)
+    
+    return processed_seasons
 
 # Новая страница
 # Все товары
@@ -279,8 +378,10 @@ def api_product(product_id):
     pic_dir = os.path.join(app.root_path, 'static', 'pic', 'list')
     images = []
     if os.path.isdir(pic_dir):
-        images = [f for f in os.listdir(pic_dir) if f.startswith(product.art) and f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
-        images = sort_product_images(images, product.art)
+        # Для детских товаров (с .K) ищем картинки без .K
+        search_art = product.art.replace('.K', '') if product.art.endswith('.K') else product.art
+        images = [f for f in os.listdir(pic_dir) if f.startswith(search_art) and f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+        images = sort_product_images(images, search_art)
 
     return jsonify({
         "id": product.id,
@@ -364,8 +465,10 @@ def product_page(product_id):
     pic_dir = os.path.join(app.root_path, 'static', 'pic', 'list')
     images = []
     if os.path.isdir(pic_dir):
-        images = [f for f in os.listdir(pic_dir) if f.startswith(product.art) and f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
-        images = sort_product_images(images, product.art)
+        # Для детских товаров (с .K) ищем картинки без .K
+        search_art = product.art.replace('.K', '') if product.art.endswith('.K') else product.art
+        images = [f for f in os.listdir(pic_dir) if f.startswith(search_art) and f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
+        images = sort_product_images(images, search_art)
     # --- КОНЕЦ ---
 
     return render_template(
@@ -440,9 +543,12 @@ def kids():
 
 @app.route('/women/category/<category_name>')
 def women_category(category_name):
-    # Ищем товары по категории
+    # Ищем товары по категории (включая унісекс)
     query = Product.query.filter(
-        func.lower(func.trim(Product.gender)) == 'жiн',
+        or_(
+            func.lower(func.trim(Product.gender)) == 'жiн',
+            Product.gender == 'унісекс'
+        ),
         Product.cat == category_name
     ).all()
     products, sort = filter_and_sort_products(query)
@@ -454,13 +560,17 @@ def women_category(category_name):
     products = list(unique_products.values())
     # Получаем русское название категории
     category_ru = get_pretty_category(category_name)
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Женщина {category_ru}', back_url='/women', genders=None, sort=sort)
+    seasons = get_unique_seasons()
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Женщина {category_ru}', back_url='/women', genders=None, sort=sort, seasons=seasons)
 
 @app.route('/men/category/<category_name>')
 def men_category(category_name):
-    # Ищем товары по категории
+    # Ищем товары по категории (включая унісекс)
     query = Product.query.filter(
-        func.lower(func.trim(Product.gender)) == 'чол',
+        or_(
+            func.lower(func.trim(Product.gender)) == 'чол',
+            Product.gender == 'унісекс'
+        ),
         Product.cat == category_name
     ).all()
     products, sort = filter_and_sort_products(query)
@@ -471,13 +581,17 @@ def men_category(category_name):
             unique_products[p.art] = p
     products = list(unique_products.values())
     category_ru = get_pretty_category(category_name)
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Мужчина {category_ru}', back_url='/men', genders=None, sort=sort)
+    seasons = get_unique_seasons()
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Мужчина {category_ru}', back_url='/men', genders=None, sort=sort, seasons=seasons)
 
 @app.route('/kids/category/<category_name>')
 def kids_category(category_name):
-    # Ищем товары по категории
+    # Ищем товары по категории (включая товары с полом 'дит')
     query = Product.query.filter(
-        Product.gender.in_(['дiвч', 'хлопч']),
+        or_(
+            Product.gender.in_(['дiвч', 'хлопч']),
+            Product.gender == 'дит'
+        ),
         Product.cat == category_name
     ).all()
     products, sort = filter_and_sort_products(query)
@@ -487,12 +601,16 @@ def kids_category(category_name):
         if p.art not in unique_products:
             unique_products[p.art] = p
     products = list(unique_products.values())
-    # Определяем, какие гендеры есть среди товаров
-    genders_present = sorted(set(p.gender for p in products))
-    genders_map = {'дiвч': 'Девочка', 'хлопч': 'Мальчик'}
-    genders = [genders_map[g] for g in genders_present if g in genders_map]
+    # Для детских категорий всегда показываем фильтр "Девочка" и "Мальчик"
+    genders = ['Девочка', 'Мальчик']
+    
+    # Для детских категорий всегда показываем фильтр, даже если есть только товары 'дит'
+    if not genders:
+        genders = ['Девочка', 'Мальчик']
+    
     category_ru = get_pretty_category(category_name)
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Дети {category_ru}', back_url='/kids', genders=genders if len(genders) > 0 else None, sort=sort)
+    seasons = get_unique_seasons()
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Дети {category_ru}', back_url='/kids', genders=genders, sort=sort, seasons=seasons)
 
 @app.route('/underwear')
 def underwear():
@@ -526,19 +644,50 @@ def get_underwear_products_by_gender_and_category(gender, category_name, section
     """
     Общая функция для получения товаров белья по полу и категории
     """
+    # Базовый запрос
     query = Product.query.filter(
-        func.lower(func.trim(Product.gender)) == gender,
         func.lower(func.trim(Product.brand)) == 'undercolor',
         Product.cat == category_name
-    ).all()
-    products, sort = filter_and_sort_products(query)
+    )
+    
+    # Логика для товаров по полу в белье
+    if gender in ['жiн', 'чол']:
+        # Для взрослых категорий (женщины/мужчины)
+        # Включаем товары с соответствующим полом И унісекс товары
+        query = query.filter(
+            or_(
+                func.lower(func.trim(Product.gender)) == gender,
+                Product.gender == 'унісекс'
+            )
+        )
+    elif gender in ['дiвч', 'хлопч']:
+        # Для детских категорий (девочки/мальчики)
+        # Включаем товары с соответствующим полом И товары с полом 'дит'
+        query = query.filter(
+            or_(
+                func.lower(func.trim(Product.gender)) == gender,
+                Product.gender == 'дит'
+            )
+        )
+    else:
+        # Для остальных случаев используем точное совпадение
+        query = query.filter(func.lower(func.trim(Product.gender)) == gender)
+    
+    products = query.all()
+    # Фильтруем товары (исключаем товары без гендера и с qty 0)
+    products = [p for p in products if p.gender and str(p.qty).replace('.', '').isdigit() and float(p.qty) > 0]
+    # Оставляем только по одному товару на артикул
     unique_products = {}
     for p in products:
         if p.art not in unique_products:
             unique_products[p.art] = p
     products = list(unique_products.values())
+    # Сортируем по цене
+    sort = 'asc'  # По умолчанию
+    products = sorted(products, key=lambda p: (p.new_price is None, p.new_price or 0))
     category_ru = get_pretty_category(category_name)
-    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё {section_name} {category_ru}', back_url=back_url, genders=None, sort=sort)
+    seasons = get_unique_seasons()
+    return render_template('products.html', products=products, category=category_ru, section_verbose=f'Бельё {section_name} {category_ru}', back_url=back_url, genders=None, sort=sort, seasons=seasons)
 
 @app.route('/underwear/underwear-woman/category/<category_name>')
 def underwear_woman_category(category_name):

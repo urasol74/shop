@@ -7,25 +7,50 @@
 /* Стили для сортировки */
 
 .sort-block {
-    text-align: center;
-    padding-bottom: 5px;
+    width: 70%;
+    min-width: 0;
+    max-width: 70%;
+    margin: 0 auto 5px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0;
+    box-sizing: border-box;
+    border: 1px solid #f0f0f0;
 }
 
 .sort-btn {
-    padding-right: 5px;
-    padding-left: 5px;
-    color: #fff;
-    font-size: 18px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    flex: 1 1 0;
+    padding: 6px 0;
+    border: none;
+    background: none;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border-radius: 0;
+    border-right: 1px solid #e8e8e8;
+    color: #888;
+    text-decoration: none;
+    text-align: center;
+}
+
+.sort-btn:last-child {
+    border-right: none;
+}
+
+.sort-btn:hover {
+    background: #f8f8f8;
+    color: #555;
 }
 
 .sort-btn.active {
-    padding-right: 5px;
-    padding-left: 5px;
-    font-weight: bold;
-    color: #fff;
-    font-size: 18px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: #f0f0f0;
+    color: #333;
+    font-weight: 600;
 }
 
 /* Стили для кнопок назад */
@@ -36,7 +61,7 @@
     font-weight: 600;
     text-decoration: none;
     padding: 4px 10px 4px 0;
-    margin: 0px 0px 10px 0px;
+    margin: 5px 0px 10px 5px;
     background: none;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -247,6 +272,7 @@ button {
 h3 {
     text-align: center;
     margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 30px;
     letter-spacing: 1px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -505,18 +531,19 @@ box-shadow.search-btn {
 }
 
 .gender-filters-wrapper {
-    width: 60%;
+    width: 70%;
     min-width: 0;
-    max-width: 60%;
-    margin: 0 auto 18px auto;
+    max-width: 70%;
+    margin: 0 auto 5px auto;
     background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 6px 0;
+    padding: 4px 0;
     box-sizing: border-box;
+    border: 1px solid #f0f0f0;
 }
 
 .gender-filters {
@@ -549,6 +576,59 @@ box-shadow.search-btn {
     border-radius: 10px;
 }
 
+/* Стили для фильтра по сезону */
+.season-filters-wrapper {
+    width: 70%;
+    min-width: 0;
+    max-width: 70%;
+    margin: 0 auto 5px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0;
+    box-sizing: border-box;
+    border: 1px solid #f0f0f0;
+}
+
+.season-filters {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.season-btn {
+    flex: 1 1 0;
+    padding: 8px 0;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border-radius: 0;
+    border-right: 1.5px solid #e0e0e0;
+    color: #666;
+}
+
+.season-btn:last-child {
+    border-right: none;
+}
+
+.season-btn:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.season-btn.active {
+    background: #e53935;
+    color: #fff;
+    border-radius: 10px;
+}
+
 .products-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -568,10 +648,24 @@ box-shadow.search-btn {
     }
 
     .gender-filters-wrapper {
-        width: 60%;
+        width: 85%;
         min-width: 0;
-        max-width: 60%;
-        padding: 6px 2vw 6px 2vw;
+        max-width: 85%;
+        padding: 4px 2vw 4px 2vw;
+    }
+
+    .season-filters-wrapper {
+        width: 85%;
+        min-width: 0;
+        max-width: 85%;
+        padding: 4px 2vw 4px 2vw;
+    }
+
+    .sort-block {
+        width: 85%;
+        min-width: 0;
+        max-width: 85%;
+        padding: 4px 2vw 4px 2vw;
     }
 
     .products-list {
@@ -749,13 +843,26 @@ box-shadow.search-btn {
 
 .main-title {
     padding-top: 10px;
-    font-size: 26px;
-    font-weight: 600;
-    color: #333;
     text-align: center;
     margin: 16px 0 12px 0;
-    letter-spacing: 0.5px;
     line-height: 1.2;
+}
+
+.main-title .brand-name {
+    font-size: 38px;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.main-title .address {
+    font-size: 28px;
+    font-weight: 500;
+    color: #666;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
 }
 
 @media (max-width: 600px) {
@@ -764,6 +871,16 @@ box-shadow.search-btn {
         border-radius: 12px;
         margin: 0 0 12px 0;
         padding: 0 0 18px 0;
+    }
+
+    .main-title .brand-name {
+        font-size: 38px;
+        letter-spacing: 0.8px;
+    }
+
+    .main-title .address {
+        font-size: 28px;
+        letter-spacing: 0.2px;
     }
 }
 
@@ -804,7 +921,9 @@ box-shadow.search-btn {
     }
 
     .search-form {
+        max-width: 90vw;
         padding: 0 4px;
+        margin: 0 auto 18px auto;
     }
 
     .search-btn {
@@ -816,6 +935,12 @@ box-shadow.search-btn {
 @media (max-width: 500px) {
     body {
         overflow-x: hidden;
+    }
+
+    .search-form {
+        max-width: 95vw;
+        padding: 0 2vw;
+        margin: 0 auto 18px auto;
     }
 
     .main-block {

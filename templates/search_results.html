@@ -19,10 +19,6 @@
             padding: 24px 18px;
         }
 
-        .search-results-list-block {
-            margin-top: 12px;
-        }
-
         .search-query-info {
             display: flex;
             flex-direction: row;
@@ -31,7 +27,7 @@
             gap: 16px;
             font-size: 1.08em;
             color: #222;
-            margin-top: 10px;
+            margin: 10px 0 20px 0;
         }
 
         .search-found {
@@ -104,8 +100,7 @@
             <span>По запросу: <b>{{ query }}</b></span>
             <span class="search-found">Найдено: {{ results|length }}</span>
         </div>
-    </div>
-    <div class="search-results-block search-results-list-block">
+
         {% if results %}
         <ul class="search-results-list">
             {% for item in results %}

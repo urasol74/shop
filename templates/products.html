@@ -17,6 +17,17 @@
     <div class="main-block" style="padding-bottom: env(safe-area-inset-bottom);">
         <a href="{{ back_url }}" class="back-btn">← Назад</a>
         <h3 id="section-title">{{ section_verbose.replace('—', ' ') }}</h3>
+        <!-- Фильтр по сезону -->
+        {% if seasons %}
+        <div class="season-filters-wrapper">
+            <div class="season-filters">
+                <button class="season-btn active" data-season="all">Все сезоны</button>
+                {% for season in seasons %}
+                <button class="season-btn" data-season="{{ season }}">{{ season }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
         <!-- Сортировка по цене -->
         <div class="sort-block">
             <a href="?sort=asc" class="sort-btn{% if sort == 'asc' %} active{% endif %}">От низкой цены</a>
@@ -35,18 +46,18 @@
         {% endif %}
         <div class="products-list">
             {% for product in products %}
-            <div class="product-card" {% if genders
+            <div class="product-card" {% if seasons %}data-season="{{ product.season }}" {% endif %} {% if genders
                 %}data-gender="{{ genders_map[product.gender] if product.gender in genders_map else product.gender }}"
-                {% endif %}>
+                {% endif %} {% if product.gender=='дит' %}data-gender-both="true" {% endif %}>
                 <a href="{{ url_for('product_page', product_id=product.id, back=request.path) }}">
-                    <img class="product-img" src="/static/pic/cat/{{ product.image|basename }}"
+                    <img class="product-img" src="/static/pic/cat/{{ product.art|image_name }}"
                         alt="{{ product.name }}">
                     <div class="product-name">{{ product.cat }} {{ product.art }}</div>
                     <div class="product-prices">
                         {% if product.old_price %}<span class="old-price">{{ product.old_price|format_price }}
                             грн.</span>{% endif %}
                         <span class="new-price">{{ product.new_price|format_price }} грн.</span>
-                        {% if product.sale %}<span class="sale">-{{ product.sale }}%</span>{% endif %}
+                        {% if product.sale %}<span class="sale">-{{ product.sale|format_sale }}%</span>{% endif %}
                     </div>
                 </a>
             </div>
@@ -54,24 +65,53 @@
         </div>
         <a href="{{ back_url }}" class="back-bottom">← Назад к категориям</a>
     </div>
-    {% if genders %}
     <script>
+        // Фильтр по сезону (главный фильтр)
+        const seasonBtns = document.querySelectorAll('.season-btn');
+        const allCards = document.querySelectorAll('.product-card');
+
+        // Фильтр по гендеру (если есть)
         const filterBtns = document.querySelectorAll('.gender-btn');
         const cards = document.querySelectorAll('.product-card');
         const sectionTitle = document.getElementById('section-title');
         var categoryJS = {{ category| tojson }};
+
+        // Функция для сортировки товаров
+        function sortProducts(visibleCards, sortOrder) {
+            const productsList = document.querySelector('.products-list');
+            const cardsArray = Array.from(visibleCards);
+
+            cardsArray.sort((a, b) => {
+                const priceA = parseFloat(a.querySelector('.new-price').textContent.replace(/[^\d.]/g, '')) || 0;
+                const priceB = parseFloat(b.querySelector('.new-price').textContent.replace(/[^\d.]/g, '')) || 0;
+
+                if (sortOrder === 'desc') {
+                    return priceB - priceA;
+                } else {
+                    return priceA - priceB;
+                }
+            });
+
+            // Перемещаем отсортированные карточки
+            cardsArray.forEach(card => {
+                productsList.appendChild(card);
+            });
+        }
+
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 const gender = btn.getAttribute('data-gender');
-                cards.forEach(card => {
-                    if (gender === 'all' || card.getAttribute('data-gender') === gender) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+
+                // Применяем фильтр по гендеру к видимым карточкам (учитывая фильтр по сезону)
+                applyGenderFilter(gender);
+
+                // Применяем текущую сортировку к видимым товарам
+                const currentSort = document.querySelector('.sort-btn.active')?.textContent.includes('высокой') ? 'desc' : 'asc';
+                const visibleCards = Array.from(allCards).filter(card => card.style.display !== 'none');
+                sortProducts(visibleCards, currentSort);
+
                 // Меняем заголовок
                 if (gender === 'all') {
                     sectionTitle.textContent = categoryJS;
@@ -80,8 +120,142 @@
                 }
             });
         });
+
+        // Обработчик сортировки для страниц с фильтром по гендеру
+        const sortBtns = document.querySelectorAll('.sort-btn');
+        sortBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                sortBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const sortOrder = btn.textContent.includes('высокой') ? 'desc' : 'asc';
+                const visibleCards = Array.from(cards).filter(card => card.style.display !== 'none');
+
+                sortProducts(visibleCards, sortOrder);
+            });
+        });
+
+        // Фильтр по сезону (главный фильтр)
+        if (seasonBtns.length > 0) {
+            seasonBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    seasonBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const selectedSeason = btn.getAttribute('data-season');
+
+                    // Скрываем/показываем карточки по сезону
+                    allCards.forEach(card => {
+                        const cardSeason = card.getAttribute('data-season');
+                        let shouldShow = false;
+
+                        if (selectedSeason === 'all') {
+                            shouldShow = true;
+                        } else if (selectedSeason === '2025 весна-лето') {
+                            // Показываем товары как 2024 осень-зима, так и 2025 весна-лето
+                            shouldShow = cardSeason === '2024 осень-зима' || cardSeason === '2025 весна-літо';
+                        } else {
+                            shouldShow = cardSeason === selectedSeason;
+                        }
+
+                        card.style.display = shouldShow ? '' : 'none';
+                    });
+
+                    // Если есть фильтр по гендеру, применяем его к видимым карточкам
+                    if (filterBtns.length > 0) {
+                        const activeGenderBtn = document.querySelector('.gender-btn.active');
+                        if (activeGenderBtn) {
+                            const selectedGender = activeGenderBtn.getAttribute('data-gender');
+                            applyGenderFilter(selectedGender);
+                        }
+                    }
+
+                    // Применяем текущую сортировку к видимым карточкам
+                    const currentSort = document.querySelector('.sort-btn.active')?.textContent.includes('высокой') ? 'desc' : 'asc';
+                    const visibleCards = Array.from(allCards).filter(card => card.style.display !== 'none');
+                    sortProducts(visibleCards, currentSort);
+                });
+            });
+        }
+
+        // Функция для применения фильтра по гендеру
+        function applyGenderFilter(selectedGender) {
+            // Получаем все карточки, которые уже отфильтрованы по сезону
+            const seasonFilteredCards = Array.from(allCards).filter(card => {
+                const cardSeason = card.getAttribute('data-season');
+                const activeSeasonBtn = document.querySelector('.season-btn.active');
+                const selectedSeason = activeSeasonBtn ? activeSeasonBtn.getAttribute('data-season') : 'all';
+
+                if (selectedSeason === 'all') {
+                    return true;
+                } else if (selectedSeason === '2025 весна-літо') {
+                    // Показываем товары как 2024 осінь-зима, так и 2025 весна-літо
+                    return cardSeason === '2024 осінь-зима' || cardSeason === '2025 весна-літо';
+                } else {
+                    return cardSeason === selectedSeason;
+                }
+            });
+
+            seasonFilteredCards.forEach(card => {
+                const cardGender = card.getAttribute('data-gender');
+                const isGenderBoth = card.getAttribute('data-gender-both') === 'true';
+
+                if (selectedGender === 'all') {
+                    card.style.display = '';
+                } else if (cardGender === 'дит' || isGenderBoth) {
+                    if (selectedGender === 'Девочка' || selectedGender === 'Мальчик') {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                } else if (cardGender === selectedGender) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     </script>
-    {% endif %}
+
+    <!-- Сортировка для всех страниц (включая белье без фильтра по гендеру) -->
+    <script>
+        // Проверяем, есть ли уже обработчики сортировки
+        const existingSortBtns = document.querySelectorAll('.sort-btn');
+        if (existingSortBtns.length > 0 && !existingSortBtns[0].hasAttribute('data-sort-initialized')) {
+            const allCards = document.querySelectorAll('.product-card');
+
+            existingSortBtns.forEach(btn => {
+                btn.setAttribute('data-sort-initialized', 'true');
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    existingSortBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const sortOrder = btn.textContent.includes('высокой') ? 'desc' : 'asc';
+                    const productsList = document.querySelector('.products-list');
+                    const cardsArray = Array.from(allCards);
+
+                    cardsArray.sort((a, b) => {
+                        const priceA = parseFloat(a.querySelector('.new-price').textContent.replace(/[^\d.]/g, '')) || 0;
+                        const priceB = parseFloat(b.querySelector('.new-price').textContent.replace(/[^\d.]/g, '')) || 0;
+
+                        if (sortOrder === 'desc') {
+                            return priceB - priceA;
+                        } else {
+                            return priceA - priceB;
+                        }
+                    });
+
+                    // Перемещаем отсортированные карточки
+                    cardsArray.forEach(card => {
+                        productsList.appendChild(card);
+                    });
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>

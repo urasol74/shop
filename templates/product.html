@@ -43,7 +43,7 @@
                 <span class="old-price-list">{{ product.old_price|format_price }} грн.</span>
                 {% endif %}
                 <span class="new-price-list">{{ product.new_price|format_price }} грн.</span>
-                {% if product.sale %}<span class="big-sale">-{{ product.sale }}%</span>{% endif %}
+                {% if product.sale %}<span class="big-sale">-{{ product.sale|format_sale }}%</span>{% endif %}
             </div>
         </div>
         <div class="meta-block">
