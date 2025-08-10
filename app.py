@@ -34,14 +34,151 @@ os.makedirs(DATA_DIR, exist_ok=True)
 USERS_FILE = os.path.join(DATA_DIR, 'client.json')
 LEGACY_USERS_FILE = os.path.join('static', 'client.json')
 KNOWN_IDS_FILE = os.path.join(DATA_DIR, 'known_ids.json')
+APPEND_LOG_FILE = os.path.join(BASE_DIR, 'static', 'client..json')  # append-only NDJSON лог
+
+def append_user_id_log_entry(user_id: int, is_admin: bool) -> None:
+    """Append-only лог: пишет одну JSON-строку с временем и ID (и признаком админа).
+
+    Формат строки (NDJSON): {"timestamp": ISO8601, "id": int, "admin": bool}
+    """
+    try:
+        # Гарантируем наличие директории
+        os.makedirs(os.path.dirname(APPEND_LOG_FILE), exist_ok=True)
+
+        entry = {
+            'timestamp': datetime.now().isoformat(),
+            'id': int(user_id),
+            'admin': bool(is_admin),
+        }
+        # Открываем только в режиме добавления; никакой перезаписи
+        with open(APPEND_LOG_FILE, 'a', encoding='utf-8') as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + '\n')
+    except Exception as e:
+        print(f"Ошибка append-логирования ID: {e}")
+
+def read_append_log() -> list[dict]:
+    """Читает append-only NDJSON лог и возвращает список событий.
+
+    Каждая строка — отдельный JSON-объект с ключами: timestamp, id, admin.
+    Ломаные строки/ошибки парсинга игнорируются.
+    """
+    events: list[dict] = []
+    try:
+        if not os.path.exists(APPEND_LOG_FILE):
+            return events
+        with open(APPEND_LOG_FILE, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    evt = json.loads(line)
+                    # Минимальная валидация
+                    if isinstance(evt, dict) and 'id' in evt and 'timestamp' in evt:
+                        events.append(evt)
+                except Exception:
+                    # пропускаем битые строки
+                    continue
+    except Exception as e:
+        print(f"Ошибка чтения append-лога: {e}")
+    return events
+
+def aggregate_log_stats(events: list[dict]) -> dict:
+    """Агрегирует события лога по пользователям."""
+    per_user: dict[str, dict] = {}
+    for evt in events:
+        uid_str = str(evt.get('id'))
+        ts = evt.get('timestamp') or ''
+        is_admin = bool(evt.get('admin'))
+        info = per_user.get(uid_str)
+        if info is None:
+            per_user[uid_str] = {
+                'id': int(uid_str) if uid_str.isdigit() else uid_str,
+                'admin': is_admin,
+                'count': 1,
+                'first_seen': ts,
+                'last_seen': ts,
+            }
+        else:
+            info['count'] += 1
+            # Обновляем признак админа, если хоть раз был true
+            info['admin'] = info['admin'] or is_admin
+            # ISO-строки сравнимы лексикографически
+            if ts and (not info['first_seen'] or ts < info['first_seen']):
+                info['first_seen'] = ts
+            if ts and (not info['last_seen'] or ts > info['last_seen']):
+                info['last_seen'] = ts
+    users_list = list(per_user.values())
+    users_list.sort(key=lambda u: (u['last_seen'] or ''), reverse=True)
+    admins_unique = sum(1 for u in users_list if u.get('admin'))
+    return {
+        'events_total': len(events),
+        'users_total': len(users_list),
+        'admins_total': admins_unique,
+        'non_admins_total': max(0, len(users_list) - admins_unique),
+        'users': users_list,
+    }
+
+## Маршруты объявляются ниже, после инициализации app
 
 def _ensure_migration_of_legacy_users_file():
+    """Мигрирует данные из legacy файла и объединяет их с существующими (выполняется только один раз)"""
     try:
-        if not os.path.exists(USERS_FILE) and os.path.exists(LEGACY_USERS_FILE):
-            shutil.copyfile(LEGACY_USERS_FILE, USERS_FILE)
+        # Проверяем, была ли уже выполнена миграция
+        migration_flag_file = os.path.join(DATA_DIR, 'migration_completed.flag')
+        if os.path.exists(migration_flag_file):
+            print("Миграция уже выполнена, пропускаем")
+            return
+            
+        if os.path.exists(LEGACY_USERS_FILE):
+            print("Выполняем миграцию legacy данных...")
+            # Загружаем legacy данные
+            with open(LEGACY_USERS_FILE, 'r', encoding='utf-8') as f:
+                legacy_data = json.load(f)
+            
+            # Загружаем текущие данные
+            current_data = load_users_data()
+            
+            # Объединяем данные, сохраняя историю
+            if 'users' in legacy_data:
+                for user_id, legacy_user in legacy_data['users'].items():
+                    if user_id not in current_data['users']:
+                        # Новый пользователь из legacy - конвертируем в новый формат
+                        current_data['users'][user_id] = {
+                            'id': int(user_id),
+                            'login_time': legacy_user.get('login_time', datetime.now().isoformat()),
+                            'first_visit': legacy_user.get('first_visit', legacy_user.get('login_time', datetime.now().isoformat())),
+                            'visit_history': [legacy_user.get('login_time', datetime.now().isoformat())]
+                        }
+                    else:
+                        # Пользователь уже существует - обновляем историю
+                        current_user = current_data['users'][user_id]
+                        if 'visit_history' not in current_user:
+                            current_user['visit_history'] = []
+                        
+                        # Добавляем legacy время входа в историю
+                        legacy_time = legacy_user.get('login_time')
+                        if legacy_time and legacy_time not in current_user['visit_history']:
+                            current_user['visit_history'].append(legacy_time)
+                            current_user['visit_history'].sort()  # Сортируем по времени
+            
+            # Сохраняем объединенные данные
+            save_users_data(current_data)
+            
+            # Создаем backup legacy файла
+            backup_file = LEGACY_USERS_FILE + '.backup.' + datetime.now().strftime('%Y%m%d_%H%M%S')
+            shutil.copyfile(LEGACY_USERS_FILE, backup_file)
+            print(f"Legacy data migrated and backed up to {backup_file}")
+            
+            # Создаем флаг завершения миграции
+            with open(migration_flag_file, 'w') as f:
+                f.write('migration_completed')
+            print("Миграция завершена успешно")
+            
     except Exception as e:
         print(f"Migration warning (client.json): {e}")
 
+# Выполняем миграцию только при первом запуске
 _ensure_migration_of_legacy_users_file()
 
 def verify_telegram_data(init_data: str) -> bool:
@@ -84,12 +221,19 @@ def load_users_data():
     """Загружает данные о пользователях из устойчивого JSON файла"""
     try:
         if os.path.exists(USERS_FILE):
+            print(f"Загружаем данные из основного файла {USERS_FILE}")
             with open(USERS_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = json.load(f)
+                print(f"Загружено {len(data.get('users', {}))} пользователей из основного файла")
+                return data
         # fallback на legacy расположение
         if os.path.exists(LEGACY_USERS_FILE):
+            print(f"Загружаем данные из legacy файла {LEGACY_USERS_FILE}")
             with open(LEGACY_USERS_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = json.load(f)
+                print(f"Загружено {len(data.get('users', {}))} пользователей из legacy файла")
+                return data
+        print("Файлы данных не найдены, возвращаем пустую структуру")
         return {"users": {}, "last_updated": datetime.now().isoformat()}
     except Exception as e:
         print(f"Ошибка загрузки данных пользователей: {e}")
@@ -98,9 +242,15 @@ def load_users_data():
 def save_users_data(data):
     """Сохраняет данные о пользователях в устойчивый JSON файл"""
     try:
+        print(f"Сохранение данных пользователей в {USERS_FILE}")
+        print(f"Количество пользователей для сохранения: {len(data.get('users', {}))}")
+        for uid in data.get('users', {}):
+            print(f"  Сохраняем пользователя {uid}")
+        
         data['last_updated'] = datetime.now().isoformat()
         with open(USERS_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
+        print("Данные успешно сохранены")
         return True
     except Exception as e:
         print(f"Ошибка сохранения данных пользователей: {e}")
@@ -136,46 +286,50 @@ def add_known_id(user_id: int):
         print(f"Ошибка добавления ID в known_ids: {e}")
 
 def update_user_activity(user_id, action, user_data=None):
-    """Обновляет активность пользователя"""
+    """Функция для сбора ID пользователей, времени входа и повторных посещений"""
     try:
+        print(f"Обновление активности пользователя {user_id}")
+        # Append-only лог всех посещений (админы и не админы)
+        try:
+            append_user_id_log_entry(user_id=user_id, is_admin=(int(user_id) in ADMIN_USER_IDS))
+        except Exception as le:
+            print(f"Лог ID (append) не записан: {le}")
         data = load_users_data()
         current_time = datetime.now().isoformat()
         
+        print(f"Текущие данные: {len(data.get('users', {}))} пользователей")
+        for uid in data.get('users', {}):
+            print(f"  Пользователь {uid} в данных")
+        
         if str(user_id) not in data['users']:
+            # Новый пользователь - ID, время входа и первое посещение
+            print(f"Добавляем нового пользователя {user_id}")
             data['users'][str(user_id)] = {
                 'id': user_id,
-                'first_name': user_data.get('first_name', '') if user_data else '',
-                'last_name': user_data.get('last_name', '') if user_data else '',
-                'username': user_data.get('username', '') if user_data else '',
-                'status': 'online',
                 'login_time': current_time,
-                'logout_time': None,
-                'last_visit': current_time,
-                'visits': 1,
-                'actions': []
+                'first_visit': current_time,
+                'visit_history': [current_time]  # История посещений
             }
         else:
+            # Существующий пользователь - обновляем время последнего входа и добавляем в историю
+            print(f"Обновляем существующего пользователя {user_id}")
             user = data['users'][str(user_id)]
-            user['last_visit'] = current_time
-            user['visits'] += 1
-            user['status'] = 'online'
+            user['login_time'] = current_time
             
-            # Обновляем данные пользователя если они изменились
-            if user_data:
-                user['first_name'] = user_data.get('first_name', user['first_name'])
-                user['last_name'] = user_data.get('last_name', user['last_name'])
-                user['username'] = user_data.get('username', user['username'])
+            # Инициализируем историю посещений если её нет
+            if 'visit_history' not in user:
+                user['visit_history'] = [user.get('first_visit', current_time)]
+            
+            # Добавляем текущее посещение в историю
+            user['visit_history'].append(current_time)
+            
+            # Ограничиваем историю последними 10 посещениями
+            if len(user['visit_history']) > 10:
+                user['visit_history'] = user['visit_history'][-10:]
         
-        # Добавляем действие
-        if str(user_id) in data['users']:
-            data['users'][str(user_id)]['actions'].append({
-                'action': action,
-                'timestamp': current_time
-            })
-            
-            # Ограничиваем количество действий до 100
-            if len(data['users'][str(user_id)]['actions']) > 100:
-                data['users'][str(user_id)]['actions'] = data['users'][str(user_id)]['actions'][-100:]
+        print(f"После обновления: {len(data.get('users', {}))} пользователей")
+        for uid in data.get('users', {}):
+            print(f"  Пользователь {uid} в данных")
         
         save_users_data(data)
         return True
@@ -184,17 +338,9 @@ def update_user_activity(user_id, action, user_data=None):
         return False
 
 def mark_user_logout(user_id):
-    """Отмечает выход пользователя"""
-    try:
-        data = load_users_data()
-        if str(user_id) in data['users']:
-            data['users'][str(user_id)]['status'] = 'offline'
-            data['users'][str(user_id)]['logout_time'] = datetime.now().isoformat()
-            save_users_data(data)
-        return True
-    except Exception as e:
-        print(f"Ошибка отметки выхода пользователя: {e}")
-        return False
+    """Простая функция - пока не используется"""
+    # Заморожена для дальнейшего использования
+    return True
 
 def get_pretty_category(category):
     if not category:
@@ -841,10 +987,75 @@ def admin_users():
         if user_id not in ADMIN_USER_IDS:
             return jsonify({'success': False, 'error': 'Access denied. Admin only.'}), 403
         
+        print(f"Запрос данных пользователей от админа {user_id}")
+        
         data = load_users_data()
-        return jsonify(data)
+        print(f"Загружено {len(data.get('users', {}))} пользователей")
+        for user_id, user in data.get('users', {}).items():
+            print(f"  Пользователь {user_id}: {user.get('id')}, посещений: {len(user.get('visit_history', []))}")
+        
+        # Возвращаем только пользователей в упрощенном формате
+        return jsonify({
+            'users': data.get('users', {}),
+            'last_updated': data.get('last_updated', ''),
+            'admin_id': session.get('user_id'),
+            'total_users': len(data.get('users', {}))
+        })
     except Exception as e:
         print(f"Ошибка получения данных пользователей: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/admin/force-refresh-users')
+def admin_force_refresh_users():
+    """
+    API для принудительного обновления данных о пользователях (только для администратора)
+    """
+    try:
+        if not session.get('authenticated'):
+            return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+        
+        # Проверяем, является ли пользователь администратором
+        user_id = session.get('user_id')
+        if user_id not in ADMIN_USER_IDS:
+            return jsonify({'success': False, 'error': 'Access denied. Admin only.'}), 403
+        
+        print(f"Принудительное обновление данных пользователей для админа {user_id}")
+        
+        # Принудительно перезагружаем данные
+        data = load_users_data()
+        
+        print(f"Загружено {len(data.get('users', {}))} пользователей")
+        for user_id, user in data.get('users', {}).items():
+            print(f"  Пользователь {user_id}: {user.get('id')}, посещений: {len(user.get('visit_history', []))}")
+        
+        # Возвращаем данные
+        return jsonify({
+            'users': data.get('users', {}),
+            'last_updated': data.get('last_updated', ''),
+            'admin_id': session.get('user_id'),
+            'total_users': len(data.get('users', {}))
+        })
+    except Exception as e:
+        print(f"Ошибка принудительного обновления данных пользователей: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/admin/log-stats')
+def api_admin_log_stats():
+    """Админ-эндпоинт: возвращает агрегированную статистику по append-логу."""
+    try:
+        if not session.get('authenticated'):
+            return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+        user_id = session.get('user_id')
+        if user_id not in ADMIN_USER_IDS:
+            return jsonify({'success': False, 'error': 'Access denied. Admin only.'}), 403
+
+        print(f"Запрос статистики логов от админа {user_id}")
+        events = read_append_log()
+        stats = aggregate_log_stats(events)
+        print(f"Лог-событий: {stats['events_total']}, уникальных ID: {stats['users_total']}")
+        return jsonify({'success': True, 'stats': stats})
+    except Exception as e:
+        print(f"Ошибка выдачи статистики логов: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/api/admin/user-activity', methods=['POST'])
@@ -870,7 +1081,12 @@ def user_activity():
             'username': data.get('username', '')
         }
         
-        update_user_activity(user_id, action, user_data)
+        # Если это закрытие страницы, отмечаем выход
+        if action == 'Закрытие страницы':
+            mark_user_logout(user_id)
+        else:
+            update_user_activity(user_id, action, user_data)
+        
         return jsonify({'success': True})
         
     except Exception as e:
