@@ -4,7 +4,9 @@ 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
 python import_excel_to_db.py
 
 gunicorn -w 4 -b 0.0.0.0:5000 app:app
-
+/home/ubuntu/shop/import_db_to_db_incremental.py - Инкрементально импортирует данные из bot-art/base.db в shop.db 
+/home/ubuntu/shop/import2_excel_to_db.py - создает с нуля новую БД db-der.db из db-der.xlsx
+/home/ubuntu/shop/import2_excel_to_db_smart.py - синхронизирует изменения БД db-der.db из db-der.xlsx
 
 shop.sh - ������ ������� � ����������
 

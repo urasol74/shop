@@ -1,4 +1,3 @@
-<!-- shop/templates/sections.html -->
 <!DOCTYPE html>
 <html>
 
@@ -7,20 +6,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ section_verbose }} — Benetton</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* Overlay */
+        .sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .25);
+            opacity: 0;
+            transition: opacity .2s ease;
+            z-index: 900;
+        }
+
+        .sheet-overlay.show {
+            opacity: 1;
+        }
+
+        /* Bottom sheet (по умолчанию) */
+        .sheet {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 85vh;
+            max-height: 85vh;
+            background: #fff;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -8px 28px rgba(0, 0, 0, .18);
+            transform: translateY(100%);
+            transition: transform .25s ease;
+            z-index: 901;
+            max-width: 480px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sheet.open {
+            transform: translateY(0);
+        }
+
+        /* Правая панель (выезд справа) */
+        .panel-right {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 86vw;
+            max-width: 480px;
+            background: #fff;
+            border-radius: 16px 0 0 16px;
+            box-shadow: -8px 0 28px rgba(0, 0, 0, .18);
+            transform: translateX(100%);
+            transition: transform .25s ease;
+            z-index: 901;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-right.open {
+            transform: translateX(0);
+        }
+
+        .sheet-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 14px 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sheet-title {
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .sheet-close {
+            position: absolute;
+            right: 10px;
+            top: 9px;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            border: 1px solid #e6e6e6;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        /* Стиль для левой кнопки (назад) */
+        .sheet-close#sheetBack {
+            right: auto;
+            left: 10px;
+        }
+
+        .sheet-content {
+            overflow: auto;
+            padding: 0;
+        }
+
+        .cat-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cat-item {
+            border-bottom: 1px solid #eee;
+        }
+
+        .cat-link {
+            display: grid;
+            grid-template-columns: 40px 1fr 24px;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 14px;
+            color: #222;
+            text-decoration: none;
+        }
+
+        .cat-icon {
+            width: 24px;
+            height: 24px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cat-label {
+            font-size: 20px;
+        }
+
+        .chev {
+            width: 18px;
+            height: 18px;
+            color: #222;
+            opacity: .7;
+        }
+
+        @media (max-width: 520px) {
+            .sheet {
+                max-width: 100vw;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="main-block">
-        <a href="{{ back_url }}" class="back-btn">← Назад</a>
-        <h3>{{ section_verbose }}</h3>
-        <div class="sections-2">
-            {% for category in categories %}
-            <a class="section-2" href="{{ url_for(section_url, category_name=category.raw) }}">
-                <div>{{ category.pretty }}</div>
-            </a>
-            {% endfor %}
+    <div class="sheet-overlay" id="sheetOverlay"></div>
+    <section class="{% if slide_from == 'right' %}panel-right{% else %}sheet{% endif %}" id="sheet">
+        <div class="sheet-header">
+            {% if slide_from == 'right' %}
+            <a href="{{ back_url }}" class="sheet-close" id="sheetBack" aria-label="Назад">‹</a>
+            <div class="sheet-title">{% if default_season and 'Бельё' in section_verbose %}Бельё {{ default_season }}{% elif default_season %}Каталог {{ default_season }}{% else %}{{ section_verbose }}{% endif %}</div>
+            <a href="/" class="sheet-close" id="sheetHome" aria-label="Главная">⌂</a>
+            {% else %}
+            <a href="{{ back_url }}" class="sheet-close" id="sheetBack" aria-label="Назад">‹</a>
+            <div class="sheet-title">{% if default_season and 'Бельё' in section_verbose %}Бельё {{ default_season }}{% elif default_season %}Каталог {{ default_season }}{% else %}Каталог{% endif %}</div>
+            <a href="/" class="sheet-close" id="sheetHome" aria-label="Главная">⌂</a>
+            {% endif %}
         </div>
-    </div>
+        <div class="sheet-content">
+            <ul class="cat-list">
+                {% for category in categories %}
+                <li class="cat-item">
+                    <a class="cat-link"
+                        href="{% if section_url in ['show_category','category'] %}{{ url_for(section_url, category_ua=category.raw) }}{% else %}{{ url_for(section_url, category_name=category.raw) }}{% endif %}{% if mode or default_season %}?{% if mode %}mode={{ mode|urlencode }}{% endif %}{% if mode and default_season %}&{% endif %}{% if default_season %}default_season={{ default_season|urlencode }}{% endif %}{% endif %}">
+                        <span class="cat-icon">
+                            {% set t = (category.pretty or '')|lower %}
+                            {% if 'жін' in t or 'жен' in t %}👗{% elif 'чол' in t or 'муж' in t %}👕{% elif 'взут' in t
+                            or 'обув' in t or 'крос' in t %}👟{% elif 'аксес' in t %}👜{% elif 'спорт' in t %}🏃{% else
+                            %}🔹{% endif %}
+                        </span>
+                        <span class="cat-label">{{ category.pretty }}</span>
+                        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    <script>
+        const sheet = document.getElementById('sheet');
+        const overlay = document.getElementById('sheetOverlay');
+        const backBtn = document.getElementById('sheetBack');
+        const homeBtn = document.getElementById('sheetHome');
+        function openUI() { requestAnimationFrame(() => { overlay.classList.add('show'); sheet.classList.add('open'); }); }
+        function go(url) { overlay.classList.remove('show'); sheet.classList.remove('open'); setTimeout(() => { window.location.href = url; }, 180); }
+        overlay.addEventListener('click', () => go('{{ back_url }}'));
+        if (backBtn) backBtn.addEventListener('click', (e) => { e.preventDefault(); go('{{ back_url }}'); });
+        if (homeBtn) homeBtn.addEventListener('click', (e) => { e.preventDefault(); go('/'); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') go('{{ back_url }}'); });
+        openUI();
+    </script>
 </body>
 
 </html>

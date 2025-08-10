@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - Магазин Benetton</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .admin-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .admin-header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .admin-content {
+            padding: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+        }
+
+        .stat-card.clickable { cursor: pointer; }
+
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(0,0,0,0.16); }
+
+        .stat-number {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75em;
+            opacity: 0.95;
+            line-height: 1;
+        }
+
+        .users-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .user-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-input {
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 200px;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .users-table {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .users-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .users-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .users-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .user-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-online {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .refresh-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* Шапка как на главной */
+        .app-header {
+            display: grid;
+            grid-template-columns: 56px 1fr 56px 56px 56px 56px; /* 1,2,3,5,6,7 */
+            gap: 8px;
+            align-items: center;
+            padding: 10px 12px;
+            max-width: 1200px;
+            margin: 0 auto 8px auto;
+        }
+        .app-header .cell { display:flex; align-items:center; justify-content:center; height:38px; background:#fff; border-radius:12px; box-shadow:0 1px 6px rgba(0,0,0,.08); border:1px solid #f0f0f0; }
+        .app-header .logo { font-weight:700; font-size:16px; letter-spacing:.5px; }
+        .icon-btn { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; }
+        .icon { width:18px; height:18px; color:#222; }
+        .user-info { display:none; width:100%; padding:0 8px; font-size:12px; }
+        .user-info .user-info-content { display:flex; align-items:center; gap:8px; }
+        .logout-btn { padding:6px 10px; font-size:12px; }
+        .admin-link { padding:6px 10px; font-size:12px; background:#e9ecef; color:#111; border-radius:8px; text-decoration:none; }
+
+        @media (max-width: 768px) {
+            .admin-content {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-filters {
+                flex-direction: column;
+            }
+            
+            .filter-input {
+                min-width: auto;
+            }
+            
+            .users-table {
+                font-size: 14px;
+            }
+            
+            .users-table th,
+            .users-table td {
+                padding: 10px;
+            }
+        }
+        .stat-link { text-decoration: none; color: inherit; display: block; }
+    </style>
+</head>
+<body>
+    <!-- Верхняя шапка -->
+    <div class="app-header">
+        <!-- 1. Гамбургер (меню) — уменьшенный -->
+        <div class="cell">
+            <button id="menuBtn" class="icon-btn" aria-label="Открыть меню">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <!-- 2. Логотип Benetton -->
+        <div class="cell logo">Benetton</div>
+        <!-- 3. Поиск -->
+        <div class="cell">
+            <a class="icon-btn" href="{{ url_for('search') }}" aria-label="Страница поиска">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+            </a>
+        </div>
+        <!-- 5. Избранное -->
+        <div class="cell">
+            <a class="icon-btn" href="{{ url_for('favorites') }}" aria-label="Избранное">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.8 4.6c-1.8-1.8-4.7-1.8-6.5 0l-.8.8-.8-.8c-1.8-1.8-4.7-1.8-6.5 0-1.8 1.8-1.8 4.7 0 6.5l7.3 7.3 7.3-7.3c1.8-1.8 1.8-4.7 0-6.5z"></path>
+                </svg>
+            </a>
+        </div>
+        <!-- 6. Корзина (заглушка) -->
+        <div class="cell">
+            <button id="cartBtn" class="icon-btn" aria-label="Корзина">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1" />
+                    <circle cx="20" cy="21" r="1" />
+                    <path d="M1 1h4l2.68 12.39A2 2 0 0 0 9.61 15h7.78a2 2 0 0 0 2-1.61L23 6H6" />
+                </svg>
+            </button>
+        </div>
+        <!-- 7. Информация о пользователе -->
+        <div class="cell">
+            <div id="userInfo" class="user-info" style="display: none;">
+                <div class="user-info-content">
+                    <span id="userName">Пользователь</span>
+                    <a href="/admin" class="admin-link" id="adminLink" style="display: none;">🔐 Админ</a>
+                    <button id="logoutBtn" class="logout-btn">Выйти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>🔐 Админ-панель</h1>
+            <p>Мониторинг пользователей и активности на сайте</p>
+        </div>
+
+        <div class="admin-content">
+            <!-- Статистика -->
+            <div class="stats-grid">
+                <a class="stat-link" href="/admin/stats/all" data-mode="all" title="Показать всех пользователей">
+                    <div class="stat-card clickable">
+                        <div class="stat-label">Всего пользователей</div>
+                        <div class="stat-number" id="totalUsers">0</div>
+                    </div>
+                </a>
+                <a class="stat-link" href="/admin/stats/online" data-mode="online" title="Показать кто онлайн">
+                    <div class="stat-card clickable">
+                        <div class="stat-label">Онлайн сейчас</div>
+                        <div class="stat-number" id="onlineUsers">0</div>
+                    </div>
+                </a>
+                <a class="stat-link" href="/admin/stats/today" data-mode="today" title="Посещения за сегодня">
+                    <div class="stat-card clickable">
+                        <div class="stat-label">Посещений сегодня</div>
+                        <div class="stat-number" id="todayVisits">0</div>
+                    </div>
+                </a>
+                <a class="stat-link" href="/admin/stats/actions" data-mode="actions" title="Пользователи с действиями">
+                    <div class="stat-card clickable">
+                        <div class="stat-label">Всего действий</div>
+                        <div class="stat-number" id="totalActions">0</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Кнопки управления -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button class="refresh-btn" onclick="refreshData()">🔄 Обновить данные</button>
+                <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+            </div>
+
+            <!-- Секция пользователей -->
+            <div class="users-section">
+                <h2 class="section-title">👥 Пользователи</h2>
+                
+                <!-- Фильтры -->
+                <div class="user-filters">
+                    <input type="text" class="filter-input" id="searchUser" placeholder="Поиск по ID, имени или username..." onkeyup="filterUsers()">
+                    <select class="filter-input" id="statusFilter" onchange="filterUsers()">
+                        <option value="">Все статусы</option>
+                        <option value="online">Онлайн</option>
+                        <option value="offline">Оффлайн</option>
+                    </select>
+                    <select class="filter-input" id="dateFilter" onchange="filterUsers()">
+                        <option value="">Все даты</option>
+                        <option value="today">Сегодня</option>
+                        <option value="week">За неделю</option>
+                        <option value="month">За месяц</option>
+                    </select>
+                </div>
+
+                <!-- Таблица пользователей -->
+                <div class="users-table-container">
+                    <table class="users-table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Имя</th>
+                                <th>Username</th>
+                                <th>Статус</th>
+                                <th>Время входа</th>
+                                <th>Время выхода</th>
+                                <th>Посещения</th>
+                                <th>Действия</th>
+                                <th>Детали</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Данные будут загружены через JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let usersData = {};
+        let filteredUsers = [];
+
+        // Проверка авторизации при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            loadUsersData();
+            setupStatLinks();
+        });
+
+        // Проверка авторизации
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/auth/status');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    alert('Доступ запрещен. Требуется авторизация.');
+                    window.location.href = '/';
+                    return;
+                }
+                
+                console.log('Пользователь авторизован:', data);
+            } catch (error) {
+                console.error('Ошибка проверки авторизации:', error);
+                alert('Ошибка проверки авторизации');
+                window.location.href = '/';
+            }
+        }
+
+        // Прокидываем init_data в ссылки статистики для надёжности во фрейме Telegram
+        function setupStatLinks() {
+            try {
+                const links = document.querySelectorAll('.stat-link');
+                const tg = window.Telegram && window.Telegram.WebApp;
+                if (!tg || !tg.initData) return;
+                links.forEach(a => {
+                    const url = new URL(a.getAttribute('href'), window.location.origin);
+                    url.searchParams.set('init_data', tg.initData);
+                    a.setAttribute('href', url.pathname + url.search);
+                });
+            } catch (e) { /* noop */ }
+        }
+
+        // Загрузка данных о пользователях
+        async function loadUsersData() {
+            try {
+                const response = await fetch('/api/admin/users');
+                if (response.ok) {
+                    const data = await response.json();
+                    usersData = data.users || {};
+                    filteredUsers = Object.values(usersData);
+                    updateStats();
+                    renderUsersTable();
+                } else {
+                    console.error('Ошибка загрузки данных пользователей');
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки данных:', error);
+            }
+        }
+
+        // Обновление статистики
+        function updateStats() {
+            const totalUsers = Object.keys(usersData).length;
+            const onlineUsers = Object.values(usersData).filter(user => user.status === 'online').length;
+            const todayVisits = Object.values(usersData).filter(user => {
+                const today = new Date().toDateString();
+                return user.last_visit && new Date(user.last_visit).toDateString() === today;
+            }).length;
+            const totalActions = Object.values(usersData).reduce((sum, user) => sum + (user.actions?.length || 0), 0);
+
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('onlineUsers').textContent = onlineUsers;
+            document.getElementById('todayVisits').textContent = todayVisits;
+            document.getElementById('totalActions').textContent = totalActions;
+        }
+
+        // Быстрые фильтры по клику на карточки
+        function filterBy(mode) {
+            const searchInput = document.getElementById('searchUser');
+            const statusSelect = document.getElementById('statusFilter');
+            const dateSelect = document.getElementById('dateFilter');
+
+            // Сбрасываем поля
+            searchInput.value = '';
+            statusSelect.value = '';
+            dateSelect.value = '';
+
+            switch (mode) {
+                case 'all':
+                    filteredUsers = Object.values(usersData);
+                    break;
+                case 'online':
+                    filteredUsers = Object.values(usersData).filter(u => u.status === 'online');
+                    statusSelect.value = 'online';
+                    break;
+                case 'today':
+                    filteredUsers = Object.values(usersData).filter(u => {
+                        const today = new Date().toDateString();
+                        return u.last_visit && new Date(u.last_visit).toDateString() === today;
+                    });
+                    dateSelect.value = 'today';
+                    break;
+                case 'actions':
+                    filteredUsers = Object.values(usersData).filter(u => (u.actions?.length || 0) > 0);
+                    break;
+                default:
+                    filteredUsers = Object.values(usersData);
+            }
+
+            renderUsersTable();
+        }
+
+        // Рендеринг таблицы пользователей
+        function renderUsersTable() {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+
+            if (filteredUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="no-data">Нет данных о пользователях</td></tr>';
+                return;
+            }
+
+            filteredUsers.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.first_name || ''} ${user.last_name || ''}</td>
+                    <td>@${user.username || 'не указан'}</td>
+                    <td><span class="user-status status-${user.status || 'offline'}">${user.status === 'online' ? 'Онлайн' : 'Оффлайн'}</span></td>
+                    <td>${formatDateTime(user.login_time)}</td>
+                    <td>${formatDateTime(user.logout_time)}</td>
+                    <td>${user.visits || 0}</td>
+                    <td>${user.actions ? user.actions.length : 0}</td>
+                    <td><button class="action-btn" onclick="showUserDetails(${user.id})">👁️</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Фильтрация пользователей
+        function filterUsers() {
+            const searchTerm = document.getElementById('searchUser').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+
+            filteredUsers = Object.values(usersData).filter(user => {
+                // Поиск по тексту
+                const matchesSearch = !searchTerm || 
+                    user.id.toString().includes(searchTerm) ||
+                    (user.first_name && user.first_name.toLowerCase().includes(searchTerm)) ||
+                    (user.last_name && user.last_name.toLowerCase().includes(searchTerm)) ||
+                    (user.username && user.username.toLowerCase().includes(searchTerm));
+
+                // Фильтр по статусу
+                const matchesStatus = !statusFilter || user.status === statusFilter;
+
+                // Фильтр по дате
+                let matchesDate = true;
+                if (dateFilter) {
+                    const userDate = new Date(user.last_visit || user.login_time);
+                    const now = new Date();
+                    
+                    switch (dateFilter) {
+                        case 'today':
+                            matchesDate = userDate.toDateString() === now.toDateString();
+                            break;
+                        case 'week':
+                            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            matchesDate = userDate >= weekAgo;
+                            break;
+                        case 'month':
+                            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                            matchesDate = userDate >= monthAgo;
+                            break;
+                    }
+                }
+
+                return matchesSearch && matchesStatus && matchesDate;
+            });
+
+            renderUsersTable();
+        }
+
+        // Показать детали пользователя
+        function showUserDetails(userId) {
+            const user = usersData[userId];
+            if (!user) return;
+
+            let actionsText = 'Нет действий';
+            if (user.actions && user.actions.length > 0) {
+                actionsText = user.actions.map(action => 
+                    `${action.action} - ${formatDateTime(action.timestamp)}`
+                ).join('\n');
+            }
+
+            const details = `
+ID: ${user.id}
+Имя: ${user.first_name || ''} ${user.last_name || ''}
+Username: @${user.username || 'не указан'}
+Статус: ${user.status === 'online' ? 'Онлайн' : 'Оффлайн'}
+Время входа: ${formatDateTime(user.login_time)}
+Время выхода: ${formatDateTime(user.logout_time)}
+Посещения: ${user.visits || 0}
+Последнее посещение: ${formatDateTime(user.last_visit)}
+Действия:
+${actionsText}
+            `;
+
+            alert(details);
+        }
+
+        // Форматирование даты и времени
+        function formatDateTime(dateString) {
+            if (!dateString) return 'Не указано';
+            
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return 'Неверная дата';
+                
+                return date.toLocaleString('ru-RU', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            } catch (error) {
+                return 'Ошибка формата';
+            }
+        }
+
+        // Обновить данные
+        function refreshData() {
+            loadUsersData();
+        }
+
+        // Выход
+        async function logout() {
+            try {
+                const response = await fetch('/api/auth/logout');
+                if (response.ok) {
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error('Ошибка выхода:', error);
+                window.location.href = '/';
+            }
+        }
+    </script>
+</body>
+</html>

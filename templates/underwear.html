@@ -9,51 +9,176 @@
 </head>
 
 <body>
-    <div class="main-block">
-        <a href="/" class="back-btn">← Назад</a>
-        <h3>Бельё</h3>
-        <div class="sections">
-            <a class="section" href="/underwear/underwear-woman">
-                <img src="{{ url_for('static', filename='image/underwear-women.png') }}" alt="Женщина">
-                <div>Женщина</div>
-            </a>
-            <a class="section" href="/underwear/underwear-men">
-                <img src="{{ url_for('static', filename='image/underwear-men.png') }}" alt="Мужчина">
-                <div>Мужчина</div>
-            </a>
-            <a class="section" href="/underwear/underwear-boy">
-                <img src="{{ url_for('static', filename='image/underwear-boy.png') }}" alt="Мальчик">
-                <div>Мальчик</div>
-            </a>
-            <a class="section" href="/underwear/underwear-girl">
-                <img src="{{ url_for('static', filename='image/underwear-girl.png') }}" alt="Девочка">
-                <div>Девочка</div>
-            </a>
+    <div class="sheet-overlay" id="sheetOverlay"></div>
+    <section class="panel-right" id="sheet">
+        <div class="sheet-header">
+            <a href="/gender{% if mode or default_season %}?{% if mode %}mode={{ mode|urlencode }}{% endif %}{% if mode and default_season %}&{% endif %}{% if default_season %}default_season={{ default_season|urlencode }}{% endif %}{% endif %}" class="sheet-close" id="sheetBack" aria-label="Назад">‹</a>
+            <div class="sheet-title">{% if default_season %}Бельё {{ default_season }}{% else %}Бельё{% endif %}</div>
         </div>
-    </div>
+        <div class="sheet-content">
+            <ul class="cat-list">
+                <li class="cat-item"><a class="cat-link" href="/underwear/underwear-woman{% if mode or default_season %}?{% if mode %}mode={{ mode|urlencode }}{% endif %}{% if mode and default_season %}&{% endif %}{% if default_season %}default_season={{ default_season|urlencode }}{% endif %}{% endif %}"><span
+                            class="cat-icon">👗</span><span class="cat-label">Женщина</span><svg class="chev"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg></a></li>
+                <li class="cat-item"><a class="cat-link" href="/underwear/underwear-men{% if mode or default_season %}?{% if mode %}mode={{ mode|urlencode }}{% endif %}{% if mode and default_season %}&{% endif %}{% if default_season %}default_season={{ default_season|urlencode }}{% endif %}{% endif %}"><span
+                            class="cat-icon">👕</span><span class="cat-label">Мужчина</span><svg class="chev"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg></a></li>
+                <li class="cat-item"><a class="cat-link" href="/underwear/underwear-boy{% if mode or default_season %}?{% if mode %}mode={{ mode|urlencode }}{% endif %}{% if mode and default_season %}&{% endif %}{% if default_season %}default_season={{ default_season|urlencode }}{% endif %}{% endif %}"><span
+                            class="cat-icon">🧒</span><span class="cat-label">Мальчик</span><svg class="chev"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg></a></li>
+                <li class="cat-item"><a class="cat-link" href="/underwear/underwear-girl{% if mode or default_season %}?{% if mode %}mode={{ mode|urlencode }}{% endif %}{% if mode and default_season %}&{% endif %}{% if default_season %}default_season={{ default_season|urlencode }}{% endif %}{% endif %}"><span
+                            class="cat-icon">👧</span><span class="cat-label">Девочка</span><svg class="cat-icon"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg></a></li>
+            </ul>
+        </div>
+    </section>
     <style>
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 10px;
-            color: #888;
-            background: none;
-            border: none;
-            font-size: 1em;
-            text-decoration: none;
-            padding: 4px 10px 4px 0;
-            border-radius: 8px;
-            transition: background 0.15s, color 0.15s;
-            position: relative;
-            left: 0;
+        .sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .25);
+            opacity: 0;
+            transition: opacity .2s ease;
+            z-index: 900;
         }
 
-        .back-btn:hover,
-        .back-btn:focus {
-            background: #f5f5f5;
+        .sheet-overlay.show {
+            opacity: 1;
+        }
+
+        .panel-right {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 86vw;
+            max-width: 480px;
+            background: #fff;
+            border-radius: 16px 0 0 16px;
+            box-shadow: -8px 0 28px rgba(0, 0, 0, .18);
+            transform: translateX(100%);
+            transition: transform .25s ease;
+            z-index: 901;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-right.open {
+            transform: translateX(0);
+        }
+
+        .sheet-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 14px 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sheet-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .sheet-close {
+            position: absolute;
+            left: 10px;
+            top: 9px;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            border: 1px solid #e6e6e6;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
             color: #222;
-            text-decoration: underline;
+        }
+
+        .sheet-content {
+            overflow: auto;
+            padding: 0;
+        }
+
+        .cat-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .cat-item {
+            border-bottom: 1px solid #eee;
+        }
+
+        .cat-link {
+            display: grid;
+            grid-template-columns: 40px 1fr 24px;
+            align-items: center;
+            gap: 8px;
+            padding: 14px;
+            color: #222;
+            text-decoration: none;
+        }
+
+        .cat-icon {
+            width: 24px;
+            height: 24px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cat-label {
+            font-size: 20px;
+        }
+
+        .chev {
+            width: 18px;
+            height: 18px;
+            color: #222;
+            opacity: .7;
+        }
+
+        @media (max-width:520px) {
+            .panel-right {
+                max-width: 100vw;
+            }
         }
     </style>
+    <script>
+        const sheet = document.getElementById('sheet');
+        const overlay = document.getElementById('sheetOverlay');
+        const backBtn = document.getElementById('sheetBack');
+        function openUI() { requestAnimationFrame(() => { overlay.classList.add('show'); sheet.classList.add('open'); }); }
+        function goBack() { 
+            overlay.classList.remove('show'); 
+            sheet.classList.remove('open'); 
+            setTimeout(() => { 
+                window.location.href = '/gender{% if mode or default_season %}?{% if mode %}mode={{ mode|urlencode }}{% endif %}{% if mode and default_season %}&{% endif %}{% if default_season %}default_season={{ default_season|urlencode }}{% endif %}{% endif %}'; 
+            }, 180); 
+        }
+        overlay.addEventListener('click', goBack);
+        if (backBtn) backBtn.addEventListener('click', (e) => { e.preventDefault(); goBack(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') goBack(); });
+        openUI();
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Статистика — Админ</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f6f7fb; margin: 0; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .back { text-decoration: none; color: #556; background: #e9ecf6; padding: 8px 12px; border-radius: 6px; }
+    h1 { font-size: 18px; font-weight: 600; margin: 0; }
+    .hint { color: #666; font-size: 12px; }
+    .panel { background: #fff; border-radius: 10px; box-shadow: 0 6px 16px rgba(0,0,0,.06); padding: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid #eef1f6; text-align: left; }
+    th { background: #f4f6fb; color: #334; font-weight: 600; }
+    .status { padding: 3px 8px; border-radius: 12px; font-size: 11px; }
+    .online { background: #e3f7ea; color: #1d7a3a; }
+    .offline{ background: #fde2e2; color: #b22626; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="back" href="/admin">← Админ‑панель</a>
+      <div>
+        <h1 id="title">Статистика</h1>
+        <div class="hint" id="subtitle"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Username</th>
+            <th>Статус</th>
+            <th>Вход</th>
+            <th>Выход</th>
+            <th>Посещения</th>
+            <th>Действий</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const MODE = "{{ mode }}";
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTitles();
+      load();
+    });
+
+    function setTitles() {
+      const t = document.getElementById('title');
+      const s = document.getElementById('subtitle');
+      const titles = {
+        all: ['Все пользователи', 'Полный список пользователей за всё время'],
+        online: ['Онлайн сейчас', 'Пользователи со статусом онлайн'],
+        today: ['Посещения сегодня', 'Кто заходил сегодня'],
+        actions: ['Пользователи с действиями', 'У кого есть записанные действия']
+      };
+      const pair = titles[MODE] || titles.all;
+      t.textContent = `Статистика — ${pair[0]}`;
+      s.textContent = pair[1];
+    }
+
+    async function load() {
+      try {
+        const res = await fetch('/api/admin/users');
+        if (!res.ok) return;
+        const data = await res.json();
+        const users = Object.values(data.users || {});
+        const filtered = applyFilter(users, MODE);
+        render(filtered);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function applyFilter(list, mode) {
+      const now = new Date();
+      if (mode === 'online') return list.filter(u => u.status === 'online');
+      if (mode === 'today') return list.filter(u => u.last_visit && new Date(u.last_visit).toDateString() === now.toDateString());
+      if (mode === 'actions') return list.filter(u => (u.actions?.length || 0) > 0);
+      return list;
+    }
+
+    function fmt(dt) {
+      if (!dt) return '';
+      const d = new Date(dt);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleString('ru-RU', {year:'2-digit', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
+    }
+
+    function render(rows) {
+      const tb = document.getElementById('tbody');
+      tb.innerHTML = '';
+      if (!rows.length) {
+        tb.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#777;padding:24px;">Нет данных</td></tr>';
+        return;
+      }
+      rows.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${u.id}</td>
+          <td>${(u.first_name||'') + ' ' + (u.last_name||'')}</td>
+          <td>${u.username ? '@'+u.username : ''}</td>
+          <td><span class="status ${u.status==='online'?'online':'offline'}">${u.status==='online'?'Онлайн':'Оффлайн'}</span></td>
+          <td>${fmt(u.login_time)}</td>
+          <td>${fmt(u.logout_time)}</td>
+          <td>${u.visits||0}</td>
+          <td>${u.actions ? u.actions.length : 0}</td>
+        `;
+        tb.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>

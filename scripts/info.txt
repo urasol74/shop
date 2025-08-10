@@ -1,0 +1,4 @@
+/home/ubuntu/shop/scripts/apply_otl_to_der.py - вычитает
+из /home/ubuntu/shop/instance/db-der.db 
+отложку из 
+/home/ubuntu/baf-otl/instance/base-otl.db

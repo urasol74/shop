@@ -15,10 +15,14 @@
 
 <body>
     <div class="main-block" style="padding-bottom: env(safe-area-inset-bottom);">
-        <a href="{{ back_url }}" class="back-btn">← Назад</a>
-        <h3 id="section-title">{{ section_verbose.replace('—', ' ') }}</h3>
+        <!-- Верхний бар: назад к категориям и на главную -->
+        <div class="top-bar">
+            <a href="{{ back_url }}" class="tb-btn" aria-label="Назад">‹</a>
+            <div class="tb-title" id="section-title">{% if title_gender %}{{ title_gender }} {% endif %}{{ category }}{% if default_season %} {{ default_season }}{% endif %}</div>
+            <a href="/" class="tb-btn" aria-label="Главная">⌂</a>
+        </div>
         <!-- Фильтр по сезону -->
-        {% if seasons %}
+        {% if seasons and seasons|length > 1 %}
         <div class="season-filters-wrapper">
             <div class="season-filters">
                 <button class="season-btn active" data-season="all">Все сезоны</button>
@@ -27,11 +31,24 @@
                 {% endfor %}
             </div>
         </div>
+        {% elif seasons and seasons|length == 1 %}
+        <div class="season-filters-wrapper">
+            <div class="season-filters">
+                <button class="season-btn active" data-season="{{ seasons[0] }}">{{ seasons[0] }}</button>
+            </div>
+        </div>
         {% endif %}
-        <!-- Сортировка по цене -->
-        <div class="sort-block">
-            <a href="?sort=asc" class="sort-btn{% if sort == 'asc' %} active{% endif %}">От низкой цены</a>
-            <a href="?sort=desc" class="sort-btn{% if sort == 'desc' %} active{% endif %}">От высокой цены</a>
+        <!-- Панель: фильтр, сортировка, вид -->
+        <div class="controls-bar">
+            <button class="ctrl-btn" id="filterBtn" aria-label="Фильтр">⚙️ Фильтр</button>
+            <div class="ctrl-sort">
+                <button class="ctrl-btn" id="sortToggle" aria-label="Сортировать по цене">
+                    Цена {% if sort == 'desc' %}↓{% else %}↑{% endif %}
+                </button>
+            </div>
+       <!-- <div class="view-toggle">
+                <button class="vt-btn" id="viewToggle" aria-label="Вид">▦</button>
+            </div> -->
         </div>
         {% set genders_map = {'дiвч': 'Девочка', 'хлопч': 'Мальчик'} %}
         {% if genders %}
@@ -44,20 +61,39 @@
             </div>
         </div>
         {% endif %}
-        <div class="products-list">
+        <div class="products-list" id="productsList">
             {% for product in products %}
             <div class="product-card" {% if seasons %}data-season="{{ product.season }}" {% endif %} {% if genders
                 %}data-gender="{{ genders_map[product.gender] if product.gender in genders_map else product.gender }}"
                 {% endif %} {% if product.gender=='дит' %}data-gender-both="true" {% endif %}>
-                <a href="{{ url_for('product_page', product_id=product.id, back=request.path) }}">
-                    <img class="product-img" src="/static/pic/cat/{{ product.art|image_name }}"
-                        alt="{{ product.name }}">
+                <a
+                    href="{{ url_for('der_product_page', der_product_id=product.id, back=request.path) if product.der else url_for('product_page', product_id=product.id, back=request.path) }}">
+                    <div class="img-wrap">
+                        <img class="product-img" src="/static/pic/cat/{{ product.art|image_name }}"
+                            alt="{{ product.name }}"
+                            onerror="this.onerror=null; this.src='/static/pic/cat/no-image.jpg';">
+                        {# вычисляем процент скидки надёжно #}
+                        {% set sale_val = 0 %}
+                        {% if product.sale is not none %}
+                        {% set sale_val = product.sale|float %}
+                        {% elif product.old_price and product.new_price and (product.old_price|float) > 0 %}
+                        {% set sale_val = (((product.old_price|float) - (product.new_price|float)) /
+                        (product.old_price|float) * 100) | round(0, 'floor') %}
+                        {% endif %}
+                        {% if sale_val >= 50 %}
+                        <span class="badge badge-sale">Розпродаж</span>
+                        {% elif sale_val == 0 %}
+                        <span class="badge badge-new">Новинка</span>
+                        {% endif %}
+                    </div>
                     <div class="product-name">{{ product.cat }} {{ product.art }}</div>
                     <div class="product-prices">
-                        {% if product.old_price %}<span class="old-price">{{ product.old_price|format_price }}
-                            грн.</span>{% endif %}
-                        <span class="new-price">{{ product.new_price|format_price }} грн.</span>
-                        {% if product.sale %}<span class="sale">-{{ product.sale|format_sale }}%</span>{% endif %}
+                        {% set show_sale = (product.sale and (product.sale|float) > 0 and product.new_price and
+                        product.old_price) %}
+                        <span class="old-price">{% if show_sale %}{{ product.old_price|format_price }} грн.{% endif
+                            %}</span>
+                        <span class="new-price">{{ (product.new_price or product.old_price)|format_price }} грн.</span>
+                        <span class="sale">{% if show_sale %}-{{ product.sale|format_sale }}%{% endif %}</span>
                     </div>
                 </a>
             </div>
@@ -65,7 +101,356 @@
         </div>
         <a href="{{ back_url }}" class="back-bottom">← Назад к категориям</a>
     </div>
+    <style>
+        /* Верхний бар */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 10px;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
+            margin: 8px;
+        }
+
+        .tb-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 32px;
+            border: 1px solid #e6e6e6;
+            border-radius: 8px;
+            background: #fff;
+            color: #222;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .tb-title {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Панель управления */
+        .controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 10px;
+            margin: 8px;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
+        }
+
+        .ctrl-btn {
+            border: 1px solid #e6e6e6;
+            background: #fff;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .ctrl-sort {
+            display: flex;
+            gap: 6px;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 6px;
+        }
+
+        .vt-btn {
+            width: 36px;
+            height: 32px;
+            border: 1px solid #e6e6e6;
+            background: #fff;
+            border-radius: 8px;
+        }
+        
+        /* Вид списка */
+        .products-list.list-view {
+            display: block;
+        }
+
+        .products-list.list-view .product-card {
+            padding: 12px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
+            margin: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            /* Переопределяем глобальные стили из style.css */
+            display: block !important;
+            flex-direction: unset !important;
+            align-items: unset !important;
+        }
+
+        .products-list.list-view .product-card a {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            grid-template-rows: auto auto;
+            align-items: start;
+            gap: 16px;
+            width: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .products-list.list-view .img-wrap {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            grid-column: 1;
+            grid-row: 1 / span 2;
+        }
+
+        .products-list.list-view .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .img-wrap {
+            position: relative;
+            width: 100%;
+            height: 50%;
+        }
+
+        .badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            border-radius: 6px;
+        }
+
+        .badge-sale {
+            background: #f28c28;
+        }
+
+        .badge-new {
+            background: #9b59b6;
+        }
+
+        .products-list.list-view .product-name {
+            grid-column: 2;
+            grid-row: 1;
+            font-weight: 500;
+            font-size: 16px;
+            color: #222;
+            margin: 0;
+            line-height: 1.4;
+            /* Переопределяем глобальные стили из style.css */
+            text-align: left !important;
+            justify-content: flex-start !important;
+            align-items: flex-start !important;
+            min-height: unset !important;
+        }
+
+        .products-list.list-view .product-prices {
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            /* Переопределяем глобальные стили из style.css */
+            margin-top: 0 !important;
+        }
+
+        .products-list.list-view .new-price {
+            color: #222;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .products-list.list-view .old-price {
+            color: #888;
+            text-decoration: line-through !important;
+            font-size: 14px;
+        }
+
+        .products-list.list-view .sale {
+            background: #ff4757;
+            color: #fff;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        /* Если скидки нет (пустой спан), не показывать красную плашку */
+        .product-card .sale:empty {
+            background: none !important;
+            padding: 0 !important;
+            border: none !important;
+        }
+
+        /* Выравнивание ценовых блоков для карточек с/без скидки */
+        .product-card .product-prices span {
+            display: block;
+            min-height: 1.4em;
+        }
+
+        @media (max-width: 600px) {
+
+            .top-bar,
+            .controls-bar {
+                margin: 8px 6px;
+            }
+        }
+
+        /* Медиа-запросы для режима list-view на мобильных устройствах */
+        @media (max-width: 768px) {
+            .products-list.list-view .product-card {
+                padding: 10px;
+                margin: 6px;
+                border-radius: 10px;
+            }
+
+            .products-list.list-view .product-card a {
+                grid-template-columns: 100px 1fr;
+                gap: 12px;
+            }
+
+            .products-list.list-view .img-wrap {
+                width: 100px;
+                height: 100px;
+            }
+
+            .products-list.list-view .product-name {
+                font-size: 15px;
+                line-height: 1.3;
+            }
+
+            .products-list.list-view .new-price {
+                font-size: 15px;
+            }
+
+            .products-list.list-view .old-price {
+                font-size: 13px;
+            }
+
+            .products-list.list-view .sale {
+                font-size: 11px;
+                padding: 1px 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-list.list-view .product-card {
+                padding: 8px;
+                margin: 4px;
+                border-radius: 8px;
+            }
+
+            .products-list.list-view .product-card a {
+                grid-template-columns: 80px 1fr;
+                gap: 10px;
+            }
+
+            .products-list.list-view .img-wrap {
+                width: 80px;
+                height: 80px;
+            }
+
+            .products-list.list-view .product-name {
+                font-size: 14px;
+                line-height: 1.2;
+            }
+
+            .products-list.list-view .new-price {
+                font-size: 14px;
+            }
+
+            .products-list.list-view .old-price {
+                font-size: 12px;
+            }
+
+            .products-list.list-view .sale {
+                font-size: 10px;
+                padding: 1px 4px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .products-list.list-view .product-card {
+                padding: 6px;
+                margin: 3px;
+                border-radius: 6px;
+            }
+
+            .products-list.list-view .product-card a {
+                grid-template-columns: 70px 1fr;
+                gap: 8px;
+            }
+
+            .products-list.list-view .img-wrap {
+                width: 70px;
+                height: 70px;
+            }
+
+            .products-list.list-view .product-name {
+                font-size: 13px;
+                line-height: 1.1;
+            }
+
+            .products-list.list-view .new-price {
+                font-size: 13px;
+            }
+
+            .products-list.list-view .old-price {
+                font-size: 11px;
+            }
+
+            .products-list.list-view .sale {
+                font-size: 9px;
+                padding: 1px 3px;
+            }
+        }
+    </style>
+    <script id="categoryData" type="application/json">{{ category|tojson }}</script>
+    <script id="defaultSeason" type="application/json">{{ (default_season or '')|tojson }}</script>
+    <script id="baseTitle" type="application/json">{{ section_verbose.replace('—', ' ')|tojson }}</script>
+    <script id="titleGender" type="application/json">{{ (title_gender or '')|tojson }}</script>
     <script>
+        // Предустановка сезона по умолчанию, если передан с сервера
+        const DEFAULT_SEASON = (function(){
+            try {
+                const el = document.getElementById('defaultSeason');
+                return el ? JSON.parse(el.textContent || '""') : "";
+            } catch (e) { return ""; }
+        })();
+        if (DEFAULT_SEASON) {
+            window.addEventListener('load', () => {
+                const seasonBtnsInit = document.querySelectorAll('.season-btn');
+                if (!seasonBtnsInit || seasonBtnsInit.length === 0) return;
+                const match = Array.from(seasonBtnsInit).find(b => b.getAttribute('data-season') === DEFAULT_SEASON);
+                if (match) {
+                    seasonBtnsInit.forEach(b => b.classList.remove('active'));
+                    match.classList.add('active');
+                    match.click();
+                }
+            });
+        }
+
         // Фильтр по сезону (главный фильтр)
         const seasonBtns = document.querySelectorAll('.season-btn');
         const allCards = document.querySelectorAll('.product-card');
@@ -74,7 +459,42 @@
         const filterBtns = document.querySelectorAll('.gender-btn');
         const cards = document.querySelectorAll('.product-card');
         const sectionTitle = document.getElementById('section-title');
-        var categoryJS = {{ category| tojson }};
+        const categoryJsonEl = document.getElementById('categoryData');
+        var categoryJS = categoryJsonEl ? JSON.parse(categoryJsonEl.textContent) : '';
+        const BASE_TITLE = (function(){
+            try { const el = document.getElementById('baseTitle'); return el ? JSON.parse(el.textContent || '""') : ""; }
+            catch(e){ return ""; }
+        })();
+        const TITLE_GENDER = (function(){
+            try { const el = document.getElementById('titleGender'); return el ? JSON.parse(el.textContent || '""') : ""; }
+            catch(e){ return ""; }
+        })();
+
+        function getActiveSeasonLabel() {
+            const activeBtn = document.querySelector('.season-btn.active');
+            if (!activeBtn) return '';
+            const label = activeBtn.getAttribute('data-season');
+            if (!label || label === 'all') return '';
+            return label;
+        }
+
+        // Извлекаем гендер из базового заголовка (первое слово)
+        const GENDER_FROM_TITLE = (function(){
+            const t = (BASE_TITLE || '').trim();
+            const spaceIdx = t.indexOf(' ');
+            return spaceIdx > 0 ? t.slice(0, spaceIdx) : '';
+        })();
+
+        function buildPrefix(explicitGender) {
+            const genderLabel = (explicitGender && explicitGender !== 'all') ? explicitGender : (TITLE_GENDER || GENDER_FROM_TITLE || '');
+            if (genderLabel) return genderLabel + ' ' + (categoryJS || '');
+            return categoryJS || BASE_TITLE || '';
+        }
+
+        function setTitle(prefix) {
+            const season = getActiveSeasonLabel() || DEFAULT_SEASON || '';
+            sectionTitle.textContent = season ? (prefix + ' ' + season) : prefix;
+        }
 
         // Функция для сортировки товаров
         function sortProducts(visibleCards, sortOrder) {
@@ -113,29 +533,23 @@
                 sortProducts(visibleCards, currentSort);
 
                 // Меняем заголовок
-                if (gender === 'all') {
-                    sectionTitle.textContent = categoryJS;
-                } else {
-                    sectionTitle.textContent = categoryJS + ' - ' + gender;
-                }
+                const prefix = buildPrefix(gender);
+                setTitle(prefix);
             });
         });
 
-        // Обработчик сортировки для страниц с фильтром по гендеру
-        const sortBtns = document.querySelectorAll('.sort-btn');
-        sortBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                sortBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const sortOrder = btn.textContent.includes('высокой') ? 'desc' : 'asc';
+        // Сортировка по цене: единая кнопка (вверх/вниз)
+        const sortToggleBtn = document.getElementById('sortToggle');
+        if (sortToggleBtn) {
+            sortToggleBtn.addEventListener('click', () => {
+                const isDesc = sortToggleBtn.textContent.includes('↓');
+                const nextSort = isDesc ? 'asc' : 'desc';
+                // визуальное обновление кнопки
+                sortToggleBtn.textContent = `Цена ${nextSort === 'desc' ? '↓' : '↑'}`;
                 const visibleCards = Array.from(cards).filter(card => card.style.display !== 'none');
-
-                sortProducts(visibleCards, sortOrder);
+                sortProducts(visibleCards, nextSort);
             });
-        });
+        }
 
         // Фильтр по сезону (главный фильтр)
         if (seasonBtns.length > 0) {
@@ -175,6 +589,9 @@
                     const currentSort = document.querySelector('.sort-btn.active')?.textContent.includes('высокой') ? 'desc' : 'asc';
                     const visibleCards = Array.from(allCards).filter(card => card.style.display !== 'none');
                     sortProducts(visibleCards, currentSort);
+
+                    // Обновляем заголовок с учётом выбранного сезона
+                    setTitle(buildPrefix());
                 });
             });
         }
@@ -216,6 +633,9 @@
                 }
             });
         }
+
+        // Установить заголовок при загрузке страницы
+        setTitle(buildPrefix());
     </script>
 
     <!-- Сортировка для всех страниц (включая белье без фильтра по гендеру) -->
@@ -255,6 +675,43 @@
                 });
             });
         }
+    </script>
+    <!-- Переключатель вида: плитка/список и фильтр цены -->
+    <script>
+        const productsListEl = document.getElementById('productsList');
+        const viewToggleBtn = document.getElementById('viewToggle');
+        const priceFilterBtn = document.getElementById('priceFilter');
+
+        function setView(mode) {
+            if (!productsListEl) return;
+            if (mode === 'list') { productsListEl.classList.add('list-view'); localStorage.setItem('viewMode', 'list'); }
+            else { productsListEl.classList.remove('list-view'); localStorage.setItem('viewMode', 'grid'); }
+        }
+
+        // одна кнопка переключает «плитка ↔ список»
+        if (viewToggleBtn) viewToggleBtn.addEventListener('click', () => {
+            const current = localStorage.getItem('viewMode') || 'grid';
+            setView(current === 'grid' ? 'list' : 'grid');
+        });
+
+        // фильтр цены (простая заглушка: запрос диапазона и фильтрация)
+        if (priceFilterBtn) priceFilterBtn.addEventListener('click', () => {
+            const min = prompt('Минимальная цена (грн):', '0');
+            if (min === null) return;
+            const max = prompt('Максимальная цена (грн):', '100000');
+            if (max === null) return;
+            const minV = parseFloat(min) || 0;
+            const maxV = parseFloat(max) || Number.MAX_SAFE_INTEGER;
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const priceEl = card.querySelector('.new-price');
+                const price = priceEl ? parseFloat(priceEl.textContent.replace(/[^\d.]/g, '')) : 0;
+                card.style.display = (price >= minV && price <= maxV) ? '' : 'none';
+            });
+        });
+
+        // восстановление сохранённого режима
+        setView(localStorage.getItem('viewMode') || 'grid');
     </script>
 </body>
 

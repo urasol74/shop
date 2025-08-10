@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Telegram ID - Магазин Benetton</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .info-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .info-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            word-break: break-all;
+        }
+
+        .info-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .not-authorized {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+
+        .not-authorized h2 {
+            margin-bottom: 20px;
+            color: #dc3545;
+        }
+
+        .auth-btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .auth-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .copy-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #5a6268;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .info-value {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🆔 Мой Telegram ID</h1>
+            <p>Узнайте свой уникальный идентификатор в Telegram</p>
+        </div>
+
+        <div class="content" id="content">
+            <!-- Содержимое будет загружено через JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const content = document.getElementById('content');
+            
+            // Проверяем, есть ли данные пользователя в localStorage
+            const savedUser = localStorage.getItem('telegramUser');
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            
+            if (savedUser && isAuthenticated) {
+                const userData = JSON.parse(savedUser);
+                showUserInfo(userData);
+            } else {
+                showNotAuthorized();
+            }
+        });
+
+        function showUserInfo(userData) {
+            const content = document.getElementById('content');
+            
+            content.innerHTML = `
+                <div class="info-card">
+                    <div class="info-title">Ваш Telegram ID</div>
+                    <div class="info-value" id="userId">${userData.id}</div>
+                    <div class="info-label">Этот ID уникален для каждого пользователя Telegram</div>
+                    <button class="copy-btn" onclick="copyToClipboard('${userData.id}')">📋 Копировать</button>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-title">Имя</div>
+                    <div class="info-value">${userData.first_name || 'Не указано'}</div>
+                    <div class="info-label">Ваше имя в Telegram</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-title">Фамилия</div>
+                    <div class="info-value">${userData.last_name || 'Не указана'}</div>
+                    <div class="info-label">Ваша фамилия в Telegram</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-title">Username</div>
+                    <div class="info-value">@${userData.username || 'Не указан'}</div>
+                    <div class="info-label">Ваш username в Telegram</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-title">Язык</div>
+                    <div class="info-value">${userData.language_code || 'Не указан'}</div>
+                    <div class="info-label">Язык вашего Telegram</div>
+                </div>
+
+                <div style="text-align: center;">
+                    <a href="/" class="back-btn">🏠 Вернуться на главную</a>
+                </div>
+            `;
+        }
+
+        function showNotAuthorized() {
+            const content = document.getElementById('content');
+            
+            content.innerHTML = `
+                <div class="not-authorized">
+                    <h2>❌ Не авторизован</h2>
+                    <p>Для просмотра вашего Telegram ID необходимо авторизоваться через Telegram Mini App.</p>
+                    <a href="/" class="auth-btn">🔐 Авторизоваться</a>
+                </div>
+            `;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                const btn = event.target;
+                btn.textContent = '✅ Скопировано!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.textContent = '📋 Копировать';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Ошибка копирования: ', err);
+                alert('Ошибка копирования. Скопируйте ID вручную: ' + text);
+            });
+        }
+    </script>
+</body>
+</html>

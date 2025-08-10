@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест авторизации Telegram</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .user-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Тест авторизации Telegram</h1>
+        
+        <div id="status" class="status info">
+            Инициализация...
+        </div>
+        
+        <div id="userInfo" class="user-info" style="display: none;">
+            <h3>Информация о пользователе:</h3>
+            <p><strong>ID:</strong> <span id="userId">-</span></p>
+            <p><strong>Имя:</strong> <span id="firstName">-</span></p>
+            <p><strong>Фамилия:</strong> <span id="lastName">-</span></p>
+            <p><strong>Username:</strong> <span id="username">-</span></p>
+        </div>
+        
+        <div>
+            <button onclick="checkAuthStatus()">Проверить статус</button>
+            <button onclick="logout()">Выйти</button>
+        </div>
+        
+        <div id="debug" style="margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+            <h4>Отладочная информация:</h4>
+            <pre id="debugInfo"></pre>
+        </div>
+    </div>
+
+    <script>
+        let userData = null;
+        
+        // Инициализация Telegram Web App
+        function initTelegram() {
+            try {
+                const tg = window.Telegram.WebApp;
+                if (tg) {
+                    tg.ready();
+                    tg.expand();
+                    
+                    updateStatus('Telegram Web App инициализирован', 'success');
+                    
+                    // Получаем данные пользователя
+                    if (tg.initData) {
+                        updateStatus('Получены данные от Telegram', 'success');
+                        processTelegramData(tg);
+                    } else {
+                        updateStatus('Нет данных от Telegram', 'error');
+                    }
+                    
+                    // Показываем отладочную информацию
+                    showDebugInfo(tg);
+                } else {
+                    updateStatus('Telegram Web App не доступен', 'error');
+                }
+            } catch (error) {
+                updateStatus('Ошибка инициализации: ' + error.message, 'error');
+            }
+        }
+        
+        // Обработка данных от Telegram
+        function processTelegramData(tg) {
+            try {
+                const user = tg.initDataUnsafe?.user;
+                
+                if (user) {
+                    userData = {
+                        id: user.id,
+                        first_name: user.first_name,
+                        last_name: user.last_name,
+                        username: user.username,
+                        language_code: user.language_code
+                    };
+                    
+                    updateStatus('Данные пользователя получены', 'success');
+                    displayUserInfo(userData);
+                    
+                    // Отправляем данные на сервер
+                    sendUserDataToServer(userData, tg.initData);
+                } else {
+                    updateStatus('Данные пользователя не найдены', 'error');
+                }
+            } catch (error) {
+                updateStatus('Ошибка обработки данных: ' + error.message, 'error');
+            }
+        }
+        
+        // Отображение информации о пользователе
+        function displayUserInfo(user) {
+            document.getElementById('userId').textContent = user.id;
+            document.getElementById('firstName').textContent = user.first_name || 'Не указано';
+            document.getElementById('lastName').textContent = user.last_name || 'Не указано';
+            document.getElementById('username').textContent = user.username || 'Не указано';
+            document.getElementById('userInfo').style.display = 'block';
+        }
+        
+        // Отправка данных на сервер
+        async function sendUserDataToServer(userData, initData) {
+            try {
+                updateStatus('Отправка данных на сервер...', 'info');
+                
+                const response = await fetch('/api/auth/telegram', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id: userData.id,
+                        first_name: userData.first_name,
+                        last_name: userData.last_name,
+                        username: userData.username,
+                        language_code: userData.language_code,
+                        init_data: initData
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        updateStatus('Авторизация успешна!', 'success');
+                        localStorage.setItem('telegramUser', JSON.stringify(userData));
+                        localStorage.setItem('isAuthenticated', 'true');
+                    } else {
+                        updateStatus('Ошибка авторизации: ' + result.error, 'error');
+                    }
+                } else {
+                    updateStatus('Ошибка HTTP: ' + response.status, 'error');
+                }
+            } catch (error) {
+                updateStatus('Ошибка отправки: ' + error.message, 'error');
+            }
+        }
+        
+        // Проверка статуса авторизации
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch('/api/auth/status');
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.authenticated) {
+                        updateStatus('Пользователь авторизован: ' + result.first_name, 'success');
+                    } else {
+                        updateStatus('Пользователь не авторизован', 'info');
+                    }
+                }
+            } catch (error) {
+                updateStatus('Ошибка проверки статуса: ' + error.message, 'error');
+            }
+        }
+        
+        // Выход
+        async function logout() {
+            try {
+                const response = await fetch('/api/auth/logout');
+                if (response.ok) {
+                    updateStatus('Выход выполнен успешно', 'success');
+                    localStorage.removeItem('telegramUser');
+                    localStorage.removeItem('isAuthenticated');
+                    userData = null;
+                    document.getElementById('userInfo').style.display = 'none';
+                }
+            } catch (error) {
+                updateStatus('Ошибка выхода: ' + error.message, 'error');
+            }
+        }
+        
+        // Обновление статуса
+        function updateStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+        
+        // Показать отладочную информацию
+        function showDebugInfo(tg) {
+            const debugInfo = document.getElementById('debugInfo');
+            debugInfo.textContent = JSON.stringify({
+                initData: tg.initData,
+                initDataUnsafe: tg.initDataUnsafe,
+                version: tg.version,
+                platform: tg.platform,
+                colorScheme: tg.colorScheme,
+                themeParams: tg.themeParams
+            }, null, 2);
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', initTelegram);
+    </script>
+</body>
+</html>

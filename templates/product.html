@@ -10,6 +10,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ product.name }} — Benetton {{ section_verbose }}</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* Стили для сердечка избранного */
+        .favorite-heart-block {
+            margin: 12px;
+            padding: 16px;
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .08);
+        }
+        
+        .favorite-heart-btn {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e6e6e6;
+            border-radius: 12px;
+            background: #fff;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+        
+        .favorite-heart-btn:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+            background: #fff;
+        }
+        
+        .favorite-heart-btn.active {
+            border-color: #ff6b6b;
+            background: #ff6b6b;
+            color: #fff;
+        }
+        
+        .favorite-heart-icon {
+            font-size: 20px;
+        }
+        
+        .favorite-heart-text {
+            font-weight: 500;
+        }
+        .product-prices-list .sale {
+            font-size: 14px;
+            color: #f28c28;
+            font-weight: 600;
+        }
+        
+        /* Стили для сердечка избранного */
+    </style>
 </head>
 
 <body>
@@ -21,7 +75,8 @@
             <button class="slider-arrow left" type="button">&#8592;</button>
             <div class="product-slider" id="product-slider">
                 {% for img in product_images %}
-                <img src="/static/pic/list/{{ img }}" alt="{{ product.name }}">
+                <img src="/static/pic/list/{{ img }}" alt="{{ product.name }}"
+                    onerror="this.onerror=null; this.src='/static/pic/list/no-image.jpg';">
                 {% endfor %}
             </div>
             <button class="slider-arrow right" type="button">&#8594;</button>
@@ -35,33 +90,62 @@
         </div>
         <!-- Название, цены, описание и т.д. -->
         <div class="product-block name-block">
-            <div class="product-name-list">{{ product.cat }} {{ product.art }}</div>
+            <div class="product-name-list">{{ product.name or product.art }}</div>
         </div>
         <div class="product-block price-block">
-            <div class="product-prices-list">
-                {% if product.old_price %}
-                <span class="old-price-list">{{ product.old_price|format_price }} грн.</span>
+            <div class="product-prices-list" id="priceBox">
+                {% if product.sale %}
+                <span class="old-price-list" id="pOld">{% if product.old_price %}{{ product.old_price|format_price }}
+                    грн.{% endif %}</span>
+                <span class="new-price-list" id="pNew">{% if product.new_price %}{{ product.new_price|format_price }}
+                    грн.{% endif %}</span>
+                <span class="big-sale" id="pSale">-{% if product.sale %}{{ product.sale|format_sale }}{% endif
+                    %}%</span>
+                {% else %}
+                <span class="old-price-list" id="pOld"></span>
+                <span class="new-price-list" id="pNew">{% if product.old_price %}{{ product.old_price|format_price }}
+                    грн.{% endif %}</span>
+                <span class="big-sale" id="pSale" style="display:none;"></span>
                 {% endif %}
-                <span class="new-price-list">{{ product.new_price|format_price }} грн.</span>
-                {% if product.sale %}<span class="big-sale">-{{ product.sale|format_sale }}%</span>{% endif %}
             </div>
         </div>
+        
         <div class="meta-block">
             {% if color_size_map %}
-            <table style="width:100%; text-align:center; border-collapse:collapse;">
-                <tr>
-                    <th>Цвет</th>
-                    <th>Размер</th>
-                </tr>
-                {% for cs in color_size_map %}
-                <tr>
-                    <td>{{ cs.color }}</td>
-                    <td>{{ cs.sizes|join(', ') }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div id="matrix">
+                <table class="color-size-table">
+                    <thead>
+                        <tr>
+                            <th style="width:35%;">Цвет</th>
+                            <th>Размер</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cs in color_size_map %}
+                        <tr>
+                            <td class="c-cell">{{ cs.color }}</td>
+                            <td class="s-cell">
+                                {% for sz in cs.sizes %}
+                                <button class="gender-btn size-chip" data-color="{{ cs.color }}" data-size="{{ sz }}">{{
+                                    sz }}</button>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% endif %}
         </div>
+        
+        <!-- Сердечко для добавления в избранное -->
+        <div class="product-block favorite-heart-block">
+            <button id="favoriteBtn" class="favorite-heart-btn" data-product-id="{{ product.id }}" data-product-name="{{ product.name or product.art }}" data-product-art="{{ product.art }}" data-product-url="{{ request.path }}">
+                <span class="favorite-heart-icon">♡</span>
+                <span class="favorite-heart-text">К избранному</span>
+            </button>
+        </div>
+        
         <!-- ...другие блоки... -->
     </div>
     <script>
@@ -152,14 +236,82 @@
                 if (modalStartX === null) return;
                 let endX = e.changedTouches[0].clientX;
                 if (endX - modalStartX > 40) {
-                    modalCurrent = (modalCurrent - 1 + origImages.length) % origImages.length;
+                    modalCurrent = (current - 1 + origImages.length) % origImages.length;
                     showModalImg(modalCurrent);
                 } else if (modalStartX - endX > 40) {
-                    modalCurrent = (modalCurrent + 1) % origImages.length;
+                    modalCurrent = (current + 1) % origImages.length;
                     showModalImg(modalCurrent);
                 }
                 modalStartX = null;
             });
+            
+            // Функциональность кнопки избранного
+            const favoriteBtn = document.getElementById('favoriteBtn');
+            const favoriteIcon = favoriteBtn.querySelector('.favorite-heart-icon');
+            const favoriteText = favoriteBtn.querySelector('.favorite-heart-text');
+            
+            // Проверяем, есть ли товар в избранном
+            function checkFavoriteStatus() {
+                const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+                const productId = favoriteBtn.dataset.productId;
+                const productArt = favoriteBtn.dataset.productArt;
+                
+                const isFavorite = favorites.some(item => 
+                    item.id == productId && item.art === productArt
+                );
+                
+                if (isFavorite) {
+                    favoriteBtn.classList.add('active');
+                    favoriteIcon.textContent = '♥';
+                    favoriteText.textContent = 'В избранном';
+                } else {
+                    favoriteBtn.classList.remove('active');
+                    favoriteIcon.textContent = '♡';
+                    favoriteText.textContent = 'К избранному';
+                }
+            }
+            
+            // Добавление/удаление из избранного
+            favoriteBtn.addEventListener('click', function() {
+                const productId = this.dataset.productId;
+                const productName = this.dataset.productName;
+                const productArt = this.dataset.productArt;
+                const productUrl = this.dataset.productUrl;
+                
+                let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+                
+                const existingIndex = favorites.findIndex(item => 
+                    item.id == productId && item.art === productArt
+                );
+                
+                if (existingIndex !== -1) {
+                    // Удаляем из избранного
+                    favorites.splice(existingIndex, 1);
+                    favoriteBtn.classList.remove('active');
+                    favoriteIcon.textContent = '♡';
+                    favoriteText.textContent = 'К избранному';
+                } else {
+                    // Добавляем в избранное
+                    const productData = {
+                        id: productId,
+                        name: productName,
+                        art: productArt,
+                        url: productUrl,
+                        image: null // Можно добавить изображение позже
+                    };
+                    favorites.push(productData);
+                    favoriteBtn.classList.add('active');
+                    favoriteIcon.textContent = '♥';
+                    favoriteText.textContent = 'В избранном';
+                }
+                
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+            });
+            
+            // Проверяем статус при загрузке страницы
+            checkFavoriteStatus();
+            
+            // Сезоны, цвета и размеры отрендерены сервером (таблица). Ничего не делаем в JS.
         });
     </script>
 </body>
