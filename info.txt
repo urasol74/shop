@@ -1,14 +1,11 @@
 pass github 
 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
 
-python import_excel_to_db.py
-
 gunicorn -w 4 -b 0.0.0.0:5000 app:app
-/home/ubuntu/shop/import_db_to_db_incremental.py - Инкрементально импортирует данные из bot-art/base.db в shop.db 
-/home/ubuntu/shop/import2_excel_to_db.py - создает с нуля новую БД db-der.db из db-der.xlsx
-/home/ubuntu/shop/import2_excel_to_db_smart.py - синхронизирует изменения БД db-der.db из db-der.xlsx
 
-shop.sh - ������ ������� � ����������
+shop.sh 
+/home/ubuntu/shop/models.py -НЕ УДАЛЯТЬ структурирует работу магазина с БД
+
 
 sudo systemctl stop shop.service
 sudo systemctl restart shop.service
@@ -16,8 +13,6 @@ sudo systemctl status shop.service
 
 /home/ubuntu/shop/static/pic/pic.py
 скрипт форматирует основную картинку по cat и list
-
-
 
 OAuth 2.0 Client IDs lkz n8n
 Client ID: 345630880345-qp0pthie7qk9l8jld7kkug3crl58mhkb.apps.googleusercontent.com
@@ -27,8 +22,5 @@ Client Secret: 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
 Redirect URL: n8n автоматически подставит, но если нет — вставь
 https://benetton-n8n.ddns.net/rest/oauth2-credential/callback
 
-
-sudo systemctl status auto_import_der.service - запуск auto_import.sh отслеживание файла Новый 
-sudo nano /etc/systemd/system/shop.service - запуск shop.sh  - запускает сайт на FlASK :5000
 
 

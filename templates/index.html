@@ -356,12 +356,159 @@
 
         .info-section {
             margin: 12px;
-            padding: 16px;
+            padding: 20px;
             background: #fff;
             border-radius: 16px;
             border: 1px solid #f0f0f0;
             box-shadow: 0 1px 6px rgba(0, 0, 0, .08);
-            min-height: 180px;
+        }
+
+        .info-header h3 {
+            margin: 0 0 8px 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .info-subtitle {
+            margin: 0 0 16px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .info-promo {
+            background: linear-gradient(90deg, #ffecd1, #ffd9b5);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+
+        .promo-badge {
+            background: #e30613;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .info-promo p {
+            margin: 8px 0 0 0;
+            color: #9a4b00;
+            font-weight: 500;
+        }
+
+        .info-news h4 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .news-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 3px solid #009639;
+        }
+
+        .news-item h5 {
+            margin: 0 0 6px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .news-item p {
+            margin: 0 0 6px 0;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .news-item small {
+            color: #888;
+            font-size: 11px;
+        }
+
+        .info-about {
+            margin: 16px 0;
+        }
+
+        .info-about h4 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .info-about p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .info-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .detail-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .detail-item h5 {
+            margin: 0 0 6px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .detail-item p {
+            margin: 0;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .detail-item a {
+            color: #009639;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .detail-item a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .info-section {
+                padding: 16px;
+                margin: 8px;
+            }
+
+            .info-header h3 {
+                font-size: 18px;
+            }
+
+            .info-subtitle {
+                font-size: 13px;
+            }
+
+            .info-details {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .news-item {
+                padding: 10px;
+            }
         }
 
         /* Стили для информации о пользователе */
@@ -560,10 +707,51 @@
          <!--<div class="img-ph" aria-label="Место для картинки каталога"></div>-->
      </section>
 
-    <!-- Информационный блок до конца страницы -->
+    <!-- Информационный блок -->
     <section class="info-section">
-        <h4 style="margin:0 0 10px 0;">Информация</h4>
-        <div>Здесь можно разместить новости, акции, график работы, адрес: Одесса, Дерибасовская 19, и другие детали.
+        <div class="info-header">
+            <h3>Benetton — Магазин на Дерибасовской</h3>
+            <p class="info-subtitle">Одесса, Дерибасовская 19 — новости, акции, график и контакты</p>
+        </div>
+
+        <div class="info-promo">
+            <span class="promo-badge">Акция</span>
+            <p>Скидка 50% на летнюю коллекцию — действует до полной распродажи.</p>
+        </div>
+
+        <div class="info-news">
+            <h4>Последние новости</h4>
+            <div class="news-item">
+                <h5>Новый поступления: Осень-Зима 2025</h5>
+                <p>Большой выбор новых моделей в новой коллекции Осень-Зима — приходите примерить!</p>
+                <small>Добавлено: 5 августа</small>
+            </div>
+            <div class="news-item">
+                <h5>Бонусная карта</h5>
+                <p>Получите 10% на следующую покупку при оформлении бонусной карты.</p>
+                <small>Действует: постоянно</small>
+            </div>
+        </div>
+
+        <div class="info-about">
+            <h4>О магазине</h4>
+            <p>Benetton — международный бренд одежды. Наш магазин в Одессе предлагает коллекции для мужчин, женщин и детей.</p>
+        </div>
+
+        <div class="info-details">
+            <div class="detail-item">
+                <h5>График работы</h5>
+                <p>Пн—Вс: 11:00 — 21:00</p>
+            </div>
+            <div class="detail-item">
+                <h5>Адрес</h5>
+                <p>Одесса, Дерибасовская 19</p>
+            </div>
+            <div class="detail-item">
+                <h5>Контакты</h5>
+                <p>Телефон: <a href="tel:+380000000000">+38 (000) 000-00-00</a></p>
+                <p>Email: <a href="mailto:info@benetton.od.ua">ben012@arho.com.ua</a></p>
+            </div>
         </div>
     </section>
     </div>

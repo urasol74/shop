@@ -479,11 +479,6 @@ def sort_product_images(images, art):
     return sorted(images, key=sort_key)
 
 import shutil
-# --- Автоматическое обновление der.xlsx при запуске ---
-src = "/home/ubuntu/bot_art/data/Новый.xlsx"
-dst = os.path.join('data', 'der.xlsx')
-os.makedirs(os.path.dirname(dst), exist_ok=True)
-shutil.copyfile(src, dst)
 
 app = Flask(__name__)
 app.config.update(
@@ -498,7 +493,7 @@ import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'shop.db')}"
 app.config['SQLALCHEMY_BINDS'] = {
-    'der': f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'db-der.db')}"
+    'der': "sqlite:////home/ubuntu/baf_test/instance/der-db.db"
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 init_app(app)
@@ -1452,7 +1447,7 @@ def search():
 @app.route('/api/search')
 def api_search():
     """
-    Живой поиск по новой БД (db-der.db) через ORM. Если ничего не найдено — падем на старую БД.
+    Живой поиск по новой БД (db-der.db) через ORM.
     Параметры: q — строка запроса
     """
     query_str = request.args.get('q', '').strip()
@@ -1461,7 +1456,7 @@ def api_search():
 
     words = [w.lower() for w in query_str.split() if w]
 
-    # Поиск в новой БД (DerProduct/DerVariant) с подсчётом количества (sum(stock))
+    # Поиск только в новой БД (DerProduct/DerVariant) с подсчётом количества (sum(stock))
     q_der = db.session.query(
         DerProduct,
         func.sum(func.coalesce(DerVariant.stock, 0)).label('qty')
